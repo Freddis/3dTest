@@ -34,12 +34,17 @@ class Controls
     bool v = false;
     bool b = false;
     bool n = false;
+    
 public:
     Controls(World* world)
     {
         this->world = world;
     }
     
+    void processCursorPosition(GLFWwindow* window ,double x,double y)
+    {
+        std:: cout << "x: " << x << ", y: " << y << std::endl;
+    }
     void processKeyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
         if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)

@@ -249,11 +249,6 @@ void error_callback(int error, const char* description)
     fprintf(stderr, "Error: %s\n", description);
 }
 
-void processKeyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    controls->processKeyCallBack(window, key, scancode, action, mods);
-}
-
 int main(int argc, char * argv[]) {
     
     // GLFWwindow* window;
@@ -268,15 +263,17 @@ int main(int argc, char * argv[]) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     //glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE );
+    
+    
     window = glfwCreateWindow(800, 600, "Simple example", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
+   
     glfwMakeContextCurrent(window);
-    //glfwSetKeyCallback(window, key_callback);
-    
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     
     // initialise GLEW
     glewExperimental = GL_TRUE; //stops glew crashing on OSX :-/
@@ -337,10 +334,16 @@ int main(int argc, char * argv[]) {
 //    cube5->moveZ(0.5);
 //    cube5->rotateY(45);
 //    world->addObject(cube5);
+
     
     controls = new Controls(world);
-    glfwSetKeyCallback(window,processKeyCallBack);
-    
+    glfwSetKeyCallback(window,[](GLFWwindow* window, int key, int scancode, int action, int mods){
+        controls->processKeyCallBack(window, key, scancode, action, mods);
+    });
+    glfwSetCursorPosCallback(window, [](GLFWwindow* window ,double x,double y){
+        controls->processCursorPosition(window, x, y);
+    });
+
     Object3D** primitives = world->getPrimitives();
     while (!glfwWindowShouldClose(window))
     {
@@ -383,6 +386,7 @@ int main(int argc, char * argv[]) {
         loadObjects(primitives,world->getNumberOfPrimitives(),world);
         Render(primitives,world->getNumberOfPrimitives());
         glfwWaitEventsTimeout(1/30);
+        
         //glfwPostEmptyEvent();
         //glfwPollEvents();
         //glfwWaitEvents();

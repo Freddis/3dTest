@@ -81,6 +81,7 @@ public:
                 Object3D* prim = prims[j];
                 primitives[index++] = prim;
             }
+            delete[] prims;
         }
         return primitives;
     }

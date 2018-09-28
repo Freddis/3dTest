@@ -11,7 +11,10 @@
 
 #include <stdio.h>
 #include "Object3D.hpp"
-
+#include <OpenGL/gl3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 class World
 {
     Object3D* objects[100];
@@ -23,10 +26,14 @@ class World
     float rotationX = 0;
     float rotationY = 0;
     float rotationZ = 0;
-    float fov = 90;
-    float nearPane = 0.1f;
+    float fov = 45;
+    float nearPane = 0.02f;
     float farPane = 1000.0f;
+   
 public:
+    glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  1.5f);
+    glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+    glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
     void addObject(Object3D* obj)
     {
         objects[objectCount] = obj;
@@ -47,8 +54,48 @@ public:
             {
                 primitives[index++] = objPrimitives[j];
             }
+            delete[] objPrimitives;
         }
         return primitives;
+    }
+    
+    GLfloat* getVertexes()
+    {
+        Object3D** objects = this->getPrimitives();
+        int size = this->getNumberOfPrimitives();
+        int vertexNumber = this->getVertexNumber();
+        GLfloat* vertexes = new GLfloat[vertexNumber];
+        int z = 0;
+        for(int i =0; i < size; i++)
+        {
+            Object3D* obj = objects[i];
+            int vertexCount = obj->getSizeOf()/sizeof(GLfloat);
+            GLfloat* vertexArr = obj->getWorldVertexes();
+            
+            for(int j =0;j < vertexCount; j++)
+            {
+                vertexes[z++] = vertexArr[j];
+            }
+        }
+        delete[] objects;
+        return vertexes;
+    }
+    
+    int getVertexNumber()
+    {
+        //int vertexNumber = this->getNumberOfPrimitives()*3;
+        int vertexNumber = 0;
+        int size = this->getNumberOfPrimitives();
+        Object3D** objects = this->getPrimitives();
+        //int vertexSize = 0;
+        for(int i =0; i < size; i++)
+        {
+            Object3D* obj = objects[i];
+           // vertexSize += obj->getSizeOf();
+            vertexNumber += obj->getSizeOf()/sizeof(GLfloat);
+        }
+        delete[] objects;
+        return vertexNumber;
     }
     
     int getNumberOfPrimitives()
@@ -63,26 +110,14 @@ public:
     void moveX(float value)
     {
         this->x += value;
-        for(int i =0; i < objectCount; i++)
-        {
-           // objects[i]->moveX(value);
-        }
     }
     void moveY(float value)
     {
         this->y += value;
-        for(int i =0; i < objectCount; i++)
-        {
-           // objects[i]->moveY(value);
-        }
     }
     void moveZ(float value)
     {
         this->z += value;
-        for(int i =0; i < objectCount; i++)
-        {
-          //  objects[i]->moveZ(value);
-        }
     }
     
     void rotateX(float value)
@@ -146,6 +181,10 @@ public:
         this->farPane = fov;
     }
     
+    void clear()
+    {
+        objectCount = 0;
+    }
     
 };
 #endif /* World_hpp */

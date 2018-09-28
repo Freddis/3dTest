@@ -110,12 +110,6 @@ public:
     
     void moveX(float value)
     {
-//        Point** points = this->getPoints();
-//        int len = this->getNumberOfPoints();
-//        for(int i =0; i < len; i++)
-//        {
-//            points[i]->x += value;
-//        }
         worldX += value;
         int size;
         if(this->getNumberOfPrimitives() <= 1)
@@ -127,15 +121,10 @@ public:
         {
             primitives[i]->moveX(value);
         }
+        delete[] primitives;
     }
     void moveY(float value)
     {
-//        Point** points = this->getPoints();
-//        int len = this->getNumberOfPoints();
-//        for(int i =0; i < len; i++)
-//        {
-//            points[i]->y += value;
-//        }
         worldY += value;
         int size;
         if(this->getNumberOfPrimitives() <= 1)
@@ -147,15 +136,10 @@ public:
         {
             primitives[i]->moveY(value);
         }
+        delete[] primitives;
     }
     void moveZ(float value)
     {
-//        Point** points = this->getPoints();
-//        int len = this->getNumberOfPoints();
-//        for(int i =0; i < len; i++)
-//        {
-//            points[i]->z += value;
-//        }
         worldZ += value;
         int size;
         if(this->getNumberOfPrimitives() <= 1)
@@ -167,6 +151,7 @@ public:
         {
             primitives[i]->moveZ(value);
         }
+        delete[] primitives;
     }
     void rotateX(float degree)
     {
@@ -177,6 +162,7 @@ public:
         {
             points[i]->rotateX(degree);
         }
+        delete[] points;
     }
     int getRotationX()
     {
@@ -190,6 +176,7 @@ public:
         {
             points[i]->rotateY(degree);
         }
+        delete[] points;
     }
     void rotateZ(float degree)
     {
@@ -199,6 +186,7 @@ public:
         {
             points[i]->rotateZ(degree);
         }
+        delete[] points;
     }
     
     float getZ()

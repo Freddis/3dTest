@@ -18,7 +18,7 @@ class Controls
 {
     World* world;
     float movementDegree = 1;
-    float movementLength = 0.001;
+    float movementLength = 0.01;
     bool left = false;
     bool right = false;
     bool up = false;
@@ -43,7 +43,7 @@ public:
     
     void processCursorPosition(GLFWwindow* window ,double x,double y)
     {
-        std:: cout << "x: " << x << ", y: " << y << std::endl;
+     //   std:: cout << "x: " << x << ", y: " << y << std::endl;
     }
     void processKeyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
@@ -54,23 +54,26 @@ public:
         std::cout << "Key: " << key << ", action: " << action << "\n";
         processArrows(key,action);
     }
-    
+    void updateWorldRotation()
+    {
+        float pitch = world->getRotationX();
+        float yaw = world->getRotationY();
+        world->cameraFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+        world->cameraFront.y = sin(glm::radians(pitch));
+        world->cameraFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+        world->cameraFront = glm::normalize(world->cameraFront);
+        
+    }
     void process()
     {
-        if(left)
-        {
-            moveLeft();
-        }
-        if(right)
-        {
-            moveRight();
-        }
+        
         if(up)
         {
         if(world->getRotationX() < 90)
         {
             world->rotateX(1);
             std::cout << "Rotation X: " << world->getRotationX() << std::endl;
+            updateWorldRotation();
         }
            // moveUp();
         }
@@ -81,14 +84,44 @@ public:
               world->rotateX(-1);
               std::cout << "Rotation X: " << world->getRotationX() << std::endl;
             }
+            updateWorldRotation();
         }
-        if(q)
+        if(left)
         {
-            world->moveZ(-movementLength);
+        
+                world->rotateY(-1);
+                std::cout << "Rotation Y: " << world->getRotationY() << std::endl;
+                updateWorldRotation();
+          
         }
+        if(right)
+        {
+           
+                world->rotateY(1);
+                std::cout << "Rotation Y: " << world->getRotationY() << std::endl;
+                updateWorldRotation();
+            
+        }
+        
         if(w)
         {
-            world->moveZ(movementLength);
+//             world->moveZ(movementLength);
+//             std::cout << "z: " << world->getZ() << std::endl;
+            world->cameraPos += movementLength * world->cameraFront;
+        }
+        if(s)
+        {
+            // world->moveZ(-movementLength);
+            // std::cout << "z: " << world->getZ() << std::endl;
+            world->cameraPos -= movementLength * world->cameraFront;
+        }
+        if(a)
+        {
+            world->cameraPos -= glm::normalize(glm::cross(world->cameraFront, world->cameraUp)) * movementLength;
+        }
+        if(d)
+        {
+            world->cameraPos += glm::normalize(glm::cross(world->cameraFront, world->cameraUp)) * movementLength;
         }
         if(z)
         {

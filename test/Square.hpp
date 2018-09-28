@@ -116,6 +116,9 @@ public:
     Square* copy()
     {
         Square* copy = new Square(this->getA()->copy(),this->getB()->copy(),this->getC()->copy(),this->getD()->copy());
+        copy->moveX(this->getX());
+        copy->moveY(this->getY());
+        copy->moveZ(this->getZ());
         return copy;
     }
     

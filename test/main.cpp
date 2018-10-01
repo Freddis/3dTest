@@ -15,6 +15,7 @@
 #include "GLFW/glfw3.h"
 #include <OpenGL/gl3.h>
 
+#include "Window.hpp"
 #include "TextureLoader.hpp"
 #include "Triangle.hpp"
 #include "Square.hpp"
@@ -37,16 +38,10 @@ GLuint programId;
 GLFWwindow* window = NULL;
 GLFWmonitor* monitor = NULL;
 Controls* controls;
-int screenWidth = 800;
-int screenHeight = 600;
+Window* windowWrapper;
 
 // ! ID юниформ переменной цвета
 GLint Unif_color;
-
-GLuint LoadTexture( const char * filename, int width, int height);
-
-
-
 
 static void loadObjects(World* world, GLuint shaderProgram) {
     
@@ -123,7 +118,7 @@ static void loadObjects(World* world, GLuint shaderProgram) {
 //    int screenWidth = 800;
 //    int screenHeight = 600;
     glm::mat4 projection;
-    projection = glm::perspective(glm::radians(world->getFov()), (float)screenWidth / screenHeight, world->getNearPane(), world->getFarPane());
+    projection = glm::perspective(glm::radians(world->getFov()), (float)windowWrapper->getWidth() / windowWrapper->getHeight(), world->getNearPane(), world->getFarPane());
     //projection = glm::mat4(1.0);
     
     glm::vec3 worldpos = glm::vec3(world->getX(),world->getY(),world->getZ());
@@ -174,7 +169,7 @@ static void loadObjects(World* world, GLuint shaderProgram) {
 
 // draws a single frame
 
-static void Render(Object3D** objects, int size, GLuint texture) {
+static void Render(Object3D** objects, int size, GLuint texture,Window* windowWrapper) {
     
     // clear everything
     glClearColor(0.5, 0.5, 0.5, 1); // fill color
@@ -225,20 +220,11 @@ static void Render(Object3D** objects, int size, GLuint texture) {
     // unbind the VAO
    // glBindVertexArray(0);
     // swap the display buffers (displays what was just drawn)
-    glfwSwapBuffers(window);
-    
-    
-    
-    
+    glfwSwapBuffers(windowWrapper->getWindow());
 }
 
 GLuint loadShaders()
 {
-    //    const char* vertexShaderSource =
-    //    "#version 330\n"
-    //    "layout (location = 0) in vec3 position;"
-    //    "void main() { "
-    //    "gl_Position = vec4(position, 1.0f);}";
     const char* vertexShaderSource =
     "#version 330\n"
     "layout (location = 0) in vec3 position;"
@@ -295,9 +281,6 @@ GLuint loadShaders()
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
     
-    // ! Вытягиваем ID юниформ const
-    
-    
     
     //Combine vertex and fragment shaders
     GLuint shaderProgram;
@@ -322,98 +305,46 @@ GLuint loadShaders()
 }
 
 
-void error_callback(int error, const char* description)
-{
-    fprintf(stderr, "Error: %s\n", description);
-}
+
 
 int main(int argc, char * argv[]) {
     
-    
-    // GLFWwindow* window;
-    glfwSetErrorCallback(error_callback);
-    if (!glfwInit())
-        exit(EXIT_FAILURE);
-    
-//    glfwWindowHint(GLFW_SAMPLES, 2); // 4x antialiasing
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // We want OpenGL 3.3
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-    //glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE );
-
     bool fullscreen = true;
-    GLFWmonitor* monitor = NULL;
-    if(fullscreen)
-    {
-        monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode * mode = glfwGetVideoMode(monitor);
-        screenWidth = mode->width;
-        screenHeight = mode->height;
-        
-    }
-    window = glfwCreateWindow(screenWidth, screenHeight, "Simple example",monitor, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        exit(EXIT_FAILURE);
-    }
-   
-    glfwMakeContextCurrent(window);
-    if(fullscreen)
-    {
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    }
-   
-    // initialise GLEW
-    glewExperimental = GL_TRUE; //stops glew crashing on OSX :-/
-    if(glewInit() != GLEW_OK)
-        throw std::runtime_error("glewInit failed");
+    windowWrapper = new Window(fullscreen);
     
-    std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
-    std::cout << "GLSL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
-    std::cout << "Vendor: " << glGetString(GL_VENDOR) << std::endl;
-    std::cout << "Renderer: " << glGetString(GL_RENDERER) << std::endl;
-    
-    std::cout << "GLFW: " << glfwGetVersionString() << std::endl;
-    
-    World* world = new World();
-    Stage1* stage = new Stage1(world);
-    
-    const char* filename = "textures/texture2.jpg";
+    const char* filename = "textures/texture3.bmp";
     TextureLoader* loader = new TextureLoader();
     GLuint texture = loader->loadWithDevil(filename);
     
-    controls = new Controls(world,window);
-    glfwSetKeyCallback(window,[](GLFWwindow* window, int key, int scancode, int action, int mods){
+    World* world = new World();
+    controls = new Controls(world,windowWrapper->getWindow());
+    Stage1* stage = new Stage1(world,controls);
+    
+    glfwSetKeyCallback(windowWrapper->getWindow(),[](GLFWwindow* window, int key, int scancode, int action, int mods) -> void {
         controls->processKeyCallBack(window, key, scancode, action, mods);
     });
-    
-    
-    if(fullscreen)
+    if(windowWrapper->isFullscreen())
     {
-        glfwSetCursorPosCallback(window,[](GLFWwindow* window ,double x,double y){
+        glfwSetCursorPosCallback(windowWrapper->getWindow(),[](GLFWwindow* window ,double x,double y){
                 controls->processCursorPosition(window, x, y);
         });
     }
     
-    world->rotateY(-90);
-    controls->updateWorldRotation();
-    
+   
     Object3D** primitives = world->getPrimitives();
     int primitivesSize = world->getNumberOfPrimitives();
-     std::cout << "polygons: " << primitivesSize << std::endl;
+    std::cout << "polygons: " << primitivesSize << std::endl;
     GLuint shaderProgram = loadShaders();
+    
     double counter = 0;
     double timer =  0;
     double passed = 0;
-     glfwSwapInterval(0);
-    while (!glfwWindowShouldClose(window))
+    glfwSwapInterval(0);
+    while (!glfwWindowShouldClose(windowWrapper->getWindow()))
     {
         double frameStart = glfwGetTime();
         loadObjects(world,shaderProgram);
-        Render(primitives,primitivesSize,texture);
+        Render(primitives,primitivesSize,texture,windowWrapper);
         glfwWaitEventsTimeout(1/3000);
         double frameEnd = glfwGetTime();
         passed = frameEnd - frameStart;
@@ -429,9 +360,8 @@ int main(int argc, char * argv[]) {
         controls->process(passed);
     }
     
-    glfwDestroyWindow(window);
-    glfwTerminate();
-    exit(EXIT_SUCCESS);
+    exit(windowWrapper->terminate());
+    
     
 }
 

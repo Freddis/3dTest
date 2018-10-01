@@ -14,15 +14,18 @@
 #include "Square.hpp"
 #include "Cube.hpp"
 #include "Object3D.hpp"
+#include "Controls.hpp"
 
 class Stage1
 {
     World* world;
     Object3D* rotatedObject;
 public:
-    Stage1(World* world)
+    Stage1(World* world, Controls* controls)
     {
         this->world = world;
+        world->rotateY(-90);
+        controls->updateWorldRotation();
         
         //    Square* floor = new Square(0.5);
         //    world->addObject(floor);
@@ -141,7 +144,7 @@ public:
     {
         int step = 1;
         rotatedObject->rotateX(step*timer*100);
-        rotatedObject->rotateX(step*timer*100);
+        rotatedObject->rotateY(step*timer*100);
     }
 };
 #endif /* Stage1_hpp */

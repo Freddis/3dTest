@@ -46,6 +46,7 @@ public:
     {
         this->world = world;
         glfwGetCursorPos(window, &this->prevMouseX, &this->prevMouseY);
+        
     }
     
     void processCursorPosition(GLFWwindow* window ,double x,double y)

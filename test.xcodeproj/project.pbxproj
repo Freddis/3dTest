@@ -10,12 +10,12 @@
 		125203AA21621A6D00ABF751 /* libIL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0146C772160CD01003ACA39 /* libIL.dylib */; };
 		125203AB21621A6D00ABF751 /* libILU.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0146C752160CD00003ACA39 /* libILU.dylib */; };
 		125203AC21621A6D00ABF751 /* libILUT.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0146C762160CD00003ACA39 /* libILUT.dylib */; };
-		125203AE21621B5800ABF751 /* lib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 125203AD21621B5800ABF751 /* lib */; };
 		125203B1216229AA00ABF751 /* TextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 125203AF216229AA00ABF751 /* TextureLoader.cpp */; };
 		125203B421622F4500ABF751 /* Stage1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 125203B221622F4500ABF751 /* Stage1.cpp */; };
 		12805B3221620F950078DCB1 /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 12805B3121620F950078DCB1 /* libGLEW.2.1.0.dylib */; };
 		12805B37216210280078DCB1 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 12805B36216210280078DCB1 /* libglfw.3.2.dylib */; };
 		12805B3C216214610078DCB1 /* textures in CopyFiles */ = {isa = PBXBuildFile; fileRef = 12805B3B216214610078DCB1 /* textures */; };
+		12E221E62162607E00539E22 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12E221E42162607E00539E22 /* Window.cpp */; };
 		D05DB35B1E2EB92500DB150E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35A1E2EB92500DB150E /* Cocoa.framework */; };
 		D05DB35D1E2EB95900DB150E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35C1E2EB95900DB150E /* IOKit.framework */; };
 		D05DB35F1E2EB96500DB150E /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35E1E2EB96500DB150E /* CoreVideo.framework */; };
@@ -38,7 +38,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				125203AE21621B5800ABF751 /* lib in CopyFiles */,
 				12805B3C216214610078DCB1 /* textures in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -46,7 +45,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		125203AD21621B5800ABF751 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = test/lib; sourceTree = "<group>"; };
 		125203AF216229AA00ABF751 /* TextureLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextureLoader.cpp; sourceTree = "<group>"; };
 		125203B0216229AA00ABF751 /* TextureLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextureLoader.hpp; sourceTree = "<group>"; };
 		125203B221622F4500ABF751 /* Stage1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Stage1.cpp; sourceTree = "<group>"; };
@@ -59,6 +57,8 @@
 		12805B35216210080078DCB1 /* glfw3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfw3.h; sourceTree = "<group>"; };
 		12805B36216210280078DCB1 /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libglfw.3.2.dylib; sourceTree = "<group>"; };
 		12805B3B216214610078DCB1 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = textures; path = test/textures; sourceTree = "<group>"; };
+		12E221E42162607E00539E22 /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
+		12E221E52162607E00539E22 /* Window.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 		D0146C722160CCBC003ACA39 /* il.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = il.h; sourceTree = "<group>"; };
 		D0146C732160CCBC003ACA39 /* ilut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ilut.h; sourceTree = "<group>"; };
 		D0146C742160CCBD003ACA39 /* ilu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ilu.h; sourceTree = "<group>"; };
@@ -178,7 +178,6 @@
 		D080581B1E2E9B4800BA9384 = {
 			isa = PBXGroup;
 			children = (
-				125203AD21621B5800ABF751 /* lib */,
 				12805B3B216214610078DCB1 /* textures */,
 				D08058261E2E9B4900BA9384 /* test */,
 				D08058251E2E9B4900BA9384 /* Products */,
@@ -241,6 +240,8 @@
 				125203B0216229AA00ABF751 /* TextureLoader.hpp */,
 				125203B221622F4500ABF751 /* Stage1.cpp */,
 				125203B321622F4500ABF751 /* Stage1.hpp */,
+				12E221E42162607E00539E22 /* Window.cpp */,
+				12E221E52162607E00539E22 /* Window.hpp */,
 			);
 			name = classes;
 			sourceTree = "<group>";
@@ -309,6 +310,7 @@
 				D0BD669621593A8A00E332F5 /* World.cpp in Sources */,
 				D0E988F91F6D1DF4002EAABD /* Point.cpp in Sources */,
 				D0BD66932158138000E332F5 /* Cube.cpp in Sources */,
+				12E221E62162607E00539E22 /* Window.cpp in Sources */,
 				D0E988FC1F6D1F0B002EAABD /* Triangle.cpp in Sources */,
 				D08058281E2E9B4900BA9384 /* main.cpp in Sources */,
 				125203B421622F4500ABF751 /* Stage1.cpp in Sources */,

@@ -25,8 +25,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <IL/il.h>
-#include "IL/ilu.h"
+//#include <IL/il.h>
+//#include "IL/ilu.h"
 using namespace std;
 
 GLuint gVAO = 0;
@@ -342,7 +342,7 @@ int main(int argc, char * argv[]) {
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     //glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE );
 
-    bool fullscreen = false;
+    bool fullscreen = true;
     GLFWmonitor* monitor = NULL;
     if(fullscreen)
     {
@@ -474,7 +474,7 @@ int main(int argc, char * argv[]) {
         }
     }
 //
-    const char* filename = "/Users/macbookair/Desktop/cpp/test/test/textures/texture3.bmp";
+    const char* filename = "textures/texture3.bmp";
 //    ILHANDLE handle = fopen(filename,"rb");
 //    ILboolean textureLoaded = ilLoadImage(filename);
 //    //ILboolean textureLoaded = ilLoadF(1061,handle);
@@ -524,13 +524,14 @@ int main(int argc, char * argv[]) {
     GLuint shaderProgram = loadShaders();
     double counter = 0;
     double timer =  0;
+    double passed = 0;
      glfwSwapInterval(0);
     while (!glfwWindowShouldClose(window))
     {
         double frameStart = glfwGetTime();
         //std::cout << glfwGetTime() << std::endl;
-        cube->rotateZ(1);
-        cube->rotateY(1);
+        cube->rotateZ(1 * passed*100);
+        cube->rotateY(1 * passed*100);
         //world->moveX(0.001);
        // cube2->moveX(-0.001);
   
@@ -540,7 +541,7 @@ int main(int argc, char * argv[]) {
         Render(primitives,primitivesSize,texture);
         glfwWaitEventsTimeout(1/3000);
         double frameEnd = glfwGetTime();
-        double passed = frameEnd - frameStart;
+        passed = frameEnd - frameStart;
         timer += passed;
         ++counter;
         if(timer >= 1)

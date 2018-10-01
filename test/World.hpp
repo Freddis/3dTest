@@ -17,7 +17,7 @@
 #include <glm/gtc/type_ptr.hpp>
 class World
 {
-    Object3D* objects[100];
+    Object3D* objects[1000];
     int objectCount = 0;
     Object3D** oldPrimitives;
     float x = 0;
@@ -64,7 +64,7 @@ public:
         Object3D** objects = this->getPrimitives();
         int size = this->getNumberOfPrimitives();
         int vertexNumber = this->getVertexNumber();
-        GLfloat* vertexes = new GLfloat[vertexNumber];
+        GLfloat* vertexes = new GLfloat[vertexNumber*(sizeof(GLfloat)*5)];
         int z = 0;
         for(int i =0; i < size; i++)
         {
@@ -92,7 +92,7 @@ public:
         {
             Object3D* obj = objects[i];
            // vertexSize += obj->getSizeOf();
-            vertexNumber += obj->getSizeOf()/sizeof(GLfloat);
+            vertexNumber += obj->getNumberOfPoints();
         }
         delete[] objects;
         return vertexNumber;

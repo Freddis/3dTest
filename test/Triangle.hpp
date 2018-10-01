@@ -17,12 +17,13 @@
 
 class Triangle :public Object3D
 {
-    Point* a;
-    Point* b;
-    Point* c;
-    GLfloat data[9] = {};
+    hs::Point* a;
+    hs::Point* b;
+    hs::Point* c;
+    GLfloat data[15] = {};
+    bool textureSwapped = false;
 public:
-    Triangle(Point *a, Point *b, Point *c)
+    Triangle(hs::Point*a, hs::Point*b, hs::Point*c)
     {
         this->a = a;
         this->b = b;
@@ -37,23 +38,44 @@ public:
         data[0] = a->x;
         data[1] = a->y;
         data[2] = a->z;
-        data[3] = b->x;
-        data[4] = b->y;
-        data[5] = b->z;
-        data[6] = c->x;
-        data[7] = c->y;
-        data[8] = c->z;
+        data[3] = 1.0;
+        data[4] = 1.0;
+        
+        data[5] = b->x;
+        data[6] = b->y;
+        data[7] = b->z;
+        if(textureSwapped)
+        {
+            data[8] = 0.0;
+            data[9] = 1.0;
+        }
+        else
+        {
+            data[8] = 1.0;
+            data[9] = 0.0;
+        }
+        
+        data[10] = c->x;
+        data[11] = c->y;
+        data[12] = c->z;
+        data[13] = 0.0;
+        data[14] = 0.0;
         return data;
     }
-
+    
+    void swapTexturePosition()
+    {
+        this->textureSwapped = true;
+    }
+    
     int getSizeOf()
     {
         GLfloat sample;
-        int size = sizeof(sample)*9;
+        int size = sizeof(sample)*(15);
         return size;
     }
     
-    Point* getPointA()
+    hs::Point* getPointA()
     {
         return this->a;
     }
@@ -62,9 +84,9 @@ public:
     {
         return 3;
     }
-    Point** getPoints()
+    hs::Point** getPoints()
     {
-        Point** points = new Point*[3];
+        hs::Point** points = new hs::Point*[3];
         points[0] = a;
         points[1] = b;
         points[2] = c;

@@ -109,9 +109,9 @@ public:
     {
         return 8;
     }
-    Point** getPoints()
+    hs::Point** getPoints()
     {
-        Point** points = new Point*[8];
+        hs::Point** points = new hs::Point*[8];
         points[0] = this->getFront()->getA();
         points[1] = this->getFront()->getB();
         points[2] = this->getFront()->getC();
@@ -123,17 +123,17 @@ public:
         return points;
     }
     
-    Point* getCenter()
+    hs::Point* getCenter()
     {
-        Point* a = getFront()->getA();
-        Point* b = getBack()->getC();
+        hs::Point* a = getFront()->getA();
+        hs::Point* b = getBack()->getC();
         double x = (a->x+b->x)/2;
         double y = (a->y+b->y)/2;
         double z = (a->z+b->z)/2;
         float xx = x;
         float yy = y;
         float zz = z;
-        Point* center = new Point(xx,yy,zz);
+        hs::Point* center = new hs::Point(xx,yy,zz);
         return center;
     }
     

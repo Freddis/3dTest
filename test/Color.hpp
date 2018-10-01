@@ -14,16 +14,22 @@
 class Color
 {    
 public:
-    float r,g,b;
-    Color(float r, float g, float b)
+    float r,g,b,a;
+    
+    Color(float r, float g, float b) : Color(r,g,b,1)
+    {
+        this->a = 1;
+    }
+    Color(float r, float g, float b,float a)
     {
         this->r = r;
         this->g = g;
         this->b = b;
+        this->a = a;
     }
     Color * copy()
     {
-        return new Color(r,g,b);
+        return new Color(r,g,b,a);
     }
     
     static Color* getRed()

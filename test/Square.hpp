@@ -18,16 +18,15 @@
 class Square : public Object3D
 {
     GLfloat data[18] = {};
-    Point *a;
-    Point *b;
-    Point *c;
-    Point *d;
+    hs::Point*a;
+    hs::Point*b;
+    hs::Point*c;
+    hs::Point*d;
     Triangle* top;
     Triangle* bottom;
-    Color *color2;
     
 public:
-    Square(Point *a,Point *b, Point *c, Point *d)
+    Square(hs::Point*a,hs::Point*b, hs::Point*c, hs::Point*d)
     {
         this->a = a;
         this->b = b;
@@ -35,6 +34,7 @@ public:
         this->d = d;
         Triangle *triangle1 = new Triangle(this->a,this->b,this->c);
         Triangle *triangle2 = new Triangle(this->a,this->d,this->c);
+        triangle2->swapTexturePosition();
         
         top = triangle1;
         bottom = triangle2;
@@ -42,14 +42,14 @@ public:
     Square(float side)
     {
         float half = side/2;
-        this->a = new Point(-half,-half,-half);
+        this->a = new hs::Point(-half,-half,-half);
 //        this->a = a;
-        this->b = new Point(a->x,a->y+side,a->z);
-        this->c = new Point(a->x+side,a->y+side,a->z);
-        this->d = new Point(a->x+side,a->y,a->z);
+        this->b = new hs::Point(a->x,a->y+side,a->z);
+        this->c = new hs::Point(a->x+side,a->y+side,a->z);
+        this->d = new hs::Point(a->x+side,a->y,a->z);
         Triangle *triangle1 = new Triangle(this->a,this->b,this->c);
         Triangle *triangle2 = new Triangle(this->a,this->d,this->c);
-        
+        triangle2->swapTexturePosition();
         top = triangle1;
         bottom = triangle2;
     }
@@ -77,19 +77,19 @@ public:
         return data;
     }
    
-    Point* getA()
+    hs::Point* getA()
     {
         return this->a;
     }
-    Point* getB()
+    hs::Point* getB()
     {
         return this->b;
     }
-    Point* getC()
+    hs::Point* getC()
     {
         return this->c;
     }
-    Point* getD()
+    hs::Point* getD()
     {
         return this->d;
     }
@@ -131,9 +131,9 @@ public:
     {
         return 4;
     }
-    Point** getPoints()
+    hs::Point** getPoints()
     {
-        Point** points = new Point*[4];
+        hs::Point** points = new hs::Point*[4];
         points[0] = this->getA();
         points[1] = this->getB();
         points[2] = this->getC();

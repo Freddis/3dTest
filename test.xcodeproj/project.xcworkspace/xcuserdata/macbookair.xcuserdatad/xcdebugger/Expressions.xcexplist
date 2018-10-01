@@ -3,25 +3,6 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "Triangle::getVertexArray():Triangle.hpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "x">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "moveLeft():main.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "triangle">
-            </PersistentString>
-            <PersistentString
-               value = "*(triangle-&gt;getVertexArray()+4)">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "LoadTriangle():main.cpp">
          <PersistentStrings>
             <PersistentString
@@ -35,6 +16,52 @@
             </PersistentString>
             <PersistentString
                value = "sizeof(vertexes[1])">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "loadObjects(World*, unsigned int):main.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "vertexes[8]">
+            </PersistentString>
+            <PersistentString
+               value = "world-&gt;getVertexNumber()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Triangle::getVertexArray():Triangle.hpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "x">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "World::getVertexes():World.hpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "vertexArr[5]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Object3D::getWorldVertexes():Object3D.hpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "vertexArr[j]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "moveLeft():main.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "triangle">
+            </PersistentString>
+            <PersistentString
+               value = "*(triangle-&gt;getVertexArray()+4)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

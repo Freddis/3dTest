@@ -8,10 +8,9 @@
 
 #ifndef Point_hpp
 #define Point_hpp
-
 #include <stdio.h>
 #include <cmath>
-
+namespace hs {
 class Point
 {
     
@@ -27,16 +26,16 @@ public:
         this->z = z;
     }
     
-    Point* copy()
+    hs::Point* copy()
     {
-        Point* p = new Point(this->x,this->y,this->z);
+        hs::Point* p = new hs::Point(this->x,this->y,this->z);
         return p;
     }
     
     void rotateZ(float degree)
     {
         double rad = degree * (M_PI/180.f);
-        Point* p = this;
+        hs::Point* p = this;
         double x = cos(rad)*p->x - sin(rad)*p->y;
         double y = sin(rad)*p->x + cos(rad)*p->y;
         double z = p->z;
@@ -47,7 +46,7 @@ public:
     void rotateX(float degree)
     {
         double rad = degree * (M_PI/180.f);
-        Point* p = this;
+        hs::Point* p = this;
         double x = p->x;
         double y = cos(rad)*p->y - sin(rad)*p->z;
         double z = sin(rad)*p->y + cos(rad)*p->z;
@@ -59,7 +58,7 @@ public:
     void rotateY(float degree)
     {
         double rad = degree * (M_PI/180.f);
-        Point* p = this;
+        hs::Point* p = this;
         double x = cos(rad)*p->x + sin(rad)*p->z;
         double y = p->y;
         double z = -1*sin(rad)*p->x + cos(rad)*p->z;
@@ -68,5 +67,6 @@ public:
         p->z = z;
     }
 };
-
+}
 #endif /* Point_hpp */
+

@@ -43,6 +43,10 @@ public:
             {
                 vertexArr[j] += worldZ;
             }
+            else if(k == 3 || k == 4)
+            {
+                
+            }
             else {
                 vertexArr[j] += worldX;
                 k = 0;
@@ -90,7 +94,7 @@ public:
             return;
         }
         Object3D** primitives = this->getPrimitives(&size);
-        for(int i =0; i < this->getNumberOfPrimitives(); i++)
+        for(int i =0; i < size; i++)
         {
             primitives[i]->setColor(color);
         }
@@ -100,7 +104,7 @@ public:
         *size = 1;
         return primitives;
     };
-    virtual Point** getPoints() = 0;
+    virtual hs::Point** getPoints() = 0;
     virtual int getNumberOfPoints() = 0;
     
     virtual int getNumberOfPrimitives()
@@ -156,7 +160,7 @@ public:
     void rotateX(float degree)
     {
         rotationX += degree;
-        Point** points = this->getPoints();
+        hs::Point** points = this->getPoints();
         int len = this->getNumberOfPoints();
         for(int i =0; i < len; i++)
         {
@@ -170,7 +174,7 @@ public:
     }
     void rotateY(float degree)
     {
-        Point** points = this->getPoints();
+        hs::Point** points = this->getPoints();
         int len = this->getNumberOfPoints();
         for(int i =0; i < len; i++)
         {
@@ -180,7 +184,7 @@ public:
     }
     void rotateZ(float degree)
     {
-        Point** points = this->getPoints();
+        hs::Point** points = this->getPoints();
         int len = this->getNumberOfPoints();
         for(int i =0; i < len; i++)
         {

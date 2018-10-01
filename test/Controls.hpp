@@ -19,6 +19,12 @@ class Controls
     World* world;
     float movementDegree = 1;
     float movementLength = 0.01;
+    double mouseX;
+    double mouseY;
+    double prevMouseX;
+    double prevMouseY;
+    float mouseSensivity;
+    
     bool left = false;
     bool right = false;
     bool up = false;
@@ -36,14 +42,36 @@ class Controls
     bool n = false;
     
 public:
-    Controls(World* world)
+    Controls(World* world, GLFWwindow *window)
     {
         this->world = world;
+        glfwGetCursorPos(window, &this->prevMouseX, &this->prevMouseY);
     }
     
     void processCursorPosition(GLFWwindow* window ,double x,double y)
     {
-     //   std:: cout << "x: " << x << ", y: " << y << std::endl;
+       // std:: cout << "x: " << x << ", y: " << y << std::endl;
+        float xoffset = x - prevMouseX;
+        float yoffset = prevMouseY - y;
+        prevMouseX = x;
+        prevMouseY = y;
+        
+        GLfloat sensitivity = 0.1;
+        xoffset *= sensitivity;
+        yoffset *= sensitivity;
+        
+        if((world->getRotationX()+yoffset > 90 && yoffset > 0 )|| (world->getRotationX()+yoffset <= -90 && yoffset < 0))
+        {
+            yoffset = 0;
+        }
+        world->rotateX(yoffset);
+        world->rotateY(xoffset);
+//        if(world->getRotationY() < 90)
+//        {
+//            world->rotateY(xoffset);
+//        }
+       // std:: cout << "rotation x: " << world->getRotationX() << ", rotation y: " << world->getRotationY() << std::endl;
+        updateWorldRotation();
     }
     void processKeyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
@@ -51,7 +79,7 @@ public:
         {
             glfwSetWindowShouldClose(window, GL_TRUE);
         }
-        std::cout << "Key: " << key << ", action: " << action << "\n";
+       // std::cout << "Key: " << key << ", action: " << action << "\n";
         processArrows(key,action);
     }
     void updateWorldRotation()
@@ -64,15 +92,16 @@ public:
         world->cameraFront = glm::normalize(world->cameraFront);
         
     }
-    void process()
+    void process(double timepassed)
     {
-        
+        //std::cout << "timer: " << timepassed << std::endl;
+        float timer = timepassed*100;
         if(up)
         {
         if(world->getRotationX() < 90)
         {
-            world->rotateX(1);
-            std::cout << "Rotation X: " << world->getRotationX() << std::endl;
+            world->rotateX(1*timer);
+           // std::cout << "Rotation X: " << world->getRotationX() << std::endl;
             updateWorldRotation();
         }
            // moveUp();
@@ -81,24 +110,24 @@ public:
         {
             if(world->getRotationX() > -90)
             {
-              world->rotateX(-1);
-              std::cout << "Rotation X: " << world->getRotationX() << std::endl;
+              world->rotateX(-1*timer);
+            //  std::cout << "Rotation X: " << world->getRotationX() << std::endl;
             }
             updateWorldRotation();
         }
         if(left)
         {
         
-                world->rotateY(-1);
-                std::cout << "Rotation Y: " << world->getRotationY() << std::endl;
+                world->rotateY(-1*timer);
+            //    std::cout << "Rotation Y: " << world->getRotationY() << std::endl;
                 updateWorldRotation();
           
         }
         if(right)
         {
            
-                world->rotateY(1);
-                std::cout << "Rotation Y: " << world->getRotationY() << std::endl;
+                world->rotateY(1*timer);
+           //     std::cout << "Rotation Y: " << world->getRotationY() << std::endl;
                 updateWorldRotation();
             
         }
@@ -107,50 +136,50 @@ public:
         {
 //             world->moveZ(movementLength);
 //             std::cout << "z: " << world->getZ() << std::endl;
-            world->cameraPos += movementLength * world->cameraFront;
+            world->cameraPos += movementLength*timer * world->cameraFront;
         }
         if(s)
         {
             // world->moveZ(-movementLength);
             // std::cout << "z: " << world->getZ() << std::endl;
-            world->cameraPos -= movementLength * world->cameraFront;
+            world->cameraPos -= movementLength*timer * world->cameraFront;
         }
         if(a)
         {
-            world->cameraPos -= glm::normalize(glm::cross(world->cameraFront, world->cameraUp)) * movementLength;
+            world->cameraPos -= glm::normalize(glm::cross(world->cameraFront, world->cameraUp)) * movementLength*timer;
         }
         if(d)
         {
-            world->cameraPos += glm::normalize(glm::cross(world->cameraFront, world->cameraUp)) * movementLength;
+            world->cameraPos += glm::normalize(glm::cross(world->cameraFront, world->cameraUp)) * movementLength*timer;
         }
         if(z)
         {
-            world->setFov(world->getFov() - movementDegree);
+            world->setFov(world->getFov() - movementDegree*timer);
             std::cout << "fov: " << world->getFov() << std::endl;
         }
         if(x)
         {
-            world->setFov(world->getFov() + movementDegree);
+            world->setFov(world->getFov() + movementDegree*timer);
             std::cout << "fov: " << world->getFov() << std::endl;
         }
         if(b)
         {
-            world->setFarPane(world->getFarPane() + 1);
+            world->setFarPane(world->getFarPane() + timer);
             std::cout << "Far pane: " << world->getFarPane() << std::endl;
         }
         if(n)
         {
-            world->setFarPane(world->getFarPane() - 1);
+            world->setFarPane(world->getFarPane() - timer);
             std::cout << "Far Pane: " << world->getFarPane()<< std::endl;
         }
         if(c)
         {
-            world->setNearPane(world->getNearPane() + 0.01);
+            world->setNearPane(world->getNearPane() + 0.01*timer);
             std::cout << "Near pane: " << world->getNearPane() << std::endl;
         }
         if(v)
         {
-            world->setNearPane(world->getNearPane() - 0.01);
+            world->setNearPane(world->getNearPane() - 0.01*timer);
             std::cout << "Near Pane: " << world->getNearPane() << std::endl;
         }
 

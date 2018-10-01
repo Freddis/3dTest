@@ -9,24 +9,25 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string>
-#include <stdlib.h>
 #include <unistd.h>
 
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include <OpenGL/gl3.h>
 
+#include "TextureLoader.hpp"
 #include "Triangle.hpp"
 #include "Square.hpp"
 #include "Cube.hpp"
 #include "World.hpp"
+#include "Stage1.hpp"
 #include "Controls.cpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-//#include <IL/il.h>
-//#include "IL/ilu.h"
+#include <IL/il.h>
+#include <IL/ilu.h>
 using namespace std;
 
 GLuint gVAO = 0;
@@ -378,130 +379,12 @@ int main(int argc, char * argv[]) {
     std::cout << "GLFW: " << glfwGetVersionString() << std::endl;
     
     World* world = new World();
-//    Square* floor = new Square(0.5);
-//    world->addObject(floor);
+    Stage1* stage = new Stage1(world);
     
-    Cube* cube = new Cube(0.05);
-    cube->moveZ(0.2);
-    cube->moveX(-0.07);
-    world->addObject(cube);
-
-    Cube* cube2 = new Cube(0.05);
-    world->addObject(cube2);
-//
-    Cube* cube3 = new Cube(0.2);
-    cube3->moveX(0.3);
-    cube3->moveY(0.5);
-    cube3->moveZ(0.2);
-    cube3->rotateY(45);
-    cube3->rotateZ(45);
-    world->addObject(cube3);
-//
-    int p = 0;
-    Object3D** prims = cube3->getPrimitives(&p);
-    for(int i =0; i < p; i++)
-    {
-        Color* color = prims[i]->getColor();
-        color->a = 0.3;
-        prims[i]->setColor(color);
-    }
-    delete[] prims;
-//
-    Square* floor = new Square(15.5);
-    floor->setColor(Color::getWhite());
-    floor->moveX(0.0);
-    //floor->moveZ(-0.2);
-    float size = floor->getSideSize();
-    floor->getC()->z += size;
-    floor->getC()->y = floor->getA()->y;
-    floor->getB()->z += size;
-    floor->getB()->y = floor->getA()->y;
-    floor->moveY(floor->getSideSize()/2);
-    world->addObject(floor);
-    floor->moveY(-0.5);
-
-    Color* colorA = floor->getColor();
-    Color* colorB = floor->getColor();
-    float side = floor->getSideSize();// + 0.0001;
-    int xsize = 3;
-    int zsize = 3;
-
-    for(int j = 0; j < zsize; j++)
-    {
-        for(int i =0; i < xsize; i++)
-        {
-            Color* color = i%2 != 0 ? colorA : colorB;
-            if(j %2 == 0)
-            {
-                color = color == colorA ? colorB : colorA;
-            }
-            if(i == 0 && j == 0)
-            {
-                continue;
-            }
-            float movementX = side*(i);
-            float movementZ = side*(j);
-            Square* plane1 = floor->copy();
-            plane1->setColor(color);
-            plane1->moveX(movementX);
-            plane1->moveZ(movementZ);
-            //plane1->moveY(0.5);
-            world->addObject(plane1);
-            Square* plane2 = floor->copy();
-            plane2->setColor(color);
-            plane2->moveX(-movementX);
-            plane2->moveZ(-movementZ);
-            world->addObject(plane2);
-            if(j == 0)
-            {
-                continue;
-            }
-            if(i == 0)
-            {
-                continue;
-            }
-            Square* plane3 = floor->copy();
-            plane3->setColor(color);
-            plane3->moveX(-movementX);
-            plane3->moveZ(movementZ);
-            world->addObject(plane3);
-            Square* plane4 = floor->copy();
-            plane4->setColor(color);
-            plane4->moveX(movementX);
-            plane4->moveZ(-movementZ);
-            world->addObject(plane4);
-
-        }
-    }
-//
-    const char* filename = "textures/texture3.bmp";
-//    ILHANDLE handle = fopen(filename,"rb");
-//    ILboolean textureLoaded = ilLoadImage(filename);
-//    //ILboolean textureLoaded = ilLoadF(1061,handle);
-//    if(!textureLoaded)
-//    {
-//        ILenum error = ilGetError();
-//        std::cout << "Failed to load '" << filename << "'." << error <<" - " << iluErrorString(error) << std::endl;
-//        return 0;
-//    }
-
-    //SOIL_load_image(filename, &width, &height, 0, SOIL_LOAD_RGB);
-
-    GLuint texture = LoadTexture(filename,256,256);
+    const char* filename = "textures/texture2.jpg";
+    TextureLoader* loader = new TextureLoader();
+    GLuint texture = loader->loadWithDevil(filename);
     
-//    Square* wall = new Square(1);
-//    wall->moveZ(- (wall->getSideSize()/2 + floor->getC()->z));
-//    wall->setColor(Color::getWhite());
-//    world->addObject(wall);
-//    Square* rightWall = wall->copy();
-//    rightWall->setColor(Color::getBlack());
-//    rightWall->moveX(rightWall->getSideSize());
-//    world->addObject(rightWall);
-//    Square* leftWall = wall->copy();
-//    leftWall->setColor(Color::getBlack());
-//    leftWall->moveX(-leftWall->getSideSize());
-//    world->addObject(leftWall);
-
     controls = new Controls(world,window);
     glfwSetKeyCallback(window,[](GLFWwindow* window, int key, int scancode, int action, int mods){
         controls->processKeyCallBack(window, key, scancode, action, mods);
@@ -529,14 +412,6 @@ int main(int argc, char * argv[]) {
     while (!glfwWindowShouldClose(window))
     {
         double frameStart = glfwGetTime();
-        //std::cout << glfwGetTime() << std::endl;
-        cube->rotateZ(1 * passed*100);
-        cube->rotateY(1 * passed*100);
-        //world->moveX(0.001);
-       // cube2->moveX(-0.001);
-  
-
-        
         loadObjects(world,shaderProgram);
         Render(primitives,primitivesSize,texture);
         glfwWaitEventsTimeout(1/3000);
@@ -550,6 +425,7 @@ int main(int argc, char * argv[]) {
             timer = 0;
             counter = 0;
         }
+        stage->process(passed);
         controls->process(passed);
     }
     
@@ -559,59 +435,3 @@ int main(int argc, char * argv[]) {
     
 }
 
-GLuint LoadTexture( const char * filename, int width, int height )
-{
-    
-    GLuint texture;
-    
-    //int width, height;
-    
-    unsigned char * data;
-    
-    FILE * file;
-    
-    file = fopen( filename, "rb" );
-    
-    if ( file == NULL ) return 0;
-//    width = 1024;
-//    height = 512;
-    data = (unsigned char *)malloc( width * height * 3 );
-    //int size = fseek(file,);
-    fread( data, width * height * 3, 1, file );
-    fclose( file );
-    
-    for(int i = 0; i < width * height ; ++i)
-    {
-        int index = i*3;
-        unsigned char B,R;
-        B = data[index];
-        R = data[index+2];
-        
-        data[index] = R;
-        data[index+2] = B;
-        
-    }
-   // GLuint texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture); // All upcoming GL_TEXTURE_2D operations now have effect on this texture object
-    // Set the texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);    // Set texture wrapping to GL_REPEAT (usually basic wrapping method)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // Set texture filtering parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-//    glGenTextures( 1, &texture );
-//    glBindTexture( GL_TEXTURE_2D, texture );
-//    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,GL_MODULATE );
-//    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST );
-//
-//
-//    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR );
-//    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT );
-//    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,GL_REPEAT );
-//    gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, height,GL_RGB, GL_UNSIGNED_BYTE, data );
-    free( data );
-    
-    return texture;
-}

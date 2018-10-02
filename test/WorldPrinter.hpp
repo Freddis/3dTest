@@ -15,9 +15,6 @@
 #include "World.hpp"
 #include "Object3D.hpp"
 #include "TextureLoader.hpp"
-//#include "GL/glew.h"
-//#include "GLFW/glfw3.h"
-//#include <OpenGL/gl3.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -164,10 +161,9 @@ public:
         GLint projLoc = glGetUniformLocation(shaderProgram, "projection");
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
     }
-//    static void Render(Object3D** objects, int size, GLuint texture,Window* windowWrapper) {
+    
     void render(World* world)
     {
-        
             Object3D** objects = world->getPrimitives();
             int size = world->getNumberOfPrimitives();
 //            std::cout << "polygons: " << primitivesSize << std::endl;
@@ -188,18 +184,9 @@ public:
             int offset = 0;
             for(int i =0; i < size; i++)
             {
-                
                 Object3D* obj = objects[i];
                 Color* color = obj->getColor();
-                //color->g+=0.001;
                 float converted[4] = {color->r,color->g,color->b,color->a};
-                //        if(color->a < 1)
-                //        {
-                //            glDepthFunc(GL_ALWAYS);
-                //        }
-                //        else {
-                //            glDepthFunc(GL_LEQUAL);
-                //        }
                 float* myColor  = converted;
                 
                 // std::cout << "r:" << myColor[0] << ", g:" << myColor[1] << ", b:" << myColor[2] << std::endl;
@@ -212,15 +199,11 @@ public:
                 glDrawArrays(GL_TRIANGLES, offset,offset+vertexes);
                 offset+= vertexes;
             }
-            //glUniform4fv(Unif_color, 1,color2);
-            //glColor3b(0, 250, 0);
-            //glDrawArrays(GL_TRIANGLES, 0, 10);
-            // glBindVertexArray(VAO);
-            //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            //glDrawArrays(GL_TRIANGLES, 3, 6);
+        
             // unbind the VAO
-             glBindVertexArray(0);
+            glBindVertexArray(0);
             glDeleteVertexArrays(1,&gVAO);
+            glDeleteBuffers(1,&gVBO);
             // swap the display buffers (displays what was just drawn)
             //    glfwSwapBuffers(windowWrapper->getWindow());
             delete[] objects;
@@ -300,7 +283,6 @@ public:
         shaderColorUniform = glGetUniformLocation(shaderProgram, unif_name);
         if(shaderColorUniform == -1) { std::cout << "could not bind uniform " << unif_name << std::endl; return 0; }
         
-//        glUseProgram(shaderProgram);
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
         return shaderProgram;

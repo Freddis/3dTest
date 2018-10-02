@@ -96,40 +96,26 @@ public:
         // make and bind the VBO
         glGenBuffers(1, &gVBO);
         glBindBuffer(GL_ARRAY_BUFFER, gVBO);
-        // Put the three triangle verticies into the VBO
-
-        //        GLfloat vertexes[16] = {
-        //                        -0.8,-0.8 , 0, 0,
-        //                        -0.8,0.8 , 1, 0,
-        //                        0.8,-0.8, 0, 1,
-        //                        0.8,0.8, 1, 1,
-        //                    };
-        //        int vertexSize = sizeof(vertexes);
-        //        glBufferData(GL_ARRAY_BUFFER,vertexSize,vertexes, GL_STATIC_DRAW);
-        //delete[] vertexes;
         // connect the xyz to the "vert" attribute of the vertex shader
-
         glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,4 * sizeof(GLfloat), 0);
         glEnableVertexAttribArray(0);
-        //        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,4 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-        //        glEnableVertexAttribArray(1);
-        // unbind the VBO and VAO
 
+        //inmortant line for Freetype
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        //        glClearColor(0.5, 0.5, 0.5, 0.5);
-        //        glClear(GL_COLOR_BUFFER_BIT);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
         GLint fontColor = glGetUniformLocation(shaders, "fontcolor");
         GLfloat color[4] = {1, 1, 1, 1};
         glUniform4fv(fontColor, 1, color);
         printText(text,x,y,sx,sy);
 
+        //cleanup
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
         glDeleteVertexArrays(1, &gVAO);
+        glDeleteBuffers(1,&gVBO);
+        glDeleteTextures(1, &tex);
     }
     
 protected:
@@ -241,11 +227,7 @@ protected:
             std::cout << "ERROR::SHADER::PROGRAMM::COMPILATION_FAILED\n" << infoLog << std::endl;
             return 0;
         }
-        //    const char* unif_name = "mycolor";
-        //    Unif_color = glGetUniformLocation(shaderProgram, unif_name);
-        //    if(Unif_color == -1) { std::cout << "could not bind uniform " << unif_name << std::endl; return 0; }
-        
-//        glUseProgram(shaderProgram);
+
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
         return shaderProgram;

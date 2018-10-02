@@ -20,6 +20,7 @@
 #include "World.hpp"
 #include "Stage1.hpp"
 #include "Controls.cpp"
+#include "TypeWriter.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -223,7 +224,7 @@ static void Render(Object3D** objects, int size, GLuint texture,Window* windowWr
     // unbind the VAO
    // glBindVertexArray(0);
     // swap the display buffers (displays what was just drawn)
-    glfwSwapBuffers(windowWrapper->getWindow());
+//    glfwSwapBuffers(windowWrapper->getWindow());
 }
 
 GLuint loadShaders()
@@ -307,22 +308,12 @@ GLuint loadShaders()
     return shaderProgram;
 }
 
-
-
-
 int main(int argc, char * argv[]) {
     
-    bool fullscreen = false;
+    bool fullscreen = true;
     windowWrapper = new Window(fullscreen);
-    
-    FT_Library ft;
-    if(FT_Init_FreeType(&ft)) {
-        fprintf(stderr, "Could not init freetype library\n");
-        return 1;
-    }
-    else {
-        std::cout << "Freetype loaded" << std::endl;
-    }
+    const char* font = "fonts/OpenSans-Regular.ttf";
+    TypeWriter* typewriter = new TypeWriter(font,34);
     
     const char* filename = "textures/texture3.bmp";
     TextureLoader* loader = new TextureLoader();
@@ -347,15 +338,24 @@ int main(int argc, char * argv[]) {
     std::cout << "polygons: " << primitivesSize << std::endl;
     GLuint shaderProgram = loadShaders();
     
-    double counter = 0;
+    int counter = 0;
+    int fps = 0;
     double timer =  0;
     double passed = 0;
     glfwSwapInterval(0);
     while (!glfwWindowShouldClose(windowWrapper->getWindow()))
     {
         double frameStart = glfwGetTime();
+        glUseProgram(shaderProgram);
         loadObjects(world,shaderProgram);
         Render(primitives,primitivesSize,texture,windowWrapper);
+        
+        float sx = 2.0 / windowWrapper->getWidth();
+        float sy = 2.0 / windowWrapper->getHeight();
+        std::string str = "FPS: " + std::to_string(fps);
+        const char* text =  str.c_str();
+        typewriter->print(text,-1 + 8 * sx,   1 - 50 * sy,    sx, sy);
+        
         glfwWaitEventsTimeout(1/3000);
         double frameEnd = glfwGetTime();
         passed = frameEnd - frameStart;
@@ -363,15 +363,20 @@ int main(int argc, char * argv[]) {
         ++counter;
         if(timer >= 1)
         {
-            std::cout << "fps: " << counter << std::endl;
+            fps = counter;
+            std::cout << "fps: " << fps << std::endl;
             timer = 0;
             counter = 0;
         }
         stage->process(passed);
         controls->process(passed);
+        
+        //end of the iteration
+        glfwSwapBuffers(windowWrapper->getWindow());
     }
     
     exit(windowWrapper->terminate());
+    
     
     
 }

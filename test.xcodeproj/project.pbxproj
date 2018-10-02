@@ -15,6 +15,8 @@
 		12805B3221620F950078DCB1 /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 12805B3121620F950078DCB1 /* libGLEW.2.1.0.dylib */; };
 		12805B37216210280078DCB1 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 12805B36216210280078DCB1 /* libglfw.3.2.dylib */; };
 		12805B3C216214610078DCB1 /* textures in Copy Files */ = {isa = PBXBuildFile; fileRef = 12805B3B216214610078DCB1 /* textures */; };
+		12AFFE40216363BB001DA0A7 /* fonts in Copy Files */ = {isa = PBXBuildFile; fileRef = 12AFFE3F216363BB001DA0A7 /* fonts */; };
+		12AFFE44216386C5001DA0A7 /* TypeWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12AFFE42216386C5001DA0A7 /* TypeWriter.cpp */; };
 		12E221E62162607E00539E22 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12E221E42162607E00539E22 /* Window.cpp */; };
 		D041604C2163386300D1A926 /* lib in Copy Files */ = {isa = PBXBuildFile; fileRef = D041604B2163386300D1A926 /* lib */; };
 		D04160512163457600D1A926 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D04160502163457600D1A926 /* libfreetype.6.dylib */; };
@@ -40,6 +42,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
+				12AFFE40216363BB001DA0A7 /* fonts in Copy Files */,
 				D041604C2163386300D1A926 /* lib in Copy Files */,
 				12805B3C216214610078DCB1 /* textures in Copy Files */,
 			);
@@ -61,6 +64,10 @@
 		12805B35216210080078DCB1 /* glfw3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfw3.h; sourceTree = "<group>"; };
 		12805B36216210280078DCB1 /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libglfw.3.2.dylib; sourceTree = "<group>"; };
 		12805B3B216214610078DCB1 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = textures; path = test/textures; sourceTree = "<group>"; };
+		12AFFE3F216363BB001DA0A7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fonts; path = test/fonts; sourceTree = "<group>"; };
+		12AFFE41216363E2001DA0A7 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		12AFFE42216386C5001DA0A7 /* TypeWriter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TypeWriter.cpp; sourceTree = "<group>"; };
+		12AFFE43216386C5001DA0A7 /* TypeWriter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TypeWriter.hpp; sourceTree = "<group>"; };
 		12E221E42162607E00539E22 /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		12E221E52162607E00539E22 /* Window.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 		D0146C722160CCBC003ACA39 /* il.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = il.h; sourceTree = "<group>"; };
@@ -140,6 +147,14 @@
 			path = GLFW;
 			sourceTree = "<group>";
 		};
+		12AFFE3E21636375001DA0A7 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				12AFFE41216363E2001DA0A7 /* OpenSans-Regular.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		D0146C622160B999003ACA39 /* textures */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,6 +203,7 @@
 		D080581B1E2E9B4800BA9384 = {
 			isa = PBXGroup;
 			children = (
+				12AFFE3F216363BB001DA0A7 /* fonts */,
 				D041604B2163386300D1A926 /* lib */,
 				12805B3B216214610078DCB1 /* textures */,
 				D08058261E2E9B4900BA9384 /* test */,
@@ -207,6 +223,7 @@
 		D08058261E2E9B4900BA9384 /* test */ = {
 			isa = PBXGroup;
 			children = (
+				12AFFE3E21636375001DA0A7 /* fonts */,
 				D0146C6F2160C655003ACA39 /* lib */,
 				D0146C662160BBD6003ACA39 /* include */,
 				D0146C622160B999003ACA39 /* textures */,
@@ -253,6 +270,8 @@
 				125203B321622F4500ABF751 /* Stage1.hpp */,
 				12E221E42162607E00539E22 /* Window.cpp */,
 				12E221E52162607E00539E22 /* Window.hpp */,
+				12AFFE42216386C5001DA0A7 /* TypeWriter.cpp */,
+				12AFFE43216386C5001DA0A7 /* TypeWriter.hpp */,
 			);
 			name = classes;
 			sourceTree = "<group>";
@@ -318,6 +337,7 @@
 				D0BD668D2157EF2700E332F5 /* Square.cpp in Sources */,
 				D0BD669A2159426700E332F5 /* Controls.cpp in Sources */,
 				D0BD66902157FE6C00E332F5 /* Color.cpp in Sources */,
+				12AFFE44216386C5001DA0A7 /* TypeWriter.cpp in Sources */,
 				D0BD669621593A8A00E332F5 /* World.cpp in Sources */,
 				D0E988F91F6D1DF4002EAABD /* Point.cpp in Sources */,
 				D0BD66932158138000E332F5 /* Cube.cpp in Sources */,

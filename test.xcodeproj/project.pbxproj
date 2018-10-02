@@ -16,6 +16,7 @@
 		12805B37216210280078DCB1 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 12805B36216210280078DCB1 /* libglfw.3.2.dylib */; };
 		12805B3C216214610078DCB1 /* textures in CopyFiles */ = {isa = PBXBuildFile; fileRef = 12805B3B216214610078DCB1 /* textures */; };
 		12E221E62162607E00539E22 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12E221E42162607E00539E22 /* Window.cpp */; };
+		D041604C2163386300D1A926 /* lib in CopyFiles */ = {isa = PBXBuildFile; fileRef = D041604B2163386300D1A926 /* lib */; };
 		D05DB35B1E2EB92500DB150E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35A1E2EB92500DB150E /* Cocoa.framework */; };
 		D05DB35D1E2EB95900DB150E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35C1E2EB95900DB150E /* IOKit.framework */; };
 		D05DB35F1E2EB96500DB150E /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35E1E2EB96500DB150E /* CoreVideo.framework */; };
@@ -38,6 +39,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
+				D041604C2163386300D1A926 /* lib in CopyFiles */,
 				12805B3C216214610078DCB1 /* textures in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -68,6 +70,7 @@
 		D0146C7B2160CE52003ACA39 /* texture1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = texture1.jpg; sourceTree = "<group>"; };
 		D0146C7C2160D77B003ACA39 /* texture2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = texture2.jpg; sourceTree = "<group>"; };
 		D0146C7D2160DB60003ACA39 /* texture3.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = texture3.bmp; sourceTree = "<group>"; };
+		D041604B2163386300D1A926 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = test/lib; sourceTree = "<group>"; };
 		D05DB35A1E2EB92500DB150E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D05DB35C1E2EB95900DB150E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		D05DB35E1E2EB96500DB150E /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -178,6 +181,7 @@
 		D080581B1E2E9B4800BA9384 = {
 			isa = PBXGroup;
 			children = (
+				D041604B2163386300D1A926 /* lib */,
 				12805B3B216214610078DCB1 /* textures */,
 				D08058261E2E9B4900BA9384 /* test */,
 				D08058251E2E9B4900BA9384 /* Products */,
@@ -417,6 +421,7 @@
 					/usr/local/Cellar/glm/0.9.9.2/include,
 					"$(PROJECT_DIR)/test/include",
 				);
+				LD_RUNPATH_SEARCH_PATHS = "$(PROJECT_DIR)/test/lib ${executable_path/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.2.1/lib,
@@ -439,6 +444,7 @@
 					/usr/local/Cellar/glm/0.9.9.2/include,
 					"$(PROJECT_DIR)/test/include",
 				);
+				LD_RUNPATH_SEARCH_PATHS = "$(PROJECT_DIR)/test/lib ${executable_path/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.2.1/lib,

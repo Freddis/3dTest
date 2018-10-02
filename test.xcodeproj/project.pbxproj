@@ -14,9 +14,10 @@
 		125203B421622F4500ABF751 /* Stage1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 125203B221622F4500ABF751 /* Stage1.cpp */; };
 		12805B3221620F950078DCB1 /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 12805B3121620F950078DCB1 /* libGLEW.2.1.0.dylib */; };
 		12805B37216210280078DCB1 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 12805B36216210280078DCB1 /* libglfw.3.2.dylib */; };
-		12805B3C216214610078DCB1 /* textures in CopyFiles */ = {isa = PBXBuildFile; fileRef = 12805B3B216214610078DCB1 /* textures */; };
+		12805B3C216214610078DCB1 /* textures in Copy Files */ = {isa = PBXBuildFile; fileRef = 12805B3B216214610078DCB1 /* textures */; };
 		12E221E62162607E00539E22 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12E221E42162607E00539E22 /* Window.cpp */; };
-		D041604C2163386300D1A926 /* lib in CopyFiles */ = {isa = PBXBuildFile; fileRef = D041604B2163386300D1A926 /* lib */; };
+		D041604C2163386300D1A926 /* lib in Copy Files */ = {isa = PBXBuildFile; fileRef = D041604B2163386300D1A926 /* lib */; };
+		D04160512163457600D1A926 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D04160502163457600D1A926 /* libfreetype.6.dylib */; };
 		D05DB35B1E2EB92500DB150E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35A1E2EB92500DB150E /* Cocoa.framework */; };
 		D05DB35D1E2EB95900DB150E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35C1E2EB95900DB150E /* IOKit.framework */; };
 		D05DB35F1E2EB96500DB150E /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35E1E2EB96500DB150E /* CoreVideo.framework */; };
@@ -33,15 +34,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D08058221E2E9B4800BA9384 /* CopyFiles */ = {
+		D08058221E2E9B4800BA9384 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				D041604C2163386300D1A926 /* lib in CopyFiles */,
-				12805B3C216214610078DCB1 /* textures in CopyFiles */,
+				D041604C2163386300D1A926 /* lib in Copy Files */,
+				12805B3C216214610078DCB1 /* textures in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -71,6 +73,8 @@
 		D0146C7C2160D77B003ACA39 /* texture2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = texture2.jpg; sourceTree = "<group>"; };
 		D0146C7D2160DB60003ACA39 /* texture3.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = texture3.bmp; sourceTree = "<group>"; };
 		D041604B2163386300D1A926 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = test/lib; sourceTree = "<group>"; };
+		D041604F2163421C00D1A926 /* freetype2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = freetype2; sourceTree = "<group>"; };
+		D04160502163457600D1A926 /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libfreetype.6.dylib; sourceTree = "<group>"; };
 		D05DB35A1E2EB92500DB150E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D05DB35C1E2EB95900DB150E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		D05DB35E1E2EB96500DB150E /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -103,6 +107,7 @@
 			files = (
 				125203AA21621A6D00ABF751 /* libIL.dylib in Frameworks */,
 				125203AB21621A6D00ABF751 /* libILU.dylib in Frameworks */,
+				D04160512163457600D1A926 /* libfreetype.6.dylib in Frameworks */,
 				125203AC21621A6D00ABF751 /* libILUT.dylib in Frameworks */,
 				D05DB35F1E2EB96500DB150E /* CoreVideo.framework in Frameworks */,
 				D05DB35D1E2EB95900DB150E /* IOKit.framework in Frameworks */,
@@ -149,6 +154,7 @@
 		D0146C662160BBD6003ACA39 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				D041604F2163421C00D1A926 /* freetype2 */,
 				12805B3321620FDA0078DCB1 /* GLFW */,
 				12805B2D21620F2B0078DCB1 /* GL */,
 				D0146C712160CC85003ACA39 /* IL */,
@@ -159,6 +165,7 @@
 		D0146C6F2160C655003ACA39 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				D04160502163457600D1A926 /* libfreetype.6.dylib */,
 				12805B36216210280078DCB1 /* libglfw.3.2.dylib */,
 				12805B3121620F950078DCB1 /* libGLEW.2.1.0.dylib */,
 				D0146C772160CD01003ACA39 /* libIL.dylib */,
@@ -259,7 +266,7 @@
 			buildPhases = (
 				D08058201E2E9B4800BA9384 /* Sources */,
 				D08058211E2E9B4800BA9384 /* Frameworks */,
-				D08058221E2E9B4800BA9384 /* CopyFiles */,
+				D08058221E2E9B4800BA9384 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -420,6 +427,7 @@
 					/usr/local/Cellar/glew/2.0.0/include,
 					/usr/local/Cellar/glm/0.9.9.2/include,
 					"$(PROJECT_DIR)/test/include",
+					"$(PROJECT_DIR)/test/include/freetype2",
 				);
 				LD_RUNPATH_SEARCH_PATHS = "$(PROJECT_DIR)/test/lib ${executable_path/";
 				LIBRARY_SEARCH_PATHS = (
@@ -443,6 +451,7 @@
 					/usr/local/Cellar/glew/2.0.0/include,
 					/usr/local/Cellar/glm/0.9.9.2/include,
 					"$(PROJECT_DIR)/test/include",
+					"$(PROJECT_DIR)/test/include/freetype2",
 				);
 				LD_RUNPATH_SEARCH_PATHS = "$(PROJECT_DIR)/test/lib ${executable_path/";
 				LIBRARY_SEARCH_PATHS = (

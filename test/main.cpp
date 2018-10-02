@@ -17,15 +17,18 @@
 
 #include "Window.hpp"
 #include "TextureLoader.hpp"
-#include "Triangle.hpp"
-#include "Square.hpp"
-#include "Cube.hpp"
 #include "World.hpp"
 #include "Stage1.hpp"
 #include "Controls.cpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include <ft2build.h>
+#include <freetype/freetype.h>
+#include <freetype/ftglyph.h>
+#include <freetype/ftoutln.h>
+#include <freetype/fttrigon.h>
 
 #include <IL/il.h>
 #include <IL/ilu.h>
@@ -309,8 +312,17 @@ GLuint loadShaders()
 
 int main(int argc, char * argv[]) {
     
-    bool fullscreen = true;
+    bool fullscreen = false;
     windowWrapper = new Window(fullscreen);
+    
+    FT_Library ft;
+    if(FT_Init_FreeType(&ft)) {
+        fprintf(stderr, "Could not init freetype library\n");
+        return 1;
+    }
+    else {
+        std::cout << "Freetype loaded" << std::endl;
+    }
     
     const char* filename = "textures/texture3.bmp";
     TextureLoader* loader = new TextureLoader();
@@ -330,7 +342,6 @@ int main(int argc, char * argv[]) {
         });
     }
     
-   
     Object3D** primitives = world->getPrimitives();
     int primitivesSize = world->getNumberOfPrimitives();
     std::cout << "polygons: " << primitivesSize << std::endl;

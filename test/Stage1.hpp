@@ -10,19 +10,29 @@
 #define Stage1_hpp
 
 #include <stdio.h>
+
 #include "World.hpp"
+#include "Window.hpp"
 #include "Square.hpp"
 #include "Cube.hpp"
 #include "Object3D.hpp"
 #include "Controls.hpp"
+#include "TypeWriter.hpp"
 
 class Stage1
 {
     World* world;
+    Window* window;
+    Controls* controls;
     Object3D* rotatedObject;
+    TypeWriter* typewriter;
 public:
-    Stage1(World* world, Controls* controls)
+    Stage1(World* world, Controls* controls,Window* window)
     {
+        const char* font = "fonts/OpenSans-Regular.ttf";
+        typewriter = new TypeWriter(font,20,window->getWidth(),window->getHeight());
+        
+        this->controls = controls;
         this->world = world;
         world->rotateY(-90);
         controls->updateWorldRotation();
@@ -140,11 +150,25 @@ public:
         //    world->addObject(leftWall);
     }
     
-    void process(double timer)
+    void process(int fps)
     {
+        typewriter->clear();
+        typewriter->printLine("FPS: " + std::to_string(fps));
+//        typewriter->printLine("Position x: " + std::to_string((float)world->cameraPos.x) + ", y: "  + std::to_string(world->cameraPos.y) + ", z: "  + std::to_string(world->cameraPos.z));
+//        typewriter->printLine("Rotation x: " + std::to_string(world->getRotationX()) + ", y: "  + std::to_string(world->getRotationY()) + ", z: "  + std::to_string(world->getRotationZ()));
+    }
+    
+    void beforeProcessing(double timer,int fps)
+    {
+        controls->process(timer);
         int step = 1;
         rotatedObject->rotateX(step*timer*100);
         rotatedObject->rotateY(step*timer*100);
+    }
+    
+    World* getWorld()
+    {
+        return world;
     }
 };
 #endif /* Stage1_hpp */

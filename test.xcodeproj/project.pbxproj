@@ -17,6 +17,8 @@
 		12805B3C216214610078DCB1 /* textures in Copy Files */ = {isa = PBXBuildFile; fileRef = 12805B3B216214610078DCB1 /* textures */; };
 		12AFFE40216363BB001DA0A7 /* fonts in Copy Files */ = {isa = PBXBuildFile; fileRef = 12AFFE3F216363BB001DA0A7 /* fonts */; };
 		12AFFE44216386C5001DA0A7 /* TypeWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12AFFE42216386C5001DA0A7 /* TypeWriter.cpp */; };
+		12AFFE472163963D001DA0A7 /* WorldPrinter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12AFFE452163963D001DA0A7 /* WorldPrinter.cpp */; };
+		12AFFE4A2163965D001DA0A7 /* GameCycle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12AFFE482163965D001DA0A7 /* GameCycle.cpp */; };
 		12E221E62162607E00539E22 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12E221E42162607E00539E22 /* Window.cpp */; };
 		D041604C2163386300D1A926 /* lib in Copy Files */ = {isa = PBXBuildFile; fileRef = D041604B2163386300D1A926 /* lib */; };
 		D04160512163457600D1A926 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D04160502163457600D1A926 /* libfreetype.6.dylib */; };
@@ -68,6 +70,10 @@
 		12AFFE41216363E2001DA0A7 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		12AFFE42216386C5001DA0A7 /* TypeWriter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TypeWriter.cpp; sourceTree = "<group>"; };
 		12AFFE43216386C5001DA0A7 /* TypeWriter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TypeWriter.hpp; sourceTree = "<group>"; };
+		12AFFE452163963D001DA0A7 /* WorldPrinter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WorldPrinter.cpp; sourceTree = "<group>"; };
+		12AFFE462163963D001DA0A7 /* WorldPrinter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WorldPrinter.hpp; sourceTree = "<group>"; };
+		12AFFE482163965D001DA0A7 /* GameCycle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameCycle.cpp; sourceTree = "<group>"; };
+		12AFFE492163965D001DA0A7 /* GameCycle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameCycle.hpp; sourceTree = "<group>"; };
 		12E221E42162607E00539E22 /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		12E221E52162607E00539E22 /* Window.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 		D0146C722160CCBC003ACA39 /* il.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = il.h; sourceTree = "<group>"; };
@@ -272,6 +278,10 @@
 				12E221E52162607E00539E22 /* Window.hpp */,
 				12AFFE42216386C5001DA0A7 /* TypeWriter.cpp */,
 				12AFFE43216386C5001DA0A7 /* TypeWriter.hpp */,
+				12AFFE452163963D001DA0A7 /* WorldPrinter.cpp */,
+				12AFFE462163963D001DA0A7 /* WorldPrinter.hpp */,
+				12AFFE482163965D001DA0A7 /* GameCycle.cpp */,
+				12AFFE492163965D001DA0A7 /* GameCycle.hpp */,
 			);
 			name = classes;
 			sourceTree = "<group>";
@@ -338,6 +348,8 @@
 				D0BD669A2159426700E332F5 /* Controls.cpp in Sources */,
 				D0BD66902157FE6C00E332F5 /* Color.cpp in Sources */,
 				12AFFE44216386C5001DA0A7 /* TypeWriter.cpp in Sources */,
+				12AFFE472163963D001DA0A7 /* WorldPrinter.cpp in Sources */,
+				12AFFE4A2163965D001DA0A7 /* GameCycle.cpp in Sources */,
 				D0BD669621593A8A00E332F5 /* World.cpp in Sources */,
 				D0E988F91F6D1DF4002EAABD /* Point.cpp in Sources */,
 				D0BD66932158138000E332F5 /* Cube.cpp in Sources */,

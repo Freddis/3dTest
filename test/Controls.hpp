@@ -9,10 +9,14 @@
 #ifndef Controls_hpp
 #define Controls_hpp
 
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
+#include <OpenGL/gl3.h>
+
 #include <stdio.h>
 #include <iostream>
 #include "World.hpp"
-#include "GLFW/glfw3.h"
+
 
 class Controls
 {

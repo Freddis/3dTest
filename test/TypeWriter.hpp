@@ -11,8 +11,9 @@
 
 #include <stdio.h>
 #include <iostream>
-//#include "GL/glew.h"
-//#include "GLFW/glfw3.h"
+#include <sstream>
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
 #include <OpenGL/gl3.h>
 
 #include <ft2build.h>
@@ -28,9 +29,16 @@ class TypeWriter
     FT_Library ft;
     FT_Face face;
     GLint shaders;
+    int currentLine = 1;
+    int windowWidth;
+    int windowHeight;
+    int fontsize;
 public:
-    TypeWriter(const char* font, int size)
+    TypeWriter(const char* font, int size,int windowWidth, int windowHeight)
     {
+        this->windowWidth = windowWidth;
+        this->windowHeight = windowHeight;
+        fontsize = size;
        // FT_Library ft;
         if(FT_Init_FreeType(&ft)) {
             fprintf(stderr, "Could not init freetype library\n");
@@ -51,6 +59,23 @@ public:
         shaders = this->createShaders();
         
     }
+    void clear()
+    {
+        currentLine = 1;
+    }
+    
+    void printLine(std::string string)
+    {
+        float pixelSizeX = 2.0 / windowWidth;
+        float pixelSizeY = 2.0 / windowHeight;
+        float xoffset = 10*pixelSizeX;
+        float yoffset = 10*pixelSizeY + currentLine*fontsize*pixelSizeY;
+        float xcoord = -1 + xoffset;
+        float ycoord = 1 - yoffset;
+        const char* cstr = string.c_str();
+        print(cstr,xcoord,ycoord,pixelSizeX,pixelSizeY);
+        currentLine++;
+    }
     void print(const char *text, float x, float y, float sx, float sy) {
         GLuint tex;
         glActiveTexture(GL_TEXTURE0);
@@ -60,10 +85,10 @@ public:
         glUseProgram(shaders);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        //
+        
         
         // make and bind the VAO
         glGenVertexArrays(1, &gVAO);
@@ -72,7 +97,7 @@ public:
         glGenBuffers(1, &gVBO);
         glBindBuffer(GL_ARRAY_BUFFER, gVBO);
         // Put the three triangle verticies into the VBO
-        
+
         //        GLfloat vertexes[16] = {
         //                        -0.8,-0.8 , 0, 0,
         //                        -0.8,0.8 , 1, 0,
@@ -83,31 +108,25 @@ public:
         //        glBufferData(GL_ARRAY_BUFFER,vertexSize,vertexes, GL_STATIC_DRAW);
         //delete[] vertexes;
         // connect the xyz to the "vert" attribute of the vertex shader
-        
+
         glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,4 * sizeof(GLfloat), 0);
         glEnableVertexAttribArray(0);
         //        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,4 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
         //        glEnableVertexAttribArray(1);
         // unbind the VBO and VAO
-        
+
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         //        glClearColor(0.5, 0.5, 0.5, 0.5);
         //        glClear(GL_COLOR_BUFFER_BIT);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        
+//        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
         GLint fontColor = glGetUniformLocation(shaders, "fontcolor");
         GLfloat color[4] = {1, 1, 1, 1};
         glUniform4fv(fontColor, 1, color);
-//        float sx = 2.0 / windowWrapper->getWidth();
-//        float sy = 2.0 / windowWrapper->getHeight();
-//        // glDrawArrays(GL_TRIANGLES, 0, 3);
-//
-//
-//        std::string str = "FPS: " + std::to_string(fps);
-//        const char* text =  str.c_str();
-        printText(text, -1 + 8 * sx,   1 - 50 * sy,    sx, sy);
+        printText(text,x,y,sx,sy);
+
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
         glDeleteVertexArrays(1, &gVAO);
@@ -145,15 +164,8 @@ protected:
                 {x2 + w, -y2 - h, 1, 1},
             };
             
-            //        GLfloat box[4][4] = {
-            //            {-0.8,-0.8 , 0, 0},
-            //            {-0.8,0.8 , 1, 0},
-            //            {0.8,-0.8, 0, 1},
-            //            {0.8,0.8, 1, 1},
-            //        };
-            
             glBufferData(GL_ARRAY_BUFFER, sizeof box, box, GL_DYNAMIC_DRAW);
-            
+
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
             
             x += (g->advance.x/64) * sx;
@@ -195,11 +207,11 @@ protected:
         "uniform vec4 fontcolor;"
         "out vec4 color;"
         "void main(void) {"
-        //        "gl_FragColor = vec4(1, 1, 1, texture2D(tex, texcoord).r) * color;"
-        //        "color = texture(tex, texcoord); "
-        //        "color = vec4(1.0f,1.0f,1.0f,1.0f);"
-        //        "color = vec4(1, 1, 1, texture(tex, texcoord).r) * vec4(1.0f,1.0f,1.0f,1.0f);"
-        "color = vec4(1, 1, 1, texture(tex, texcoord).r) * fontcolor;"
+//            "gl_FragColor = vec4(1, 1, 1, texture2D(tex, texcoord).r) * color;"
+//            "color = vec4(1.0f,1.0f,1.0f,1.0f);"
+//            "color = texture(tex, texcoord); "
+//            "color = vec4(1, 1, 1, texture(tex, texcoord).r) * vec4(1.0f,1.0f,1.0f,1.0f);"
+            "color = vec4(1, 1, 1, texture(tex, texcoord).r) * fontcolor;"
         
         "}";
         
@@ -233,7 +245,7 @@ protected:
         //    Unif_color = glGetUniformLocation(shaderProgram, unif_name);
         //    if(Unif_color == -1) { std::cout << "could not bind uniform " << unif_name << std::endl; return 0; }
         
-        glUseProgram(shaderProgram);
+//        glUseProgram(shaderProgram);
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
         return shaderProgram;

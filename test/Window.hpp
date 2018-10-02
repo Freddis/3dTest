@@ -56,7 +56,10 @@ public:
             window = glfwCreateWindow(screenWidth, screenHeight,title,monitor, NULL);
         }
         else {
-            window = glfwCreateWindow((int)screenWidth/2, (int)screenHeight/2, title, NULL, NULL);
+            screenWidth = (int)screenWidth/2;
+            screenHeight = (int)screenHeight/2;
+            window = glfwCreateWindow(screenWidth,screenHeight, title, NULL, NULL);
+            
         }
         if (!window)
         {

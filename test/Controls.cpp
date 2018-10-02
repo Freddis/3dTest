@@ -7,3 +7,4 @@
 //
 
 #include "Controls.hpp"
+Controls* Controls::primaryControls;

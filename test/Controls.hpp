@@ -21,6 +21,8 @@
 class Controls
 {
     World* world;
+    GLFWwindow *window;
+    bool mouseEnabled = true;
     float movementDegree = 1;
     float movementLength = 0.01;
     double mouseX;
@@ -46,15 +48,43 @@ class Controls
     bool n = false;
     
 public:
+    static Controls* primaryControls;
     Controls(World* world, GLFWwindow *window)
     {
         this->world = world;
+        this->window = window;
         glfwGetCursorPos(window, &this->prevMouseX, &this->prevMouseY);
         
     }
-    
+    void disableMouse()
+    {
+        mouseEnabled = false;
+    }
+    void enableMouse()
+    {
+        mouseEnabled = true;
+    }
+    void activate()
+    {
+        Controls* prevValue = Controls::primaryControls;
+        Controls::primaryControls = this;
+        if(prevValue != NULL)
+        {
+            return;
+        }
+        glfwSetKeyCallback(window,[](GLFWwindow* window, int key, int scancode, int action, int mods) -> void {
+            Controls::primaryControls->processKeyCallBack(window, key, scancode, action, mods);
+        });
+        glfwSetCursorPosCallback(window,[](GLFWwindow* window ,double x,double y){
+            Controls::primaryControls->processCursorPosition(window, x, y);
+        });
+    }
     void processCursorPosition(GLFWwindow* window ,double x,double y)
     {
+        if(!this->mouseEnabled)
+        {
+            return;
+        }
        // std:: cout << "x: " << x << ", y: " << y << std::endl;
         float xoffset = x - prevMouseX;
         float yoffset = prevMouseY - y;
@@ -71,10 +101,6 @@ public:
         }
         world->rotateX(yoffset);
         world->rotateY(xoffset);
-//        if(world->getRotationY() < 90)
-//        {
-//            world->rotateY(xoffset);
-//        }
        // std:: cout << "rotation x: " << world->getRotationX() << ", rotation y: " << world->getRotationY() << std::endl;
         updateWorldRotation();
     }

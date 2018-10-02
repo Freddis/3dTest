@@ -19,6 +19,7 @@
 #include "Controls.hpp"
 #include "TypeWriter.hpp"
 
+
 class Stage1
 {
     World* world;
@@ -27,13 +28,20 @@ class Stage1
     Object3D* rotatedObject;
     TypeWriter* typewriter;
 public:
-    Stage1(World* world, Controls* controls,Window* window)
+    
+    Stage1(World* world,Window* window)
     {
         const char* font = "fonts/OpenSans-Regular.ttf";
         typewriter = new TypeWriter(font,20,window->getWidth(),window->getHeight());
         
-        this->controls = controls;
         this->world = world;
+        this->controls = new Controls(this->world,window->getWindow());
+        this->controls->activate();
+        if(!window->isFullscreen())
+        {
+            this->controls->disableMouse();
+        }
+        
         world->rotateY(-90);
         controls->updateWorldRotation();
         
@@ -45,7 +53,6 @@ public:
         cube->moveZ(0.2);
         cube->moveX(-0.07);
         world->addObject(cube);
-        
         
         
         Cube* cube2 = new Cube(0.05);
@@ -157,7 +164,7 @@ public:
 //        typewriter->printLine("Position x: " + std::to_string((float)world->cameraPos.x) + ", y: "  + std::to_string(world->cameraPos.y) + ", z: "  + std::to_string(world->cameraPos.z));
 //        typewriter->printLine("Rotation x: " + std::to_string(world->getRotationX()) + ", y: "  + std::to_string(world->getRotationY()) + ", z: "  + std::to_string(world->getRotationZ()));
     }
-    
+
     void beforeProcessing(double timer,int fps)
     {
         controls->process(timer);

@@ -31,6 +31,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "Controls::processKeyCallBack(GLFWwindow*, int, int, int, int):Controls.hpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "Controls::primaryControls">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "Triangle::getVertexArray():Triangle.hpp">
          <PersistentStrings>
             <PersistentString

@@ -327,6 +327,7 @@ protected:
             }
             textures[i] = texture;
         }
+        delete[] objects;
     }
 };
 #endif /* WorldPrinter_hpp */

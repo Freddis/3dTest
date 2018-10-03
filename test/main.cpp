@@ -12,12 +12,12 @@
 
 #include "Window.hpp"
 #include "World.hpp"
-#include "Stage1.hpp"
 #include "GameCycle.hpp"
+#include "Stage1.hpp";
 
 int main(int argc, char * argv[]) {
     
-    bool fullscreen = false;
+    bool fullscreen = true;
     Window* windowWrapper = new Window(fullscreen);
     World* world = new World();
     Stage1* stage = new Stage1(world,windowWrapper);

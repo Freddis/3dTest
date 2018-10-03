@@ -30,6 +30,7 @@ class WorldPrinter
     TextureLoader* loader;
     GLuint defaultTexture;
     GLuint shaderColorUniform;
+    GLuint shaderTextureScaleUniform;
     GLuint textures[1000] = {};
     std::map<std::string,GLuint> loadedTextures;
     
@@ -202,10 +203,12 @@ protected:
                     converted[3] = 1;
                 }
                 float* myColor  = converted;
-                
                 // std::cout << "r:" << myColor[0] << ", g:" << myColor[1] << ", b:" << myColor[2] << std::endl;
                 // ! Передаем юниформ в шейдер
                 glUniform4fv(shaderColorUniform, 1,myColor);
+                
+                float scale = obj->getTextureScale();
+                glUniform1f(shaderTextureScaleUniform,scale);
                 
                 // draw the VAO
                 int vertexes = obj->getNumberOfPoints();
@@ -260,11 +263,12 @@ protected:
         "out vec4 color;"
         "uniform vec4 mycolor;"
         "uniform sampler2D ourTexture;"
+        "uniform float scale;"
         "void main()"
         "{"
         //"color =  vec4(1.0f,1.0f,1.0f,1.0f);"
         //"color = vec4(mycolor, 1.0f);"
-        "color = texture(ourTexture, TexCoord) * mycolor; "
+        "color = texture(ourTexture, TexCoord*scale) * mycolor; "
         "}";
         
         GLuint fragmentShader;
@@ -293,9 +297,17 @@ protected:
             std::cout << "ERROR::SHADER::PROGRAMM::COMPILATION_FAILED\n" << infoLog << std::endl;
             return 0;
         }
-        const char* unif_name = "mycolor";
-        shaderColorUniform = glGetUniformLocation(shaderProgram, unif_name);
-        if(shaderColorUniform == -1) { std::cout << "could not bind uniform " << unif_name << std::endl; return 0; }
+        shaderColorUniform = glGetUniformLocation(shaderProgram, "mycolor");
+        if(shaderColorUniform == -1) {
+            std::cout << "could not bind uniform for color" << std::endl;
+            return 0;
+        }
+        shaderTextureScaleUniform = glGetUniformLocation(shaderProgram, "scale");
+        if(shaderTextureScaleUniform == -1) {
+            std::cout << "could not bind uniform for texture scale " << std::endl;
+            //return 0;
+            
+        }
         
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);

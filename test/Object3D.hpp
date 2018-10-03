@@ -28,6 +28,7 @@ protected:
     float worldZ = 0;
     int rotationX  = 0;
     std::string texture;
+    float textureScale = 1;
 public:
     
     virtual GLfloat* getWorldVertexes(){
@@ -213,6 +214,11 @@ public:
     }
     void setTexture(const char* path)
     {
+        setTexture(path,1);
+    }
+    void setTexture(const char* path, float scale)
+    {
+        this->textureScale = scale;
         this->texture = path;
         int size;
         Object3D** primitives = this->getPrimitives(&size);
@@ -222,13 +228,17 @@ public:
         }
         for(int i =0; i < size; i++)
         {
-            primitives[i]->setTexture(path);
+            primitives[i]->setTexture(path,scale);
         }
         delete[] primitives;
     }
     const std::string getTextureName()
     {
         return texture;
+    }
+    float getTextureScale()
+    {
+        return textureScale;
     }
 };
 

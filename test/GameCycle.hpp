@@ -42,11 +42,11 @@ public:
         double frameStart = glfwGetTime();
         while (!glfwWindowShouldClose(windowWrapper->getWindow()))
         {
-            currentStage->beforeProcessing(passed,fps);
+            currentStage->beforeProcessing(passed);
             glClearColor(0.5, 0.5, 0.5, 1);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             printer->draw(currentStage->getWorld(),windowWrapper->getWidth(),windowWrapper->getHeight());
-            currentStage->process(fps);
+            currentStage->process(this);
             glfwWaitEventsTimeout(1/3000);
             
             //end of the iteration

@@ -3,6 +3,14 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "WorldPrinter::loadTextures(World*):WorldPrinter.hpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "object-&gt;getTextureName()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "TypeWriter::printLine(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;):TypeWriter.hpp">
          <PersistentStrings>
             <PersistentString

@@ -52,6 +52,7 @@ public:
         rotatedObject = cube;
         cube->moveZ(0.2);
         cube->moveX(-0.07);
+        cube->setTexture("textures/texture1.jpg");
         world->addObject(cube);
         
         
@@ -77,6 +78,7 @@ public:
         delete[] prims;
         //
         Square* floor = new Square(15.5);
+        floor->setTexture("textures/texture3.bmp");
         floor->setColor(Color::getWhite());
         floor->moveX(0.0);
         //floor->moveZ(-0.2);

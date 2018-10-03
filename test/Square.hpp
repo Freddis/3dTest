@@ -119,6 +119,7 @@ public:
         copy->moveX(this->getX());
         copy->moveY(this->getY());
         copy->moveZ(this->getZ());
+        copy->setTexture(this->getTextureName().c_str());
         return copy;
     }
     

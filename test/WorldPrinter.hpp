@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <map>
 
 #include "World.hpp"
 #include "Object3D.hpp"
@@ -26,23 +27,28 @@ class WorldPrinter
     GLuint gVBO = 0;
     GLuint gEBO = 0;
     GLint shaderProgram;
-    GLuint texture;
+    TextureLoader* loader;
+    GLuint defaultTexture;
     GLuint shaderColorUniform;
+    GLuint textures[1000] = {};
+    std::map<std::string,GLuint> loadedTextures;
+    
 public:
     WorldPrinter()
     {
         shaderProgram = loadShaders();
-        const char* filename = "textures/texture3.bmp";
-        TextureLoader* loader = new TextureLoader();
-        GLuint texture = loader->loadWithDevil(filename);
-        this->texture = texture;
+        loader = new TextureLoader();
+        defaultTexture = loader->loadWithDevil("textures/white.png");
     }
+    
     void draw(World* world,int windowWidth, int windowHeight)
     {
         glUseProgram(shaderProgram);
+        loadTextures(world);
         loadObjects(world,windowWidth,windowHeight);
         render(world);
     }
+protected:
     void loadObjects(World* world,int windowWidth, int windowHeight)
     {
         
@@ -176,17 +182,25 @@ public:
             //glDepthFunc(GL_LESS);
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            //glEnable(GL_CULL_FACE);
-//            glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-            glBindTexture(GL_TEXTURE_2D, texture);
+        
             glBindVertexArray(gVAO);
             // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             int offset = 0;
             for(int i =0; i < size; i++)
             {
+                glBindTexture(GL_TEXTURE_2D, textures[i]);
                 Object3D* obj = objects[i];
                 Color* color = obj->getColor();
                 float converted[4] = {color->r,color->g,color->b,color->a};
+                
+                //Если есть текстура, то цвет не используем
+                if(textures[i] != defaultTexture)
+                {
+                    converted[0] = 1;
+                    converted[1] = 1;
+                    converted[2] = 1;
+                    converted[3] = 1;
+                }
                 float* myColor  = converted;
                 
                 // std::cout << "r:" << myColor[0] << ", g:" << myColor[1] << ", b:" << myColor[2] << std::endl;
@@ -286,6 +300,33 @@ public:
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
         return shaderProgram;
+    }
+    void loadTextures(World* world)
+    {
+        auto size = world->getNumberOfPrimitives();
+        auto objects = world->getPrimitives();
+        for(int i = 0; i < size; i++)
+        {
+            auto object = objects[i];
+            if(object->getTextureName().empty())
+            {
+                textures[i] = defaultTexture;
+                continue;
+            }
+            auto iterator = loadedTextures.find(object->getTextureName());
+            bool notLoaded = iterator == loadedTextures.end();
+            GLuint texture;
+            if(notLoaded)
+            {
+                texture = loader->loadWithDevil(object->getTextureName().c_str());
+                std::pair<std::string,GLuint> pair(object->getTextureName(),texture);
+                loadedTextures.insert(pair);
+            }
+            else {
+                texture = loadedTextures.at(object->getTextureName());
+            }
+            textures[i] = texture;
+        }
     }
 };
 #endif /* WorldPrinter_hpp */

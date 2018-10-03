@@ -10,6 +10,8 @@
 #define Object3D_hpp
 
 #include <stdio.h>
+#include <iostream>
+
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include <OpenGL/gl3.h>
@@ -25,6 +27,7 @@ protected:
     float worldY = 0;
     float worldZ = 0;
     int rotationX  = 0;
+    std::string texture;
 public:
     
     virtual GLfloat* getWorldVertexes(){
@@ -100,6 +103,7 @@ public:
         {
             primitives[i]->setColor(color);
         }
+        delete[] primitives;
     }
     virtual Object3D** getPrimitives(int *size){
         primitives[0] = this;
@@ -206,6 +210,25 @@ public:
     float getY()
     {
         return worldY;
+    }
+    void setTexture(const char* path)
+    {
+        this->texture = path;
+        int size;
+        Object3D** primitives = this->getPrimitives(&size);
+        if(this->getNumberOfPrimitives() <= 1)
+        {
+            return;
+        }
+        for(int i =0; i < size; i++)
+        {
+            primitives[i]->setTexture(path);
+        }
+        delete[] primitives;
+    }
+    const std::string getTextureName()
+    {
+        return texture;
     }
 };
 

@@ -74,6 +74,7 @@
 		12AFFE462163963D001DA0A7 /* WorldPrinter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WorldPrinter.hpp; sourceTree = "<group>"; };
 		12AFFE482163965D001DA0A7 /* GameCycle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameCycle.cpp; sourceTree = "<group>"; };
 		12AFFE492163965D001DA0A7 /* GameCycle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameCycle.hpp; sourceTree = "<group>"; };
+		12CB0A332164B96D00FCD503 /* white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white.png; sourceTree = "<group>"; };
 		12E221E42162607E00539E22 /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		12E221E52162607E00539E22 /* Window.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 		D0146C722160CCBC003ACA39 /* il.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = il.h; sourceTree = "<group>"; };
@@ -164,6 +165,7 @@
 		D0146C622160B999003ACA39 /* textures */ = {
 			isa = PBXGroup;
 			children = (
+				12CB0A332164B96D00FCD503 /* white.png */,
 				D0146C7D2160DB60003ACA39 /* texture3.bmp */,
 				D0146C7C2160D77B003ACA39 /* texture2.jpg */,
 				D0146C7B2160CE52003ACA39 /* texture1.jpg */,

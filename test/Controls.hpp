@@ -14,40 +14,22 @@
 #include <OpenGL/gl3.h>
 
 #include <stdio.h>
+#include <math.h>
 #include <iostream>
 #include "World.hpp"
+#include "Object3D.hpp"
 
 
 class Controls
 {
+    
+protected:
     World* world;
     GLFWwindow *window;
     bool mouseEnabled = true;
-    float movementDegree = 1;
-    float movementLength = 0.01;
-    double mouseX;
-    double mouseY;
+public:
     double prevMouseX;
     double prevMouseY;
-    float mouseSensivity;
-    
-    bool left = false;
-    bool right = false;
-    bool up = false;
-    bool down = false;
-    bool q = false;
-    bool w = false;
-    bool a = false;
-    bool s = false;
-    bool d = false;
-    bool z = false;
-    bool x = false;
-    bool c = false;
-    bool v = false;
-    bool b = false;
-    bool n = false;
-    
-public:
     static Controls* primaryControls;
     Controls(World* world, GLFWwindow *window)
     {
@@ -79,221 +61,55 @@ public:
             Controls::primaryControls->processCursorPosition(window, x, y);
         });
     }
-    void processCursorPosition(GLFWwindow* window ,double x,double y)
+    void focusOn(hs::Point* sourceP,Object3D* target)
     {
-        if(!this->mouseEnabled)
-        {
-            return;
-        }
-       // std:: cout << "x: " << x << ", y: " << y << std::endl;
-        float xoffset = x - prevMouseX;
-        float yoffset = prevMouseY - y;
-        prevMouseX = x;
-        prevMouseY = y;
+        hs::Point targetP(target->getX(),target->getY(),target->getZ());
+        focusOn(sourceP,&targetP);
+    }
+    void focusOn(Object3D* source,Object3D* target)
+    {
+        hs::Point targetP(target->getX(),target->getY(),target->getZ());
+        hs::Point sourceP(source->getX(),source->getY(),source->getZ());
+        focusOn(&sourceP,&targetP);
+    }
+    void focusOn(hs::Point* object, hs::Point* target)
+    {
+        //                view = glm::lookAt(world->cameraPos, world->cameraPos + world->cameraFront, world->cameraUp);
+        //        return;
         
-        GLfloat sensitivity = 0.1;
-        xoffset *= sensitivity;
-        yoffset *= sensitivity;
+        world->cameraPos.x = object->getX();
+        world->cameraPos.y = object->getY();
+        world->cameraPos.z = object->getZ();
+        //        world->cameraFront.x = -1;
+        //        world->cameraFront.y = 1;
+        //        world->cameraFront.z = -1
+        world->cameraFront.x = target->getX() + 0.001;
+        world->cameraFront.y = target->getY() + 0.001;
+        world->cameraFront.z = target->getZ() + 0.001;
         
-        if((world->getRotationX()+yoffset > 90 && yoffset > 0 )|| (world->getRotationX()+yoffset <= -90 && yoffset < 0))
-        {
-            yoffset = 0;
-        }
-        world->rotateX(yoffset);
-        world->rotateY(xoffset);
-       // std:: cout << "rotation x: " << world->getRotationX() << ", rotation y: " << world->getRotationY() << std::endl;
-        updateWorldRotation();
-    }
-    void processKeyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods)
-    {
-        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        {
-            glfwSetWindowShouldClose(window, GL_TRUE);
-        }
-       // std::cout << "Key: " << key << ", action: " << action << "\n";
-        processArrows(key,action);
-    }
-    void updateWorldRotation()
-    {
-        float pitch = world->getRotationX();
-        float yaw = world->getRotationY();
-        world->cameraFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-        world->cameraFront.y = sin(glm::radians(pitch));
-        world->cameraFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-        world->cameraFront = glm::normalize(world->cameraFront);
+        world->cameraFront = glm::normalize(world->cameraFront);;
+        hs::Point delta(world->cameraFront.x,world->cameraFront.y, world->cameraFront.z);
         
-    }
-    void process(double timepassed)
-    {
-        //std::cout << "timer: " << timepassed << std::endl;
-        float timer = timepassed*100;
-        if(up)
-        {
-        if(world->getRotationX() < 90)
-        {
-            world->rotateX(1*timer);
-           // std::cout << "Rotation X: " << world->getRotationX() << std::endl;
-            updateWorldRotation();
-        }
-           // moveUp();
-        }
-        if(down)
-        {
-            if(world->getRotationX() > -90)
-            {
-              world->rotateX(-1*timer);
-            //  std::cout << "Rotation X: " << world->getRotationX() << std::endl;
-            }
-            updateWorldRotation();
-        }
-        if(left)
-        {
         
-                world->rotateY(-1*timer);
-            //    std::cout << "Rotation Y: " << world->getRotationY() << std::endl;
-                updateWorldRotation();
-          
-        }
-        if(right)
-        {
-           
-                world->rotateY(1*timer);
-           //     std::cout << "Rotation Y: " << world->getRotationY() << std::endl;
-                updateWorldRotation();
-            
-        }
+        int axisDeltaX = 0;
+        float tanX = delta.z / delta.x;
+        float radX = std::atan(tanX);
+        float degreeX = radX*180/M_PI;
+        //Тут мы поворачиваем, так как тангенс повторяет значения в этой четверти
+        axisDeltaX = delta.x < 0 ? -180 : 0;
+        world->rotateY(-1*world->getRotationY() + axisDeltaX+degreeX);
         
-        if(w)
-        {
-//             world->moveZ(movementLength);
-//             std::cout << "z: " << world->getZ() << std::endl;
-            world->cameraPos += movementLength*timer * world->cameraFront;
-        }
-        if(s)
-        {
-            // world->moveZ(-movementLength);
-            // std::cout << "z: " << world->getZ() << std::endl;
-            world->cameraPos -= movementLength*timer * world->cameraFront;
-        }
-        if(a)
-        {
-            world->cameraPos -= glm::normalize(glm::cross(world->cameraFront, world->cameraUp)) * movementLength*timer;
-        }
-        if(d)
-        {
-            world->cameraPos += glm::normalize(glm::cross(world->cameraFront, world->cameraUp)) * movementLength*timer;
-        }
-        if(z)
-        {
-            world->setFov(world->getFov() - movementDegree*timer);
-            std::cout << "fov: " << world->getFov() << std::endl;
-        }
-        if(x)
-        {
-            world->setFov(world->getFov() + movementDegree*timer);
-            std::cout << "fov: " << world->getFov() << std::endl;
-        }
-        if(b)
-        {
-            world->setFarPane(world->getFarPane() + timer);
-            std::cout << "Far pane: " << world->getFarPane() << std::endl;
-        }
-        if(n)
-        {
-            world->setFarPane(world->getFarPane() - timer);
-            std::cout << "Far Pane: " << world->getFarPane()<< std::endl;
-        }
-        if(c)
-        {
-            world->setNearPane(world->getNearPane() + 0.01*timer);
-            std::cout << "Near pane: " << world->getNearPane() << std::endl;
-        }
-        if(v)
-        {
-            world->setNearPane(world->getNearPane() - 0.01*timer);
-            std::cout << "Near Pane: " << world->getNearPane() << std::endl;
-        }
-
-    }
-    
-protected:
-    void processArrows(int keyCode, int action)
-    {
-        int arrows[] = {GLFW_KEY_RIGHT,GLFW_KEY_LEFT,GLFW_KEY_UP, GLFW_KEY_DOWN };
         
-        bool inArray = std::find(arrows, std::end(arrows),keyCode);
-        bool value = action == 0 ? false : true;
-        if(inArray)
-        {
-            switch(keyCode)
-            {
-                case GLFW_KEY_LEFT :
-                    left = value;
-                    break;
-                case GLFW_KEY_RIGHT :
-                    right = value;
-                    break;
-                case GLFW_KEY_UP :
-                    up = value;
-                    break;
-                case GLFW_KEY_DOWN :
-                    down = value;
-                    break;
-                case GLFW_KEY_Q:
-                    q = value;
-                    break;
-                case GLFW_KEY_W:
-                    w = value;
-                    break;
-                case GLFW_KEY_A:
-                    a = value;
-                    break;
-                case GLFW_KEY_S:
-                    s = value;
-                    break;
-                case GLFW_KEY_D:
-                    d = value;
-                    break;
-                case GLFW_KEY_X:
-                    x = value;
-                    break;
-                case GLFW_KEY_Z:
-                    z = value;
-                    break;
-                case GLFW_KEY_C:
-                    c = value;
-                    break;
-                case GLFW_KEY_V:
-                    v = value;
-                    break;
-                case GLFW_KEY_B:
-                    b = value;
-                    break;
-                case GLFW_KEY_N:
-                    n = value;
-                    break;
-            }
-        }
-        
+        int axisRotationY = 1;
+        //В отличии от кручения по X. Вращение по Y использует все 3 координаты
+        //Это связано с длиной катета, который находится между осей, а не на оси
+        float tanY = delta.y / (sqrt(delta.x*delta.x + delta.z*delta.z));
+        float radY = std::atan(tanY);
+        float degreeY = radY*180/M_PI;
+        world->rotateX(-1*world->getRotationX() + degreeY);
     }
-    
-    void moveRight()
-    {
-     //   world->rotateY(+movementStep);
-        world->moveX(-movementLength);
-    }
-    void moveDown()
-    {
-        world->moveY(+movementLength);
-    }
-    void moveUp()
-    {
-        world->moveY(-movementLength);
-    }
-    void moveLeft()
-    {
-        //world->rotateY(-movementStep);
-        world->moveX(movementLength);
-    }
+    virtual void processCursorPosition(GLFWwindow* window ,double x,double y) = 0;
+    virtual void processKeyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods) = 0;
+    virtual void process(double timepassed) = 0;
 };
 #endif /* Controls_hpp */

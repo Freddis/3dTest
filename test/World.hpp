@@ -24,22 +24,29 @@ class World
     float y = 0;
     float z = 0;
     float rotationX = 0;
-    float rotationY = 0;
+    float rotationY = -90;
     float rotationZ = 0;
     float fov = 45;
     float nearPane = 0.02f;
     float farPane = 1000.0f;
    
 public:
-    glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  1.5f);
-    glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+    glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  0.0f);
+    glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f,  -1.0f);
     glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
     void addObject(Object3D* obj)
     {
         objects[objectCount] = obj;
         objectCount++;
     }
-    
+    Object3D** getObjects()
+    {
+        return objects;
+    }
+    int getNumberOfObjects()
+    {
+        return objectCount;
+    }
     Object3D** getPrimitives()
     {
         Object3D** primitives = new Object3D*[getNumberOfPrimitives()];

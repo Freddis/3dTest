@@ -10,27 +10,25 @@
 #define Stage1_hpp
 
 #include <stdio.h>
-//#include "GameCycle.hpp"
 #include "World.hpp"
 #include "Window.hpp"
 #include "Square.hpp"
 #include "Cube.hpp"
 #include "Object3D.hpp"
+#include "FreelookControls.hpp"
 #include "Controls.hpp"
 #include "TypeWriter.hpp"
-class GameCycle;
+#include "Stage.hpp"
 
-class Stage1
+class Stage1 : public Stage
 {
-    World* world;
-    Window* window;
     Controls* controls;
     Object3D* rotatedObject;
     TypeWriter* typewriter;
+    Cube* car;
 public:
     Stage1(World* world,Window* window);
     void process(GameCycle* cycle);
     void beforeProcessing(double timer);
-    World* getWorld();
 };
 #endif /* Stage1_hpp */

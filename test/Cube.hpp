@@ -66,6 +66,41 @@ public:
         this->back = back;
     }
     
+    Cube* copy()
+    {
+        auto cube = new Cube(front->getSideSize());
+        cube->moveX(getX());
+        cube->moveY(getY());
+        cube->moveZ(getZ());
+        cube->rotateX(getRotationX());
+        cube->rotateY(getRotationY());
+        cube->rotateZ(getRotationZ());
+        
+        int size;
+        auto thisPrims = this->getPrimitives(&size);
+        bool oneColor = this->getFront()->getColor() == this->getBack()->getColor();
+        if(oneColor)
+        {
+            cube->setColor(this->getColor()->copy());
+            return cube;
+        }
+        auto cubePrims = cube->getPrimitives(&size);
+        for(auto i =0; i < size; i++)
+        {
+            cubePrims[i]->setColor(thisPrims[i]->getColor()->copy());
+        }
+        delete[] thisPrims;
+        delete[] cubePrims;
+        return cube;
+    }
+    
+    virtual void setColor(Color* color)
+    {
+        Object3D::setColor(color);
+        this->getFront()->setColor(color);
+        this->getBack()->setColor(color);
+    }
+    
     Object3D** getPrimitives(int* size)
     {
         *size = 12;

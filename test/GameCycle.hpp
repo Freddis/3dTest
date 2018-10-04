@@ -14,18 +14,18 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include <OpenGL/gl3.h>
-#include "Stage1.hpp"
+#include "Stage.hpp"
 #include "Window.hpp"
 #include "WorldPrinter.hpp"
 
 class GameCycle
 {
-    Stage1* currentStage;
+    Stage* currentStage;
     Window* windowWrapper;
     WorldPrinter* printer;
     int fps;
 public:
-    GameCycle(Stage1* stage, Window* window)
+    GameCycle(Stage* stage, Window* window)
     {
         currentStage = stage;
         windowWrapper = window;

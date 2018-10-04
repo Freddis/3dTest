@@ -66,6 +66,18 @@ public:
         p->y = y;
         p->z = z;
     }
+    float getX()
+    {
+        return this->x;
+    }
+    float getY()
+    {
+        return this->y;
+    }
+    float getZ()
+    {
+        return this->z;
+    }
 };
 }
 #endif /* Point_hpp */

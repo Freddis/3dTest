@@ -7,26 +7,27 @@
 //
 
 #include "Stage1.hpp"
+#include "Point.hpp"
 #include "GameCycle.hpp"
 
-Stage1::Stage1(World* world,Window* window)
+
+Stage1::Stage1(World* world,Window* window) : Stage(world,window)
 {
     const char* font = "fonts/OpenSans-Regular.ttf";
     typewriter = new TypeWriter(font,20,window->getWidth(),window->getHeight());
     
-    this->world = world;
-    this->controls = new Controls(this->world,window->getWindow());
+    this->controls = new FreelookControls(world,window->getWindow());
     this->controls->activate();
     if(!window->isFullscreen())
     {
         this->controls->disableMouse();
     }
     
-    world->rotateY(-90);
-    controls->updateWorldRotation();
+//    controls->updateWorldRotation();
     
     //    Square* floor = new Square(0.5);
     //    world->addObject(floor);
+    
     
     Cube* cube = new Cube(0.05);
     rotatedObject = cube;
@@ -36,9 +37,10 @@ Stage1::Stage1(World* world,Window* window)
     world->addObject(cube);
     
     
-    Cube* cube2 = new Cube(0.05);
-    world->addObject(cube2);
-    //
+    car = new Cube(0.05);
+    car->setTexture("textures/texture1.jpg");
+    world->addObject(car);
+    
     Cube* cube3 = new Cube(0.2);
     cube3->moveX(0.3);
     cube3->moveY(0.5);
@@ -138,27 +140,37 @@ Stage1::Stage1(World* world,Window* window)
     leftWall->setColor(Color::getBlack());
     leftWall->moveX(-leftWall->getSideSize()-0.1);
     world->addObject(leftWall);
+    
+   // controls->focusOn(center);
 }
     
 void Stage1::process(GameCycle* cycle)
 {
+    auto world = getWorld();
     typewriter->clear();
     typewriter->printLine("FPS: " + std::to_string(cycle->getFPS()));
     typewriter->printLine("Polygons: " + std::to_string(world->getNumberOfPrimitives()));
     typewriter->printLine("Fov: " + std::to_string((int)world->getFov()));
-    //        typewriter->printLine("Position x: " + std::to_string((float)world->cameraPos.x) + ", y: "  + std::to_string(world->cameraPos.y) + ", z: "  + std::to_string(world->cameraPos.z));
-    //        typewriter->printLine("Rotation x: " + std::to_string(world->getRotationX()) + ", y: "  + std::to_string(world->getRotationY()) + ", z: "  + std::to_string(world->getRotationZ()));
+//    std::cout << "fps:" << cycle->getFPS() << std::endl;
+    typewriter->printLine("Position x: " + std::to_string((float)world->cameraPos.x) + ", y: "  + std::to_string(world->cameraPos.y) + ", z: "  + std::to_string(world->cameraPos.z));
+    typewriter->printLine("Rotation x: " + std::to_string(world->getRotationX()) + ", y: "  + std::to_string(world->getRotationY()) + ", z: "  + std::to_string(world->getRotationZ()));
+       
 }
     
 void Stage1::beforeProcessing(double timer)
 {
+    auto world = getWorld();
     controls->process(timer);
     int step = 1;
     rotatedObject->rotateX(step*timer*100);
     rotatedObject->rotateY(step*timer*100);
-}
     
-World* Stage1::getWorld()
-{
-    return world;
+    car->moveX(-car->getX() + world->cameraPos.x +  world->cameraFront.x/3);
+    car->moveY(-car->getY() + world->cameraPos.y + world->cameraFront.y/3);
+    car->moveZ(-car->getZ() + world->cameraPos.z + world->cameraFront.z/3);
+    
+    hs::Point p(world->cameraPos.x,world->cameraPos.y,world->cameraPos.z);
+   // controls->focusOn(&p,car);
+    
 }
+

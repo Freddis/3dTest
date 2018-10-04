@@ -26,7 +26,10 @@ protected:
     float worldX = 0;
     float worldY = 0;
     float worldZ = 0;
-    int rotationX  = 0;
+
+    float rotationX  = 0;
+    float rotationY  = 0;
+    float rotationZ  = 0;
     std::string texture;
     float textureScale = 1;
 public:
@@ -91,7 +94,7 @@ public:
     Color* getColor(){
         return this->color;
     };
-    void setColor(Color* color)
+    virtual void setColor(Color* color)
     {
         this->color = color;
         int size;
@@ -164,6 +167,7 @@ public:
         }
         delete[] primitives;
     }
+    
     void rotateX(float degree)
     {
         rotationX += degree;
@@ -175,12 +179,10 @@ public:
         }
         delete[] points;
     }
-    int getRotationX()
-    {
-        return rotationX;
-    }
+    
     void rotateY(float degree)
     {
+        rotationY += degree;
         hs::Point** points = this->getPoints();
         int len = this->getNumberOfPoints();
         for(int i =0; i < len; i++)
@@ -191,6 +193,7 @@ public:
     }
     void rotateZ(float degree)
     {
+        rotationZ += degree;
         hs::Point** points = this->getPoints();
         int len = this->getNumberOfPoints();
         for(int i =0; i < len; i++)
@@ -199,7 +202,18 @@ public:
         }
         delete[] points;
     }
-    
+    float getRotationX()
+    {
+        return rotationX;
+    }
+    float getRotationY()
+    {
+        return rotationY;
+    }
+    float getRotationZ()
+    {
+        return rotationZ;
+    }
     float getZ()
     {
         return worldZ;

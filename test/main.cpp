@@ -13,14 +13,16 @@
 #include "Window.hpp"
 #include "World.hpp"
 #include "GameCycle.hpp"
-#include "Stage1.hpp";
+#include "Stage1.hpp"
+#include "TestStage.hpp"
 
 int main(int argc, char * argv[]) {
     
-    bool fullscreen = true;
+    bool fullscreen = false;
     Window* windowWrapper = new Window(fullscreen);
     World* world = new World();
-    Stage1* stage = new Stage1(world,windowWrapper);
+    auto stage = new Stage1(world,windowWrapper);
+//    auto stage = new TestStage(world,windowWrapper);
     GameCycle* cycle = new GameCycle(stage,windowWrapper);
     
     cycle->run();

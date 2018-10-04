@@ -10,6 +10,7 @@
 #define Color_hpp
 
 #include <stdio.h>
+#include <math.h>
 
 class Color
 {    
@@ -30,6 +31,33 @@ public:
     Color * copy()
     {
         return new Color(r,g,b,a);
+    }
+    void add(Color* color)
+    {
+        this->r += color->r;
+        this->g += color->g;
+        this->b += color->b;
+        this->r = fmin(this->r,1);
+        this->g = fmin(this->g,1);
+        this->b = fmin(this->b,1);
+    }
+    void subtract(Color* color)
+    {
+        this->r -= color->r;
+        this->g -= color->g;
+        this->b -= color->b;
+        this->r = fmax(this->r,0);
+        this->g = fmax(this->g,0);
+        this->b = fmax(this->b,0);
+    }
+    void mix(Color* color)
+    {
+        this->r = (this->r + color->r)/2;
+        this->g = (this->g + color->g)/2;
+        this->b = (this->b + color->b)/2;
+        this->r = fmin(this->r,1);
+        this->g = fmin(this->g,1);
+        this->b = fmin(this->b,1);
     }
     
     static Color* getRed()
@@ -63,6 +91,10 @@ public:
     static Color* getWhite()
     {
         return new Color(1,1,1);
+    }
+    static Color* getGrey()
+    {
+        return new Color(0.5,0.5,0.5);
     }
 
 

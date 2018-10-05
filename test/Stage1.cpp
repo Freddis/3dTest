@@ -34,7 +34,7 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     
     car = new Cube(0.05);
     car->moveY(-0.070);
-    //car->setTexture("textures/texture1.jpg");
+    //car->setTexture("textures/texture1.jpg");s
     car->setColor(Color::getBlue());
     car->getFront()->setColor(Color::getCyan());
     //car->getFront()->moveZ(-0.05);
@@ -46,7 +46,7 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
         this->controls->disableMouse();
     }
     
-    camera = new Cube(0.025);
+    camera = new Cube(0.010);
     camera->setColor(Color::getRed());
     world->addObject(camera);
     
@@ -160,15 +160,15 @@ void Stage1::process(GameCycle* cycle)
     typewriter->printLine("FPS: " + std::to_string(cycle->getFPS()));
     typewriter->printLine("Polygons: " + std::to_string(world->getNumberOfPrimitives()));
     typewriter->printLine("Fov: " + std::to_string((int)world->getFov()));
+    typewriter->printLine((std::string)"Letters: " + std::to_string(typewriter->getNumberOfLetters()));
 //    std::cout << "fps:" << cycle->getFPS() << std::endl;
     
     typewriter->printLine("Car position x: " + std::to_string((float)car->getX()) + ", y: "  + std::to_string(car->getY()) + ", z: "  + std::to_string(car->getZ()));
-    typewriter->printLine("Car rotation x: " + std::to_string((float)car->getRotationX()) + ", y: "  + std::to_string(car->getRotationX()) + ", z: "  + std::to_string(car->getRotationX()));
+    typewriter->printLine("Car rotation x: " + std::to_string((float)car->getRotationX()) + ", y: "  + std::to_string(car->getRotationY()) + ", z: "  + std::to_string(car->getRotationZ()));
     typewriter->printLine("Cam position x: " + std::to_string((float)world->cameraPos.x) + ", y: "  + std::to_string(world->cameraPos.y) + ", z: "  + std::to_string(world->cameraPos.z));
     typewriter->printLine("Cam rotation x: " + std::to_string(world->getRotationX()) + ", y: "  + std::to_string(world->getRotationY()) + ", z: "  + std::to_string(world->getRotationZ()));
     std::string freelook = controls->isFreelook() ? "On" : "Off";
     typewriter->printLine("Freelook Mode: " + freelook);
-       
 }
     
 void Stage1::beforeProcessing(double timer)

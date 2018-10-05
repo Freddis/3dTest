@@ -30,7 +30,8 @@ class TestStage : public Stage
     Object3D** middle;
     Object3D** top;
     Object3D** all;
-    bool freelookMode = false;
+    int allObjectSize = 26;
+    bool freelookMode = true;
     int currentObj = 8+8+8-1;
 public:
     TestStage(World* world,Window* window) : Stage(world,window)
@@ -237,6 +238,7 @@ public:
         all = arr;
         
         //controls->focusOn(center,centerBottom);
+        copyObjects();
     }
     
     void process(GameCycle* cycle)
@@ -262,7 +264,7 @@ public:
         }
     
         auto objects = all;
-        auto size = 8+8+8+2;
+        auto size = allObjectSize;
         for(int i = currentObj; i < size; i++)
         {
             if(i >=  size-1)
@@ -286,6 +288,30 @@ public:
            //objects[i]->rotateY(timer*10*i);
         }
         
+    }
+    
+    void copyObjects()
+    {
+        //getWorld()->clear();
+        auto objects = all;
+        float stepX = 0.3;
+        int times = 5;
+        for(int j = 0; j < times; j++)
+        {
+            for(int i = 0; i < allObjectSize; i++)
+            {
+                float deltaX = stepX*(j+1);
+                auto obj = objects[i];
+                Cube* origin = dynamic_cast<Cube*>(obj);
+                Cube* cube =  origin->copy();
+                //cube->setColor(Color::getRed());
+                cube->moveX(deltaX);
+                cube->moveY((deltaX/5)*(1+i));
+                //cube->moveZ(0.2);
+                getWorld()->addObject(cube);
+            }
+        }
+        std::cout << "Polygons: " << getWorld()->getNumberOfPrimitives() << std::endl;
     }
 };
 #endif /* TestStage_hpp */

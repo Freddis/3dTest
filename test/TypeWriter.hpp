@@ -33,6 +33,8 @@ class TypeWriter
     int windowWidth;
     int windowHeight;
     int fontsize;
+    int prevLetterCount = 0;
+    int letterCount = 0;
 public:
     TypeWriter(const char* font, int size,int windowWidth, int windowHeight)
     {
@@ -59,9 +61,15 @@ public:
         shaders = this->createShaders();
         
     }
+    int getNumberOfLetters()
+    {
+        return prevLetterCount;
+    }
     void clear()
     {
         currentLine = 1;
+        prevLetterCount = letterCount;
+        letterCount = 0;
     }
     
     void printLine(std::string string)
@@ -77,6 +85,8 @@ public:
         currentLine++;
     }
     void print(const char *text, float x, float y, float sx, float sy) {
+        return;
+        letterCount += strlen(text);
         GLuint tex;
         glActiveTexture(GL_TEXTURE0);
         glGenTextures(1, &tex);
@@ -123,6 +133,7 @@ public:
 protected:
     void printText(const char *text, float x, float y, float sx, float sy) {
         const char *p;
+        letterCount += strlen(text);
         FT_GlyphSlot g = face->glyph;
         for(p = text; *p; p++) {
             if(FT_Load_Char(face, *p, FT_LOAD_RENDER))
@@ -152,7 +163,7 @@ protected:
                 {x2 + w, -y2 - h, 1, 1},
             };
             
-            glBufferData(GL_ARRAY_BUFFER, sizeof box, box, GL_DYNAMIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, sizeof box, box, GL_STATIC_DRAW);
 
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
             

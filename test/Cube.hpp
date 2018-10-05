@@ -82,6 +82,7 @@ public:
         if(oneColor)
         {
             cube->setColor(this->getColor()->copy());
+            delete[] thisPrims;
             return cube;
         }
         auto cubePrims = cube->getPrimitives(&size);

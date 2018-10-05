@@ -125,7 +125,7 @@ public:
     
     float getSideSize()
     {
-        float diff = abs(this->getA()->x -this->getC()->x);
+        float diff = sqrt(pow(this->getA()->x -this->getB()->x,2) + pow(this->getA()->y -this->getB()->y,2) + pow(this->getA()->z -this->getB()->z,2));
         return diff;
     }
     int getNumberOfPoints()

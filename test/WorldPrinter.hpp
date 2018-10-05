@@ -31,7 +31,7 @@ class WorldPrinter
     GLuint defaultTexture;
     GLuint shaderColorUniform;
     GLuint shaderTextureScaleUniform;
-    GLuint textures[1000] = {};
+    GLuint textures[2000] = {};
     std::map<std::string,GLuint> loadedTextures;
     
 public:
@@ -108,9 +108,9 @@ protected:
         // Put the three triangle verticies into the VBO
         
         GLfloat* vertexes  = world->getVertexes();
-        int vertexSize = world->getVertexNumber()*sizeof(GLfloat)*5;
-        glBufferData(GL_ARRAY_BUFFER,vertexSize,vertexes, GL_STATIC_DRAW);
-        delete[] vertexes;
+        long vertexSize = world->getVertexNumber()*sizeof(GLfloat)*5;
+        glBufferData(GL_ARRAY_BUFFER,vertexSize,vertexes, GL_DYNAMIC_DRAW);
+        //delete[] vertexes;
         
         // connect the xyz to the "vert" attribute of the vertex shader
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,5 * sizeof(GLfloat), 0);
@@ -186,6 +186,7 @@ protected:
         
             glBindVertexArray(gVAO);
             // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        
             int offset = 0;
             for(int i =0; i < size; i++)
             {
@@ -213,7 +214,16 @@ protected:
                 // draw the VAO
                 int vertexes = obj->getNumberOfPoints();
                 // std::cout << "offset: " << offset << " ,vertexes: " << vertexes << std::endl;
-                glDrawArrays(GL_TRIANGLES, offset,offset+vertexes);
+//                glDrawArrays(GL_TRIANGLES, offset,offset+vertexes);
+              
+                int wholeSize = size*vertexes;
+                glDrawArrays(GL_TRIANGLES,0,wholeSize);
+                glBindVertexArray(0);
+                glDeleteVertexArrays(1,&gVAO);
+                glDeleteBuffers(1,&gVBO);
+                delete[] objects;
+                return;
+                
                 offset+= vertexes;
             }
         

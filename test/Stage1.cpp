@@ -33,10 +33,11 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     
     
     car = new Cube(0.05);
-    car->moveY(-0.075);
+    car->moveY(-0.070);
     //car->setTexture("textures/texture1.jpg");
     car->setColor(Color::getBlue());
     car->getFront()->setColor(Color::getCyan());
+    //car->getFront()->moveZ(-0.05);
     world->addObject(car);
     this->controls = new ThirdPersonControls(car,world,window->getWindow());
     this->controls->activate();
@@ -160,8 +161,13 @@ void Stage1::process(GameCycle* cycle)
     typewriter->printLine("Polygons: " + std::to_string(world->getNumberOfPrimitives()));
     typewriter->printLine("Fov: " + std::to_string((int)world->getFov()));
 //    std::cout << "fps:" << cycle->getFPS() << std::endl;
-    typewriter->printLine("Position x: " + std::to_string((float)world->cameraPos.x) + ", y: "  + std::to_string(world->cameraPos.y) + ", z: "  + std::to_string(world->cameraPos.z));
-    typewriter->printLine("Rotation x: " + std::to_string(world->getRotationX()) + ", y: "  + std::to_string(world->getRotationY()) + ", z: "  + std::to_string(world->getRotationZ()));
+    
+    typewriter->printLine("Car position x: " + std::to_string((float)car->getX()) + ", y: "  + std::to_string(car->getY()) + ", z: "  + std::to_string(car->getZ()));
+    typewriter->printLine("Car rotation x: " + std::to_string((float)car->getRotationX()) + ", y: "  + std::to_string(car->getRotationX()) + ", z: "  + std::to_string(car->getRotationX()));
+    typewriter->printLine("Cam position x: " + std::to_string((float)world->cameraPos.x) + ", y: "  + std::to_string(world->cameraPos.y) + ", z: "  + std::to_string(world->cameraPos.z));
+    typewriter->printLine("Cam rotation x: " + std::to_string(world->getRotationX()) + ", y: "  + std::to_string(world->getRotationY()) + ", z: "  + std::to_string(world->getRotationZ()));
+    std::string freelook = controls->isFreelook() ? "On" : "Off";
+    typewriter->printLine("Freelook Mode: " + freelook);
        
 }
     
@@ -173,6 +179,7 @@ void Stage1::beforeProcessing(double timer)
     rotatedObject->rotateX(step*timer*100);
     rotatedObject->rotateY(step*timer*100);
     
+    //display camera cube
     camera->moveX(-camera->getX() + controls->cameraPos.x);
     camera->moveY(-camera->getY() + controls->cameraPos.y);
     camera->moveZ(-camera->getZ() + controls->cameraPos.z);

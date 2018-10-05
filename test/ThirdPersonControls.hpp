@@ -22,11 +22,9 @@ class ThirdPersonControls : public Controls
     double mouseX;
     double mouseY;
     float mouseSensivity;
-    
-    glm::vec3 personPos;
-    Object3D* person;
-   
-    glm::vec3 carFront;
+    bool freelookMode = false;
+    Object3D* character;
+    glm::vec3 characterFront;
     
     float cameraDistance = 0.4f;
     float cameraTopOffset = 0.1f;
@@ -45,20 +43,17 @@ public:
     
     ThirdPersonControls(Object3D* person, World* world, GLFWwindow *window) : Controls(world,window)
     {
-        this->person = person;
-        
-        carFront = glm::normalize(glm::vec3(0, 0, -0.1));
-        
+        this->character = person;
+        characterFront = glm::normalize(glm::vec3(0, 0, -1));
         updateCameraPosition();
         focusOn(cameraPos,person);
     }
     
     void processCursorPosition(GLFWwindow* window ,double x,double y)
     {
-        //return;
-        if(!this->mouseEnabled)
+        if(!this->freelookMode)
         {
-          //  return;
+            return;
         }
         // std:: cout << "x: " << x << ", y: " << y << std::endl;
         float xoffset = x - prevMouseX;
@@ -79,6 +74,7 @@ public:
         // std:: cout << "rotation x: " << world->getRotationX() << ", rotation y: " << world->getRotationY() << std::endl;
         updateWorldRotation();
     }
+    
     void processKeyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
         if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -92,10 +88,10 @@ public:
     void updateCameraPosition()
     {
         glm::vec3 newCamPos;
-        newCamPos.x = person->getX();
-        newCamPos.y = person->getY()+cameraTopOffset;
-        newCamPos.z = person->getZ();
-        newCamPos += carFront*-cameraDistance;
+        newCamPos.x = character->getX();
+        newCamPos.y = character->getY()+cameraTopOffset;
+        newCamPos.z = character->getZ();
+        newCamPos += characterFront*-cameraDistance;
         cameraPos = newCamPos;
         
         hs::Point cam(newCamPos.x,newCamPos.y,newCamPos.z);
@@ -116,94 +112,64 @@ public:
         float timer = timepassed;
         if(up)
         {
-//            float value = movementDegree*timer;
-//            if(world->getRotationX() +value >= 90)
-//            {
-//                value = 89.999 - world->getRotationX();
-//            }
-//            world->rotateX(value);
-//            updateWorldRotation();
-            // moveUp();
-            hs::Point prev(person->getX(),person->getY(),person->getZ());
-            auto front = movementLength*timer * carFront;
-            person->moveX(front.x);
-            person->moveY(front.y);
-            person->moveZ(front.z);
-         
+            hs::Point prev(character->getX(),character->getY(),character->getZ());
+            auto front = movementLength*timer * characterFront;
+            character->moveX(front.x);
+            character->moveY(front.y);
+            character->moveZ(front.z);
             updateCameraPosition();
-         
-          //  personPos += movementLength*timer * world->cameraFront;
-          //  person->setPosition(personPos.x,personPos.y,personPos.z);
+
         }
         if(down)
         {
-//            float value = movementDegree*timer;
-//            if(world->getRotationX() - value <= -90)
-//            {
-//                value = 89.999 + world->getRotationX();
-//                //  std::cout << "Rotation X: " << world->getRotationX() << std::endl;
-//            }
-//            world->rotateX(-value);
-            auto front = movementLength*timer * carFront;
-            person->moveX(-front.x);
-            person->moveY(-front.y);
-            person->moveZ(-front.z);
+
+            auto front = movementLength*timer * characterFront;
+            character->moveX(-front.x);
+            character->moveY(-front.y);
+            character->moveZ(-front.z);
             updateCameraPosition();
-//            updateWorldRotation();
-        }
-        if(left)
-        {
-           
-//            world->rotateY(-1*timer*movementDegree);
-            
-            person->rotateY(-1*timer*movementDegree);
-            float pitch = person->getRotationX();
-            float yaw = person->getRotationY();
-            carFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-            carFront.y = sin(glm::radians(pitch));
-            carFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-            carFront = glm::normalize(carFront);
-            updateCameraPosition();
-         
-            
-            //    std::cout << "Rotation Y: " << world->getRotationY() << std::endl;
-//            updateWorldRotation();
-            
         }
         if(right)
         {
-            person->rotateY(1*timer*movementDegree);
-            float pitch = person->getRotationX();
-            float yaw = person->getRotationY();
-            carFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-            carFront.y = sin(glm::radians(pitch));
-            carFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-            carFront = glm::normalize(carFront);
-            updateCameraPosition();
-//            world->rotateY(1*timer*movementDegree);
-//            person->rotateY(1*timer*movementDegree);
-            //     std::cout << "Rotation Y: " << world->getRotationY() << std::endl;
-//            updateWorldRotation();
             
+            character->rotateY(-1*timer*movementDegree);
+            float pitch = character->getRotationX();
+            float yaw = -character->getRotationY();
+            characterFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+            characterFront.y = sin(glm::radians(pitch));
+            characterFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+            characterFront = glm::normalize(characterFront);
+            updateCameraPosition();
+        }
+        if(left)
+        {
+            character->rotateY(1*timer*movementDegree);
+            float pitch = character->getRotationX();
+            float yaw = -character->getRotationY();
+            characterFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+            characterFront.y = sin(glm::radians(pitch));
+            characterFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+            characterFront = glm::normalize(characterFront);
+            updateCameraPosition();
         }
         if(space)
         {
             std::cout << "Update camera rotation" << std::endl;
-            updateCameraPosition();
-            focusOn(cameraPos,person);
-            
+           // updateCameraPosition();
             //updateWorldRotation();
         }
+        if(!freelookMode)
+        {
+            focusOn(cameraPos,character);
+            return;
+        }
+        
         if(w)
         {
-            //             world->moveZ(movementLength);
-            //             std::cout << "z: " << world->getZ() << std::endl;
             world->cameraPos += movementLength*timer * world->cameraFront;
         }
         if(s)
         {
-            // world->moveZ(-movementLength);
-            // std::cout << "z: " << world->getZ() << std::endl;
             world->cameraPos -= movementLength*timer * world->cameraFront;
         }
         if(a)
@@ -214,6 +180,12 @@ public:
         {
             world->cameraPos += glm::normalize(glm::cross(world->cameraFront, world->cameraUp)) * movementLength*timer;
         }
+        
+    }
+    
+    bool isFreelook()
+    {
+        return freelookMode;
     }
     
     
@@ -257,6 +229,11 @@ protected:
                     break;
                 case GLFW_KEY_SPACE:
                     space = value;
+                    if(action == 1)
+                    {
+                        freelookMode = !freelookMode;
+                    }
+                    
                     break;
             }
         }

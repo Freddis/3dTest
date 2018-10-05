@@ -28,7 +28,7 @@ protected:
     float worldZ = 0;
 
     float rotationX  = 0;
-    float rotationY  = 0;
+    float rotationY  = 90;
     float rotationZ  = 0;
     std::string texture;
     float textureScale = 1;

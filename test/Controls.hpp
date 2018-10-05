@@ -96,9 +96,10 @@ public:
         world->cameraPos.x = object->getX();
         world->cameraPos.y = object->getY();
         world->cameraPos.z = object->getZ();
-        world->cameraFront.x = target->getX();// + 0.001;
-        world->cameraFront.y = target->getY();// + 0.001;
-        world->cameraFront.z = target->getZ();// + 0.001;
+        //Определяем направление
+        world->cameraFront.x = target->getX() - object->getX() ;// + 0.001;
+        world->cameraFront.y = target->getY() - object->getY();// + 0.001;
+        world->cameraFront.z = target->getZ() - object->getZ();// + 0.001;
         if(target->getZ() == 0)
         {
             world->cameraFront.z += 0.001;

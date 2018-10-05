@@ -61,6 +61,19 @@ public:
             Controls::primaryControls->processCursorPosition(window, x, y);
         });
     }
+    
+    void focusOn(glm::vec3 source,Object3D* target)
+    {
+        hs::Point sourceP(source.x,source.y,source.z);
+        hs::Point targetP(target->getX(),target->getY(),target->getZ());
+        focusOn(&sourceP,&targetP);
+    }
+    void focusOn(glm::vec3 source,hs::Point* target)
+    {
+        hs::Point sourceP(source.x,source.y,source.z);
+        focusOn(&sourceP,target);
+    }
+    
     void focusOn(Object3D* source,hs::Point* target)
     {
         hs::Point sourceP(source->getX(),source->getY(),source->getZ());
@@ -83,9 +96,13 @@ public:
         world->cameraPos.x = object->getX();
         world->cameraPos.y = object->getY();
         world->cameraPos.z = object->getZ();
-        world->cameraFront.x = target->getX() + 0.001;
-        world->cameraFront.y = target->getY() + 0.001;
-        world->cameraFront.z = target->getZ() + 0.001;
+        world->cameraFront.x = target->getX();// + 0.001;
+        world->cameraFront.y = target->getY();// + 0.001;
+        world->cameraFront.z = target->getZ();// + 0.001;
+        if(target->getZ() == 0)
+        {
+            world->cameraFront.z += 0.001;
+        }
         
         world->cameraFront = glm::normalize(world->cameraFront);;
         hs::Point delta(world->cameraFront.x,world->cameraFront.y, world->cameraFront.z);

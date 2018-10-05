@@ -33,7 +33,10 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     
     
     car = new Cube(0.05);
-    car->setTexture("textures/texture1.jpg");
+    car->moveY(-0.075);
+    //car->setTexture("textures/texture1.jpg");
+    car->setColor(Color::getBlue());
+    car->getFront()->setColor(Color::getCyan());
     world->addObject(car);
     this->controls = new ThirdPersonControls(car,world,window->getWindow());
     this->controls->activate();
@@ -41,6 +44,10 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     {
         this->controls->disableMouse();
     }
+    
+    camera = new Cube(0.025);
+    camera->setColor(Color::getRed());
+    world->addObject(camera);
     
     Cube* cube3 = new Cube(0.2);
     cube3->moveX(0.3);
@@ -165,6 +172,10 @@ void Stage1::beforeProcessing(double timer)
     int step = 1;
     rotatedObject->rotateX(step*timer*100);
     rotatedObject->rotateY(step*timer*100);
+    
+    camera->moveX(-camera->getX() + controls->cameraPos.x);
+    camera->moveY(-camera->getY() + controls->cameraPos.y);
+    camera->moveZ(-camera->getZ() + controls->cameraPos.z);
     
 //    car->moveX(-car->getX() + world->cameraPos.x +  world->cameraFront.x/3);
 //    car->moveY(-car->getY() + world->cameraPos.y + world->cameraFront.y/3);

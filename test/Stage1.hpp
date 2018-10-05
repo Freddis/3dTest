@@ -23,10 +23,11 @@
 
 class Stage1 : public Stage
 {
-    Controls* controls;
+    ThirdPersonControls* controls;
     Object3D* rotatedObject;
     TypeWriter* typewriter;
     Cube* car;
+    Cube* camera;
 public:
     Stage1(World* world,Window* window);
     void process(GameCycle* cycle);

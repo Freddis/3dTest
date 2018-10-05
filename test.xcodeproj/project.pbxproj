@@ -25,6 +25,10 @@
 		D05DB35B1E2EB92500DB150E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35A1E2EB92500DB150E /* Cocoa.framework */; };
 		D05DB35D1E2EB95900DB150E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35C1E2EB95900DB150E /* IOKit.framework */; };
 		D05DB35F1E2EB96500DB150E /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35E1E2EB96500DB150E /* CoreVideo.framework */; };
+		D07E639E21662AAA00BB0CDA /* Stage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D07E639C21662AAA00BB0CDA /* Stage.cpp */; };
+		D07E63A121662AD000BB0CDA /* TestStage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D07E639F21662AD000BB0CDA /* TestStage.cpp */; };
+		D07E63A72166615400BB0CDA /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D07E63A52166615300BB0CDA /* Timer.cpp */; };
+		D07E63AF2166A56C00BB0CDA /* FreelookControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D07E63AD2166A56C00BB0CDA /* FreelookControls.cpp */; };
 		D08058281E2E9B4900BA9384 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D08058271E2E9B4900BA9384 /* main.cpp */; };
 		D08058321E2EA0C000BA9384 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D08058311E2EA0C000BA9384 /* OpenGL.framework */; };
 		D0BD668D2157EF2700E332F5 /* Square.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0BD668B2157EF2700E332F5 /* Square.cpp */; };
@@ -33,6 +37,7 @@
 		D0BD669621593A8A00E332F5 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0BD669421593A8A00E332F5 /* World.cpp */; };
 		D0BD669A2159426700E332F5 /* Controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66982159426700E332F5 /* Controls.cpp */; };
 		D0D6464B2156B48A00917316 /* Object3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0D646492156B48900917316 /* Object3D.cpp */; };
+		D0E2132621672AC20085FDA9 /* ThirdPersonControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0E2132421672AC20085FDA9 /* ThirdPersonControls.cpp */; };
 		D0E988F91F6D1DF4002EAABD /* Point.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0E988F71F6D1DF4002EAABD /* Point.cpp */; };
 		D0E988FC1F6D1F0B002EAABD /* Triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0E988FA1F6D1F0B002EAABD /* Triangle.cpp */; };
 /* End PBXBuildFile section */
@@ -92,6 +97,14 @@
 		D05DB35A1E2EB92500DB150E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D05DB35C1E2EB95900DB150E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		D05DB35E1E2EB96500DB150E /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		D07E639C21662AAA00BB0CDA /* Stage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Stage.cpp; sourceTree = "<group>"; };
+		D07E639D21662AAA00BB0CDA /* Stage.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Stage.hpp; sourceTree = "<group>"; };
+		D07E639F21662AD000BB0CDA /* TestStage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TestStage.cpp; sourceTree = "<group>"; };
+		D07E63A021662AD000BB0CDA /* TestStage.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TestStage.hpp; sourceTree = "<group>"; };
+		D07E63A52166615300BB0CDA /* Timer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
+		D07E63A62166615300BB0CDA /* Timer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Timer.hpp; sourceTree = "<group>"; };
+		D07E63AD2166A56C00BB0CDA /* FreelookControls.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FreelookControls.cpp; sourceTree = "<group>"; };
+		D07E63AE2166A56C00BB0CDA /* FreelookControls.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FreelookControls.hpp; sourceTree = "<group>"; };
 		D08058241E2E9B4900BA9384 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
 		D08058271E2E9B4900BA9384 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		D080582F1E2E9E7700BA9384 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
@@ -108,6 +121,8 @@
 		D0BD66992159426700E332F5 /* Controls.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Controls.hpp; sourceTree = "<group>"; };
 		D0D646492156B48900917316 /* Object3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Object3D.cpp; sourceTree = "<group>"; };
 		D0D6464A2156B48900917316 /* Object3D.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Object3D.hpp; sourceTree = "<group>"; };
+		D0E2132421672AC20085FDA9 /* ThirdPersonControls.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ThirdPersonControls.cpp; sourceTree = "<group>"; };
+		D0E2132521672AC20085FDA9 /* ThirdPersonControls.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ThirdPersonControls.hpp; sourceTree = "<group>"; };
 		D0E988F71F6D1DF4002EAABD /* Point.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Point.cpp; sourceTree = "<group>"; };
 		D0E988F81F6D1DF4002EAABD /* Point.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Point.hpp; sourceTree = "<group>"; };
 		D0E988FA1F6D1F0B002EAABD /* Triangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Triangle.cpp; sourceTree = "<group>"; };
@@ -208,6 +223,80 @@
 			path = IL;
 			sourceTree = "<group>";
 		};
+		D07E63A42166612F00BB0CDA /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				125203AF216229AA00ABF751 /* TextureLoader.cpp */,
+				125203B0216229AA00ABF751 /* TextureLoader.hpp */,
+				12AFFE42216386C5001DA0A7 /* TypeWriter.cpp */,
+				12AFFE43216386C5001DA0A7 /* TypeWriter.hpp */,
+				D07E63A52166615300BB0CDA /* Timer.cpp */,
+				D07E63A62166615300BB0CDA /* Timer.hpp */,
+			);
+			name = utils;
+			sourceTree = "<group>";
+		};
+		D07E63A8216670B000BB0CDA /* objects */ = {
+			isa = PBXGroup;
+			children = (
+				D0BD66912158138000E332F5 /* Cube.cpp */,
+				D0BD66922158138000E332F5 /* Cube.hpp */,
+				D0E988FA1F6D1F0B002EAABD /* Triangle.cpp */,
+				D0E988FB1F6D1F0B002EAABD /* Triangle.hpp */,
+				D0BD668B2157EF2700E332F5 /* Square.cpp */,
+				D0BD668C2157EF2700E332F5 /* Square.hpp */,
+			);
+			name = objects;
+			sourceTree = "<group>";
+		};
+		D07E63AA216671D800BB0CDA /* stages */ = {
+			isa = PBXGroup;
+			children = (
+				D07E63AC2166A55600BB0CDA /* controls */,
+				125203B221622F4500ABF751 /* Stage1.cpp */,
+				125203B321622F4500ABF751 /* Stage1.hpp */,
+				D07E639F21662AD000BB0CDA /* TestStage.cpp */,
+				D07E63A021662AD000BB0CDA /* TestStage.hpp */,
+			);
+			name = stages;
+			sourceTree = "<group>";
+		};
+		D07E63AB2166750300BB0CDA /* base */ = {
+			isa = PBXGroup;
+			children = (
+				12E221E42162607E00539E22 /* Window.cpp */,
+				12E221E52162607E00539E22 /* Window.hpp */,
+				12AFFE452163963D001DA0A7 /* WorldPrinter.cpp */,
+				12AFFE462163963D001DA0A7 /* WorldPrinter.hpp */,
+				12AFFE482163965D001DA0A7 /* GameCycle.cpp */,
+				12AFFE492163965D001DA0A7 /* GameCycle.hpp */,
+				D07E639C21662AAA00BB0CDA /* Stage.cpp */,
+				D07E639D21662AAA00BB0CDA /* Stage.hpp */,
+				D0E988F71F6D1DF4002EAABD /* Point.cpp */,
+				D0E988F81F6D1DF4002EAABD /* Point.hpp */,
+				D0D646492156B48900917316 /* Object3D.cpp */,
+				D0D6464A2156B48900917316 /* Object3D.hpp */,
+				D0BD668E2157FE6C00E332F5 /* Color.cpp */,
+				D0BD668F2157FE6C00E332F5 /* Color.hpp */,
+				D0BD66982159426700E332F5 /* Controls.cpp */,
+				D0BD66992159426700E332F5 /* Controls.hpp */,
+				D0BD669421593A8A00E332F5 /* World.cpp */,
+				D0BD669521593A8A00E332F5 /* World.hpp */,
+			);
+			name = base;
+			sourceTree = "<group>";
+		};
+		D07E63AC2166A55600BB0CDA /* controls */ = {
+			isa = PBXGroup;
+			children = (
+				D07E63AD2166A56C00BB0CDA /* FreelookControls.cpp */,
+				D07E63AE2166A56C00BB0CDA /* FreelookControls.hpp */,
+				D0E2132421672AC20085FDA9 /* ThirdPersonControls.cpp */,
+				D0E2132521672AC20085FDA9 /* ThirdPersonControls.hpp */,
+			);
+			name = controls;
+			sourceTree = "<group>";
+		};
 		D080581B1E2E9B4800BA9384 = {
 			isa = PBXGroup;
 			children = (
@@ -256,34 +345,10 @@
 		D09D0A2E1F3048B700C1B021 /* classes */ = {
 			isa = PBXGroup;
 			children = (
-				D0E988F71F6D1DF4002EAABD /* Point.cpp */,
-				D0E988F81F6D1DF4002EAABD /* Point.hpp */,
-				D0E988FA1F6D1F0B002EAABD /* Triangle.cpp */,
-				D0E988FB1F6D1F0B002EAABD /* Triangle.hpp */,
-				D0D646492156B48900917316 /* Object3D.cpp */,
-				D0D6464A2156B48900917316 /* Object3D.hpp */,
-				D0BD668B2157EF2700E332F5 /* Square.cpp */,
-				D0BD668C2157EF2700E332F5 /* Square.hpp */,
-				D0BD668E2157FE6C00E332F5 /* Color.cpp */,
-				D0BD668F2157FE6C00E332F5 /* Color.hpp */,
-				D0BD66912158138000E332F5 /* Cube.cpp */,
-				D0BD66922158138000E332F5 /* Cube.hpp */,
-				D0BD669421593A8A00E332F5 /* World.cpp */,
-				D0BD669521593A8A00E332F5 /* World.hpp */,
-				D0BD66982159426700E332F5 /* Controls.cpp */,
-				D0BD66992159426700E332F5 /* Controls.hpp */,
-				125203AF216229AA00ABF751 /* TextureLoader.cpp */,
-				125203B0216229AA00ABF751 /* TextureLoader.hpp */,
-				125203B221622F4500ABF751 /* Stage1.cpp */,
-				125203B321622F4500ABF751 /* Stage1.hpp */,
-				12E221E42162607E00539E22 /* Window.cpp */,
-				12E221E52162607E00539E22 /* Window.hpp */,
-				12AFFE42216386C5001DA0A7 /* TypeWriter.cpp */,
-				12AFFE43216386C5001DA0A7 /* TypeWriter.hpp */,
-				12AFFE452163963D001DA0A7 /* WorldPrinter.cpp */,
-				12AFFE462163963D001DA0A7 /* WorldPrinter.hpp */,
-				12AFFE482163965D001DA0A7 /* GameCycle.cpp */,
-				12AFFE492163965D001DA0A7 /* GameCycle.hpp */,
+				D07E63AB2166750300BB0CDA /* base */,
+				D07E63AA216671D800BB0CDA /* stages */,
+				D07E63A8216670B000BB0CDA /* objects */,
+				D07E63A42166612F00BB0CDA /* utils */,
 			);
 			name = classes;
 			sourceTree = "<group>";
@@ -346,10 +411,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				125203B1216229AA00ABF751 /* TextureLoader.cpp in Sources */,
+				D07E63AF2166A56C00BB0CDA /* FreelookControls.cpp in Sources */,
 				D0BD668D2157EF2700E332F5 /* Square.cpp in Sources */,
 				D0BD669A2159426700E332F5 /* Controls.cpp in Sources */,
 				D0BD66902157FE6C00E332F5 /* Color.cpp in Sources */,
 				12AFFE44216386C5001DA0A7 /* TypeWriter.cpp in Sources */,
+				D0E2132621672AC20085FDA9 /* ThirdPersonControls.cpp in Sources */,
 				12AFFE472163963D001DA0A7 /* WorldPrinter.cpp in Sources */,
 				12AFFE4A2163965D001DA0A7 /* GameCycle.cpp in Sources */,
 				D0BD669621593A8A00E332F5 /* World.cpp in Sources */,
@@ -359,6 +426,9 @@
 				D0E988FC1F6D1F0B002EAABD /* Triangle.cpp in Sources */,
 				D08058281E2E9B4900BA9384 /* main.cpp in Sources */,
 				125203B421622F4500ABF751 /* Stage1.cpp in Sources */,
+				D07E639E21662AAA00BB0CDA /* Stage.cpp in Sources */,
+				D07E63A72166615400BB0CDA /* Timer.cpp in Sources */,
+				D07E63A121662AD000BB0CDA /* TestStage.cpp in Sources */,
 				D0D6464B2156B48A00917316 /* Object3D.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -18,7 +18,7 @@
 
 int main(int argc, char * argv[]) {
     
-    bool fullscreen = false;
+    bool fullscreen = true;
     Window* windowWrapper = new Window(fullscreen);
     World* world = new World();
     auto stage = new Stage1(world,windowWrapper);

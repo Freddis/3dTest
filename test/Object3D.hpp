@@ -121,7 +121,12 @@ public:
     {
         return 1;
     }
-    
+    void setPosition(float x,float y,float z)
+    {
+        this->worldX = x;
+        this->worldY = y;
+        this->worldZ = z;
+    }
     void moveX(float value)
     {
         worldX += value;

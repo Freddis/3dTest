@@ -16,12 +16,7 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     const char* font = "fonts/OpenSans-Regular.ttf";
     typewriter = new TypeWriter(font,20,window->getWidth(),window->getHeight());
     
-    this->controls = new FreelookControls(world,window->getWindow());
-    this->controls->activate();
-    if(!window->isFullscreen())
-    {
-        this->controls->disableMouse();
-    }
+  
     
 //    controls->updateWorldRotation();
     
@@ -40,6 +35,12 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     car = new Cube(0.05);
     car->setTexture("textures/texture1.jpg");
     world->addObject(car);
+    this->controls = new ThirdPersonControls(car,world,window->getWindow());
+    this->controls->activate();
+    if(!window->isFullscreen())
+    {
+        this->controls->disableMouse();
+    }
     
     Cube* cube3 = new Cube(0.2);
     cube3->moveX(0.3);
@@ -165,12 +166,12 @@ void Stage1::beforeProcessing(double timer)
     rotatedObject->rotateX(step*timer*100);
     rotatedObject->rotateY(step*timer*100);
     
-    car->moveX(-car->getX() + world->cameraPos.x +  world->cameraFront.x/3);
-    car->moveY(-car->getY() + world->cameraPos.y + world->cameraFront.y/3);
-    car->moveZ(-car->getZ() + world->cameraPos.z + world->cameraFront.z/3);
+//    car->moveX(-car->getX() + world->cameraPos.x +  world->cameraFront.x/3);
+//    car->moveY(-car->getY() + world->cameraPos.y + world->cameraFront.y/3);
+//    car->moveZ(-car->getZ() + world->cameraPos.z + world->cameraFront.z/3);
     
-    hs::Point p(world->cameraPos.x,world->cameraPos.y,world->cameraPos.z);
-   // controls->focusOn(&p,car);
+//    hs::Point p(world->cameraPos.x,world->cameraPos.y,world->cameraPos.z);
+//    controls->focusOn(&p,car);
     
 }
 

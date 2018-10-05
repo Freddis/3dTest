@@ -61,6 +61,11 @@ public:
             Controls::primaryControls->processCursorPosition(window, x, y);
         });
     }
+    void focusOn(Object3D* source,hs::Point* target)
+    {
+        hs::Point sourceP(source->getX(),source->getY(),source->getZ());
+        focusOn(&sourceP,target);
+    }
     void focusOn(hs::Point* sourceP,Object3D* target)
     {
         hs::Point targetP(target->getX(),target->getY(),target->getZ());
@@ -74,15 +79,10 @@ public:
     }
     void focusOn(hs::Point* object, hs::Point* target)
     {
-        //                view = glm::lookAt(world->cameraPos, world->cameraPos + world->cameraFront, world->cameraUp);
-        //        return;
         
         world->cameraPos.x = object->getX();
         world->cameraPos.y = object->getY();
         world->cameraPos.z = object->getZ();
-        //        world->cameraFront.x = -1;
-        //        world->cameraFront.y = 1;
-        //        world->cameraFront.z = -1
         world->cameraFront.x = target->getX() + 0.001;
         world->cameraFront.y = target->getY() + 0.001;
         world->cameraFront.z = target->getZ() + 0.001;
@@ -100,7 +100,6 @@ public:
         world->rotateY(-1*world->getRotationY() + axisDeltaX+degreeX);
         
         
-        int axisRotationY = 1;
         //В отличии от кручения по X. Вращение по Y использует все 3 координаты
         //Это связано с длиной катета, который находится между осей, а не на оси
         float tanY = delta.y / (sqrt(delta.x*delta.x + delta.z*delta.z));

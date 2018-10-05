@@ -16,6 +16,7 @@
 #include "Cube.hpp"
 #include "Object3D.hpp"
 #include "FreelookControls.hpp"
+#include "ThirdPersonControls.hpp"
 #include "Controls.hpp"
 #include "TypeWriter.hpp"
 #include "Stage.hpp"

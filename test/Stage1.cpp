@@ -156,19 +156,19 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
 void Stage1::process(GameCycle* cycle)
 {
     auto world = getWorld();
-    typewriter->clear();
+    typewriter->printLine("Frametime: " + std::to_string(cycle->getFrameTime()));
     typewriter->printLine("FPS: " + std::to_string(cycle->getFPS()));
     typewriter->printLine("Polygons: " + std::to_string(world->getNumberOfPrimitives()));
     typewriter->printLine("Fov: " + std::to_string((int)world->getFov()));
     typewriter->printLine((std::string)"Letters: " + std::to_string(typewriter->getNumberOfLetters()));
 //    std::cout << "fps:" << cycle->getFPS() << std::endl;
-    
     typewriter->printLine("Car position x: " + std::to_string((float)car->getX()) + ", y: "  + std::to_string(car->getY()) + ", z: "  + std::to_string(car->getZ()));
     typewriter->printLine("Car rotation x: " + std::to_string((float)car->getRotationX()) + ", y: "  + std::to_string(car->getRotationY()) + ", z: "  + std::to_string(car->getRotationZ()));
     typewriter->printLine("Cam position x: " + std::to_string((float)world->cameraPos.x) + ", y: "  + std::to_string(world->cameraPos.y) + ", z: "  + std::to_string(world->cameraPos.z));
     typewriter->printLine("Cam rotation x: " + std::to_string(world->getRotationX()) + ", y: "  + std::to_string(world->getRotationY()) + ", z: "  + std::to_string(world->getRotationZ()));
     std::string freelook = controls->isFreelook() ? "On" : "Off";
     typewriter->printLine("Freelook Mode: " + freelook);
+    typewriter->show();
 }
     
 void Stage1::beforeProcessing(double timer)

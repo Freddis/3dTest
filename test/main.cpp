@@ -21,8 +21,8 @@ int main(int argc, char * argv[]) {
     bool fullscreen = true;
     Window* windowWrapper = new Window(fullscreen);
     World* world = new World();
-//    auto stage = new Stage1(world,windowWrapper);
-    auto stage = new TestStage(world,windowWrapper);
+    auto stage = new Stage1(world,windowWrapper);
+//    auto stage = new TestStage(world,windowWrapper);
     GameCycle* cycle = new GameCycle(stage,windowWrapper);
     
     cycle->run();

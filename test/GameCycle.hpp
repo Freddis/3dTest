@@ -24,6 +24,8 @@ class GameCycle
     Window* windowWrapper;
     WorldPrinter* printer;
     int fps;
+    double startTime;
+    long frames = 0;
 public:
     GameCycle(Stage* stage, Window* window)
     {
@@ -34,6 +36,7 @@ public:
     
     void run()
     {
+        startTime = glfwGetTime();
         int counter = 0;
         fps = 0;
         double timer =  0;
@@ -54,6 +57,7 @@ public:
             passed = frameEnd - frameStart;
             timer += passed;
             ++counter;
+            ++frames;
             if(timer >= 1)
             {
                 fps = counter;
@@ -64,6 +68,13 @@ public:
             frameStart = glfwGetTime();
             glfwSwapBuffers(windowWrapper->getWindow());
         }
+    }
+    float getFrameTime()
+    {
+        double frameEnd = glfwGetTime();
+        double passed = frameEnd - startTime;
+        float frameTime = passed/ frames;
+        return frameTime;
     }
     int getFPS()
     {

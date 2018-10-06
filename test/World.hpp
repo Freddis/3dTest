@@ -17,7 +17,7 @@
 #include <glm/gtc/type_ptr.hpp>
 class World
 {
-    Object3D* objects[5000];
+    Object3D* objects[50000];
     GLfloat vertexes[1000000];
     int objectCount = 0;
     Object3D** oldPrimitives;

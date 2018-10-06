@@ -244,7 +244,7 @@ public:
     void process(GameCycle* cycle)
     {
         auto world = getWorld();
-        typewriter->clear();
+        typewriter->printLine("Frametime: " + std::to_string(cycle->getFrameTime()));
         typewriter->printLine("FPS: " + std::to_string(cycle->getFPS()));
         typewriter->printLine("Polygons: " + std::to_string(world->getNumberOfPrimitives()));
         typewriter->printLine("Fov: " + std::to_string((int)world->getFov()));
@@ -253,6 +253,7 @@ public:
         typewriter->printLine("Rotation x: " + std::to_string(world->getRotationX()) + ", y: "  + std::to_string(world->getRotationY()) + ", z: "  + std::to_string(world->getRotationZ()));
         typewriter->printLine("Object: " + std::to_string(currentObj));
         typewriter->printLine("Timer: " + std::to_string(focusTimer->getPassedTimeMs()));
+        typewriter->show();
     }
     
     void beforeProcessing(double timer)
@@ -294,8 +295,8 @@ public:
     {
         //getWorld()->clear();
         auto objects = all;
-        float stepX = 0.3;
-        int times = 5;
+        float stepX = 0.2;
+        int times = 100;
         for(int j = 0; j < times; j++)
         {
             for(int i = 0; i < allObjectSize; i++)
@@ -306,7 +307,7 @@ public:
                 Cube* cube =  origin->copy();
                 //cube->setColor(Color::getRed());
                 cube->moveX(deltaX);
-                cube->moveY((deltaX/5)*(1+i));
+                cube->moveY((deltaX/10)*(1+i));
                 //cube->moveZ(0.2);
                 getWorld()->addObject(cube);
             }

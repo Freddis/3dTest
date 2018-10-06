@@ -31,7 +31,7 @@ class WorldPrinter
     GLuint defaultTexture;
     GLuint shaderColorUniform;
     GLuint shaderTextureScaleUniform;
-    GLuint textures[2000] = {};
+    GLuint textures[1000000] = {};
     std::map<std::string,GLuint> loadedTextures;
     
 public:

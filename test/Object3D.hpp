@@ -37,6 +37,7 @@ public:
     virtual GLfloat* getWorldVertexes(){
         GLfloat* vertexArr = this->getVertexArray();
         int len = this->getSizeOf()/sizeof(GLfloat);
+        int vertexSize = len/3;
         int k =0;
         for(int j = 0; j < len; j++)
         {
@@ -52,11 +53,8 @@ public:
             {
                 vertexArr[j] += worldZ;
             }
-            else if(k == 3 || k == 4)
+            else if(j%vertexSize == 0)
             {
-                
-            }
-            else {
                 vertexArr[j] += worldX;
                 k = 0;
             }

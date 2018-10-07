@@ -47,6 +47,7 @@ class TextureLoader
         GLsizei width  = ilGetInteger(IL_IMAGE_WIDTH);
         GLsizei height = ilGetInteger(IL_IMAGE_HEIGHT);
         GLuint texture = this->generateTexture(ilGetData(), width, height);
+        std:: cout << texture << ": " << filename <<" - " <<  width << "x" << height << std::endl;
         ilDeleteImages(1, &ImageName);
         return texture;
     }

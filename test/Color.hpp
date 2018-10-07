@@ -19,7 +19,6 @@ public:
     
     Color(float r, float g, float b) : Color(r,g,b,1)
     {
-        this->a = 1;
     }
     Color(float r, float g, float b,float a)
     {

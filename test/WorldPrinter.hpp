@@ -39,18 +39,24 @@ public:
     {
         shaderProgram = loadShaders();
         loader = new TextureLoader();
-        defaultTexture = loader->loadWithDevil("textures/white.png");
+        //somehow png is not blending correctly
+        std::string defaultTexName = "textures/white.jpg";
+        defaultTexture = loader->loadWithDevil(defaultTexName.c_str());
+        std::pair<std::string,GLuint> pair(defaultTexName,defaultTexture);
+        loadedTextures.insert(pair);
     }
     
     void draw(World* world,int windowWidth, int windowHeight)
     {
         glUseProgram(shaderProgram);
+        loadMatrixes(world,windowWidth,windowHeight);
         loadTextures(world);
-        loadObjects(world,windowWidth,windowHeight);
-        render(world);
+        //renderAllVertexes(world);
+        //renderPerVertex(world);
+        renderPerTexture(world);
     }
 protected:
-    void loadObjects(World* world,int windowWidth, int windowHeight)
+    void loadObjects(World* world)
     {
         
         //    GLfloat vertices[] = {
@@ -108,147 +114,189 @@ protected:
         // Put the three triangle verticies into the VBO
         
         GLfloat* vertexes  = world->getVertexes();
-        long vertexSize = world->getVertexNumber()*sizeof(GLfloat)*5;
-        glBufferData(GL_ARRAY_BUFFER,vertexSize,vertexes, GL_DYNAMIC_DRAW);
+        long vertexesSize = world->getVertexSize();
+        glBufferData(GL_ARRAY_BUFFER,vertexesSize,vertexes, GL_DYNAMIC_DRAW);
         //delete[] vertexes;
         
-        // connect the xyz to the "vert" attribute of the vertex shader
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,5 * sizeof(GLfloat), 0);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-        glEnableVertexAttribArray(1);
+        assignVertexAttributes();
+        
+        // unbind the VBO and VAO
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    
+    void renderPerTexture(World* world)
+    {
+        GLfloat* vertexes  = world->getVertexes();
+        long vertexNumber = world->getVertexNumber();
+        int vertexVarCount = 9;
+        //GLfloat* sorted = new GLfloat[vertexNumber*vertexVarCount];
+        GLfloat sorted[vertexNumber*vertexVarCount];
+        long numbersOfObjects[loadedTextures.size()];
+        GLuint sortedTextures[loadedTextures.size()];
+        int textureIndex = 0;
+        long sortedIndex = 0;
+        auto size = world->getNumberOfPrimitives();
+        for(const auto &[key,value] : loadedTextures)
+        {
+            int numberOfObjects = 0;
+            for(int j =0; j < size; j++)
+            {
+               if(textures[j] == value)
+               {
+                   //std::cout << "Prim:" << j << " Tex:" << key.c_str() << std::endl;
+                   for(int k =0; k < 3; k++)
+                   {
+                       ++numberOfObjects;
+                       for(int z = 0; z < vertexVarCount; z++)
+                       {
+                           int index = (j*vertexVarCount*3)+(k*vertexVarCount)+z;
+                           sorted[sortedIndex++] = vertexes[index];
+                          //std::cout << index << ": "<< vertexes[index] << std::endl;
+                       }
+                   }
+               }
+            }
+            numbersOfObjects[textureIndex] = numberOfObjects;
+            sortedTextures[textureIndex++] = value;
+        }
+        
+        //binding data
+        // make and bind the VAO
+        glGenVertexArrays(1, &gVAO);
+        glBindVertexArray(gVAO);
+        // make and bind the VBO
+        glGenBuffers(1, &gVBO);
+        glBindBuffer(GL_ARRAY_BUFFER, gVBO);
+        // Put the three triangle verticies into the VBO
+        
+        long vertexesSize = world->getVertexSize();
+        GLfloat* vpointer = sorted;
+        glBufferData(GL_ARRAY_BUFFER,vertexesSize,vpointer, GL_DYNAMIC_DRAW);
+        
+        this->assignVertexAttributes();
+        
         // unbind the VBO and VAO
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
         
+       
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+        //glDepthFunc(GL_LESS);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBindVertexArray(gVAO);
+        // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         
-        //loading transformations
-        //    int screenWidth = 800;
-        //    int screenHeight = 600;
-        glm::mat4 projection;
-        projection = glm::perspective(glm::radians(world->getFov()), (float)windowWidth / windowHeight, world->getNearPane(), world->getFarPane());
-//        projection = glm::mat4(1.0);
+        int offset = 0;
+        for(int i =0; i < loadedTextures.size(); i++)
+        {
+            glBindTexture(GL_TEXTURE_2D, sortedTextures[i]);
+            glDrawArrays(GL_TRIANGLES, offset, numbersOfObjects[i]);
+            offset+= numbersOfObjects[i];
+        }
         
-        glm::vec3 worldpos = glm::vec3(world->getX(),world->getY(),world->getZ());
-        glm::mat4 model = glm::mat4(1.0);
-        model = glm::translate(model,worldpos);
-        //model = glm::rotate(model, glm::radians(world->getRotationX()), glm::vec3(1.0, 0.0, 0.0));
-        //model = glm::rotate(model, glm::radians(world->getRotationY()), glm::vec3(0.0, 1.0, 0.0));
-        
-        
-        
-        glm::mat4 view;
-//        world->cameraPos.z += 0.01;
-        view = glm::lookAt(world->cameraPos, world->cameraPos + world->cameraFront, world->cameraUp);
-//        view = glm::mat4(1.0);
-        
-        //    glm::mat4 mvp =  projection * view * model;
-        //    for(int i =0; i < vertexNumber; i+=3)
-        //    {
-        //        int x = i;
-        //        int y = i+1;
-        //        int z = i+2;
-        //        glm::vec4 pos = glm::vec4(vertexes[x],vertexes[y],vertexes[z],1.0);
-        //        glm::vec4 newpos = projection * view * model * pos;
-        //        double xpos = newpos.x/newpos.w;
-        //        double ypos = newpos.y/newpos.w;
-        //        double zpos = newpos.z/newpos.w;
-        ////        vertexes[x] = xpos;
-        ////        vertexes[y] = ypos;
-        ////        vertexes[z] = zpos;
-        //        vertexes[x] = newpos.x/newpos.w;
-        //        vertexes[y] = newpos.y/newpos.w;
-        //        vertexes[z] = newpos.z/newpos.w;
-        //    }
-        
-        GLint modelLoc = glGetUniformLocation(shaderProgram, "model");
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        GLint viewLoc = glGetUniformLocation(shaderProgram, "view");
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-        GLint projLoc = glGetUniformLocation(shaderProgram, "projection");
-        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+        // unbind the VAO
+        glBindVertexArray(0);
+        glDeleteVertexArrays(1,&gVAO);
+        glDeleteBuffers(1,&gVBO);
+        //delete[] sorted;
     }
     
-    void render(World* world)
+    void assignVertexAttributes()
     {
-            Object3D** objects = world->getPrimitives();
-            int size = world->getNumberOfPrimitives();
+        // connect the xyz to the "vert" attribute of the vertex shader
+        int vertexSize = 9 * sizeof(GLfloat);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,vertexSize, 0);
+        glEnableVertexAttribArray(0);
+        //texture coords
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,vertexSize, (GLvoid*)(3 * sizeof(GLfloat)));
+        glEnableVertexAttribArray(1);
+        //color
+        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE,vertexSize, (GLvoid*)(5 * sizeof(GLfloat)));
+        glEnableVertexAttribArray(2);
+    }
+    void renderAllVertexes(World* world)
+    {
+        loadObjects(world);
+        int size = world->getNumberOfPrimitives();
+        glBindTexture(GL_TEXTURE_2D, defaultTexture);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+        //glDepthFunc(GL_LESS);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        
+        glBindVertexArray(gVAO);
+        // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        // draw the VAO
+        int wholeSize = size*3;
+        glDrawArrays(GL_TRIANGLES,0,wholeSize);
+        glBindVertexArray(0);
+        glDeleteVertexArrays(1,&gVAO);
+        glDeleteBuffers(1,&gVBO);
+    }
+    
+    void renderPerVertex(World* world)
+    {
+        loadObjects(world);
+        Object3D** objects = world->getPrimitives();
+        int size = world->getNumberOfPrimitives();
 //            std::cout << "polygons: " << primitivesSize << std::endl;
-        
-            // clear everything
+    
+        // clear everything
 //            glClearColor(0.5, 0.5, 0.5, 1); // fill color
-        
-            glEnable(GL_DEPTH_TEST);
-            glDepthFunc(GL_LEQUAL);
-            //glDepthFunc(GL_LESS);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        
-            glBindVertexArray(gVAO);
-            // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        
-            int offset = 0;
-            for(int i =0; i < size; i++)
-            {
-                glBindTexture(GL_TEXTURE_2D, textures[i]);
-                Object3D* obj = objects[i];
-                Color* color = obj->getColor();
-                float converted[4] = {color->r,color->g,color->b,color->a};
-                
-                //Если есть текстура, то цвет не используем
-                if(textures[i] != defaultTexture)
-                {
-                    converted[0] = 1;
-                    converted[1] = 1;
-                    converted[2] = 1;
-                    converted[3] = 1;
-                }
-                float* myColor  = converted;
-                // std::cout << "r:" << myColor[0] << ", g:" << myColor[1] << ", b:" << myColor[2] << std::endl;
-                // ! Передаем юниформ в шейдер
-                glUniform4fv(shaderColorUniform, 1,myColor);
-                
-                float scale = obj->getTextureScale();
-                glUniform1f(shaderTextureScaleUniform,scale);
-                
-                // draw the VAO
-                int vertexes = obj->getNumberOfPoints();
-                // std::cout << "offset: " << offset << " ,vertexes: " << vertexes << std::endl;
-//                glDrawArrays(GL_TRIANGLES, offset,offset+vertexes);
-              
-                int wholeSize = size*vertexes;
-                glDrawArrays(GL_TRIANGLES,0,wholeSize);
-                glBindVertexArray(0);
-                glDeleteVertexArrays(1,&gVAO);
-                glDeleteBuffers(1,&gVBO);
-                delete[] objects;
-                return;
-                
-                offset+= vertexes;
-            }
-        
-            // unbind the VAO
-            glBindVertexArray(0);
-            glDeleteVertexArrays(1,&gVAO);
-            glDeleteBuffers(1,&gVBO);
-            // swap the display buffers (displays what was just drawn)
-            //    glfwSwapBuffers(windowWrapper->getWindow());
-            delete[] objects;
+    
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+        //glDepthFunc(GL_LESS);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+        glBindVertexArray(gVAO);
+        // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    
+        int offset = 0;
+        for(int i =0; i < size; i++)
+        {
+            glBindTexture(GL_TEXTURE_2D, textures[i]);
+            Object3D* obj = objects[i];
+            
+            float scale = obj->getTextureScale();
+            glUniform1f(shaderTextureScaleUniform,scale);
+            
+            // draw the VAO
+            int vertexes = obj->getNumberOfPoints();
+            // std::cout << "offset: " << offset << " ,vertexes: " << vertexes << std::endl;
+            glDrawArrays(GL_TRIANGLES, offset,vertexes);
+            offset+= vertexes;
         }
+    
+        // unbind the VAO
+        glBindVertexArray(0);
+        glDeleteVertexArrays(1,&gVAO);
+        glDeleteBuffers(1,&gVBO);
+        // swap the display buffers (displays what was just drawn)
+        //    glfwSwapBuffers(windowWrapper->getWindow());
+        delete[] objects;
+    }
     GLint loadShaders()
     {
         const char* vertexShaderSource =
         "#version 330\n"
         "layout (location = 0) in vec3 position;"
-        // "layout (location = 1) in vec3 color;"
         "layout (location = 1) in vec2 textCoord;"
+        "layout (location = 2) in vec4 color;"
         "uniform mat4 model;"
         "uniform mat4 view;"
         "uniform mat4 projection;"
         "out vec2 TexCoord;"
+        "out vec4 mycolor;"
         "void main() { "
         "gl_Position = projection * view * model * vec4(position, 1.0f);"
         "TexCoord = textCoord;"
+        "mycolor = color;"
         "}";
         
         GLuint vertexShader;
@@ -271,14 +319,15 @@ protected:
         "#version 330 core\n"
         "in vec2 TexCoord;"
         "out vec4 color;"
-        "uniform vec4 mycolor;"
+        "in vec4 mycolor;"
         "uniform sampler2D ourTexture;"
         "uniform float scale;"
         "void main()"
         "{"
         //"color =  vec4(1.0f,1.0f,1.0f,1.0f);"
-        //"color = vec4(mycolor, 1.0f);"
-        "color = texture(ourTexture, TexCoord*scale) * mycolor; "
+       // "color = mycolor;"
+        "color = texture(ourTexture, TexCoord*1) * mycolor; "
+   //     "color = texture(ourTexture, TexCoord*1) *vec4(1.0f,1.0f,1.0f,1.0f);"
         "}";
         
         GLuint fragmentShader;
@@ -307,11 +356,11 @@ protected:
             std::cout << "ERROR::SHADER::PROGRAMM::COMPILATION_FAILED\n" << infoLog << std::endl;
             return 0;
         }
-        shaderColorUniform = glGetUniformLocation(shaderProgram, "mycolor");
-        if(shaderColorUniform == -1) {
-            std::cout << "could not bind uniform for color" << std::endl;
-            return 0;
-        }
+//        shaderColorUniform = glGetUniformLocation(shaderProgram, "mycolor");
+//        if(shaderColorUniform == -1) {
+//            std::cout << "could not bind uniform for color" << std::endl;
+//            return 0;
+//        }
         shaderTextureScaleUniform = glGetUniformLocation(shaderProgram, "scale");
         if(shaderTextureScaleUniform == -1) {
             std::cout << "could not bind uniform for texture scale " << std::endl;
@@ -350,6 +399,46 @@ protected:
             textures[i] = texture;
         }
         delete[] objects;
+    }
+    void loadMatrixes(World* world,int windowWidth, int windowHeight)
+    {
+        //loading transformations
+        //    int screenWidth = 800;
+        //    int screenHeight = 600;
+        glm::mat4 projection;
+        projection = glm::perspective(glm::radians(world->getFov()), (float)windowWidth / windowHeight, world->getNearPane(), world->getFarPane());
+        //        projection = glm::mat4(1.0);
+        
+        glm::vec3 worldpos = glm::vec3(world->getX(),world->getY(),world->getZ());
+        glm::mat4 model = glm::mat4(1.0);
+        model = glm::translate(model,worldpos);
+        //model = glm::rotate(model, glm::radians(world->getRotationX()), glm::vec3(1.0, 0.0, 0.0));
+        //model = glm::rotate(model, glm::radians(world->getRotationY()), glm::vec3(0.0, 1.0, 0.0));
+        
+        
+        glm::mat4 view;
+        view = glm::lookAt(world->cameraPos, world->cameraPos + world->cameraFront, world->cameraUp);
+        //        view = glm::mat4(1.0);
+        // Такими бы трансформации перспективы выглядят на видюхе. Через координату W
+        //    glm::mat4 mvp =  projection * view * model;
+        //    for(int i =0; i < vertexNumber; i+=3)
+        //    {
+        //        int x = i;
+        //        int y = i+1;
+        //        int z = i+2;
+        //        glm::vec4 pos = glm::vec4(vertexes[x],vertexes[y],vertexes[z],1.0);
+        //        glm::vec4 newpos = projection * view * model * pos;
+        //        vertexes[x] = newpos.x/newpos.w;
+        //        vertexes[y] = newpos.y/newpos.w;
+        //        vertexes[z] = newpos.z/newpos.w;
+        //    }
+        
+        GLint modelLoc = glGetUniformLocation(shaderProgram, "model");
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        GLint viewLoc = glGetUniformLocation(shaderProgram, "view");
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+        GLint projLoc = glGetUniformLocation(shaderProgram, "projection");
+        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
     }
 };
 #endif /* WorldPrinter_hpp */

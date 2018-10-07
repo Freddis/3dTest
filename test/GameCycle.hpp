@@ -61,7 +61,7 @@ public:
             if(timer >= 1)
             {
                 fps = counter;
-                std::cout << "fps: " << fps << std::endl;
+                //std::cout << "fps: " << fps << std::endl;
                 timer = 0;
                 counter = 0;
             }

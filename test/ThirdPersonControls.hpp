@@ -154,7 +154,7 @@ public:
         }
         if(space)
         {
-            std::cout << "Update camera rotation" << std::endl;
+           // std::cout << "Update camera rotation" << std::endl;
            // updateCameraPosition();
             //updateWorldRotation();
         }
@@ -227,13 +227,13 @@ protected:
                 case GLFW_KEY_D:
                     d = value;
                     break;
+                    
                 case GLFW_KEY_SPACE:
                     space = value;
                     if(action == 1)
                     {
                         freelookMode = !freelookMode;
                     }
-                    
                     break;
             }
         }

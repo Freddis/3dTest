@@ -16,14 +16,6 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     const char* font = "fonts/OpenSans-Regular.ttf";
     typewriter = new TypeWriter(font,20,window->getWidth(),window->getHeight());
     
-  
-    
-//    controls->updateWorldRotation();
-    
-    //    Square* floor = new Square(0.5);
-    //    world->addObject(floor);
-    
-    
     Cube* cube = new Cube(0.05);
     rotatedObject = cube;
     cube->moveZ(0.2);
@@ -37,7 +29,6 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     //car->setTexture("textures/texture1.jpg");s
     car->setColor(Color::getBlue());
     car->getFront()->setColor(Color::getCyan());
-    //car->getFront()->moveZ(-0.05);
     world->addObject(car);
     this->controls = new ThirdPersonControls(car,world,window->getWindow());
     this->controls->activate();
@@ -47,28 +38,15 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     }
     
     camera = new Cube(0.010);
+    //camera = new Cube(0.10);
     camera->setColor(Color::getRed());
+    camera->getColor()->a = 0.5;
+    
     world->addObject(camera);
     
-    Cube* cube3 = new Cube(0.2);
-    cube3->moveX(0.3);
-    cube3->moveY(0.5);
-    cube3->moveZ(0.2);
-    cube3->rotateY(45);
-    cube3->rotateZ(45);
-    world->addObject(cube3);
+   
     //
-    int p = 0;
-    Object3D** prims = cube3->getPrimitives(&p);
-    for(int i =0; i < p; i++)
-    {
-        Color* color = prims[i]->getColor();
-        color->a = 0.3;
-        prims[i]->setColor(color);
-    }
-    delete[] prims;
-    //
-    Square* floor = new Square(50);
+    Square* floor = new Square(0.5);
     floor->setTexture("textures/texture3.bmp",100);
     floor->setColor(Color::getWhite());
     floor->moveX(0.0);
@@ -84,9 +62,9 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     
     Color* colorA = floor->getColor();
     Color* colorB = floor->getColor();
-    float side = floor->getSideSize() + 0.01;
-    int xsize = 3;
-    int zsize = 3;
+    float side = floor->getSideSize();// + 0.01;
+    int xsize = 10;
+    int zsize = 10;
     
     for(int j = 0; j < zsize; j++)
     {
@@ -139,18 +117,36 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     Square* wall = new Square(1);
     wall->moveZ(- (wall->getSideSize()/2 + floor->getC()->z));
     wall->setColor(Color::getWhite());
+    wall->setTexture("textures/stripes.jpg");
     wall->moveY(wall->getSideSize()/2);
     world->addObject(wall);
     Square* rightWall = wall->copy();
-    rightWall->setColor(Color::getBlack());
+    rightWall->setColor(Color::getBlue());
     rightWall->moveX(rightWall->getSideSize()+0.1);
     world->addObject(rightWall);
     Square* leftWall = wall->copy();
-    leftWall->setColor(Color::getBlack());
+    leftWall->setColor(Color::getWhite());
+    leftWall->setTexture("textures/texture1.jpg");
     leftWall->moveX(-leftWall->getSideSize()-0.1);
     world->addObject(leftWall);
     
-   // controls->focusOn(center);
+    Cube* cube3 = new Cube(0.2);
+    cube3->moveX(0.3);
+    cube3->moveY(0.5);
+    cube3->moveZ(0.2);
+    cube3->rotateY(45);
+    cube3->rotateZ(45);
+    world->addObject(cube3);
+    //
+    int p = 0;
+    Object3D** prims = cube3->getPrimitives(&p);
+    for(int i =0; i < p; i++)
+    {
+        Color* color = prims[i]->getColor();
+        color->a = 0.7;
+        prims[i]->setColor(color);
+    }
+    delete[] prims;
 }
     
 void Stage1::process(GameCycle* cycle)
@@ -161,7 +157,6 @@ void Stage1::process(GameCycle* cycle)
     typewriter->printLine("Polygons: " + std::to_string(world->getNumberOfPrimitives()));
     typewriter->printLine("Fov: " + std::to_string((int)world->getFov()));
     typewriter->printLine((std::string)"Letters: " + std::to_string(typewriter->getNumberOfLetters()));
-//    std::cout << "fps:" << cycle->getFPS() << std::endl;
     typewriter->printLine("Car position x: " + std::to_string((float)car->getX()) + ", y: "  + std::to_string(car->getY()) + ", z: "  + std::to_string(car->getZ()));
     typewriter->printLine("Car rotation x: " + std::to_string((float)car->getRotationX()) + ", y: "  + std::to_string(car->getRotationY()) + ", z: "  + std::to_string(car->getRotationZ()));
     typewriter->printLine("Cam position x: " + std::to_string((float)world->cameraPos.x) + ", y: "  + std::to_string(world->cameraPos.y) + ", z: "  + std::to_string(world->cameraPos.z));
@@ -173,7 +168,6 @@ void Stage1::process(GameCycle* cycle)
     
 void Stage1::beforeProcessing(double timer)
 {
-    auto world = getWorld();
     controls->process(timer);
     int step = 1;
     rotatedObject->rotateX(step*timer*100);
@@ -183,13 +177,5 @@ void Stage1::beforeProcessing(double timer)
     camera->moveX(-camera->getX() + controls->cameraPos.x);
     camera->moveY(-camera->getY() + controls->cameraPos.y);
     camera->moveZ(-camera->getZ() + controls->cameraPos.z);
-    
-//    car->moveX(-car->getX() + world->cameraPos.x +  world->cameraFront.x/3);
-//    car->moveY(-car->getY() + world->cameraPos.y + world->cameraFront.y/3);
-//    car->moveZ(-car->getZ() + world->cameraPos.z + world->cameraFront.z/3);
-    
-//    hs::Point p(world->cameraPos.x,world->cameraPos.y,world->cameraPos.z);
-//    controls->focusOn(&p,car);
-    
 }
 

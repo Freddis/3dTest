@@ -20,7 +20,8 @@ class Triangle :public Object3D
     hs::Point* a;
     hs::Point* b;
     hs::Point* c;
-    GLfloat data[15] = {};
+    int vsize = 9;
+    GLfloat data[27] = {};
     bool textureSwapped = false;
 public:
     Triangle(hs::Point*a, hs::Point*b, hs::Point*c)
@@ -34,32 +35,25 @@ public:
     
     virtual GLfloat* getVertexArray()
     {
-        //std::cout << "x:" << a->x << std::endl;
-        data[0] = a->x;
-        data[1] = a->y;
-        data[2] = a->z;
-        data[3] = 1.0;
-        data[4] = 1.0;
-        
-        data[5] = b->x;
-        data[6] = b->y;
-        data[7] = b->z;
+        hs::Point* arr[3] = {a,b,c};
+        int texCoords[6] = {1,1,1,0,0,0};
         if(textureSwapped)
         {
-            data[8] = 0.0;
-            data[9] = 1.0;
+            texCoords[2] = 0;
+            texCoords[3] = 1;
         }
-        else
+        for(int i =0; i < 3;i++)
         {
-            data[8] = 1.0;
-            data[9] = 0.0;
+            data[0+i*vsize] = arr[i]->x;
+            data[1+i*vsize] = arr[i]->y;
+            data[2+i*vsize] = arr[i]->z;
+            data[3+i*vsize] = texCoords[i*2];
+            data[4+i*vsize] = texCoords[i*2+1];
+            data[5+i*vsize] = this->color->r;
+            data[6+i*vsize] = this->color->g;
+            data[7+i*vsize] = this->color->b;
+            data[8+i*vsize] = this->color->a; 
         }
-        
-        data[10] = c->x;
-        data[11] = c->y;
-        data[12] = c->z;
-        data[13] = 0.0;
-        data[14] = 0.0;
         return data;
     }
     
@@ -70,8 +64,7 @@ public:
     
     int getSizeOf()
     {
-        GLfloat sample;
-        int size = sizeof(sample)*(15);
+        int size = sizeof(data);
         return size;
     }
     

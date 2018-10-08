@@ -30,6 +30,30 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     car->setColor(Color::getBlue());
     car->getFront()->setColor(Color::getCyan());
     world->addObject(car);
+    
+    auto mark = new Cube(0.005);
+    mark->setColor(Color::getYellow());
+    world->addObject(mark);
+    normals.insert(std::pair<Triangle*, Object3D*>(car->getFront()->getTop(),mark));
+    
+    mark = new Cube(0.005);
+    mark->setColor(Color::getCyan());
+    world->addObject(mark);
+    normals.insert(std::pair<Triangle*, Object3D*>(car->getTop()->getTop(),mark));
+    
+    mark = new Cube(0.005);
+    mark->setColor(Color::getMagenta());
+    world->addObject(mark);
+    normals.insert(std::pair<Triangle*, Object3D*>(car->getRight()->getTop(),mark));
+    
+    mark = new Cube(0.005);
+    mark->setColor(Color::getWhite());
+    world->addObject(mark);
+    normals.insert(std::pair<Triangle*, Object3D*>(car->getLeft()->getTop(),mark));
+    
+
+    
+    
     this->controls = new ThirdPersonControls(car,world,window->getWindow());
     this->controls->activate();
     if(!window->isFullscreen())
@@ -130,6 +154,15 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     leftWall->moveX(-leftWall->getSideSize()-0.1);
     world->addObject(leftWall);
     
+    mark = new Cube(0.005);
+    mark->setColor(Color::getWhite());
+    world->addObject(mark);
+    normals.insert(std::pair<Triangle*, Object3D*>(wall->getTop(),mark));
+    mark = new Cube(0.005);
+    mark->setColor(Color::getGrey());
+    world->addObject(mark);
+    normals.insert(std::pair<Triangle*, Object3D*>(wall->getBottom(),mark));
+    
     Cube* cube3 = new Cube(0.2);
     cube3->moveX(0.3);
     cube3->moveY(0.5);
@@ -177,5 +210,32 @@ void Stage1::beforeProcessing(double timer)
     camera->moveX(-camera->getX() + controls->cameraPos.x);
     camera->moveY(-camera->getY() + controls->cameraPos.y);
     camera->moveZ(-camera->getZ() + controls->cameraPos.z);
+    
+    for(const auto &[key,value] : normals)
+    {
+        displayNormal(key,value);
+    }
+}
+void Stage1::displayNormal(Triangle* trngl,Object3D* obj)
+{
+    //display normal
+    auto color = obj->getColor();
+    if(color != trngl->getColor())
+    {
+        trngl->setColor(color);
+    }
+    
+    auto normal = trngl->createNormal();
+    auto center = trngl->getCenter();
+    obj->moveX(-obj->getX()+center->getX());
+    obj->moveY(-obj->getY()+center->getY());
+    obj->moveZ(-obj->getZ()+center->getZ());
+    float len = 0.05;
+    normal->multiply(len);
+    obj->moveX(normal->getX());
+    obj->moveY(normal->getY());
+    obj->moveZ(normal->getZ());
+    delete normal;
+    delete center;
 }
 

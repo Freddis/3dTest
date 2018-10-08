@@ -31,6 +31,7 @@ public:
     {
         return new Color(r,g,b,a);
     }
+    
     void add(Color* color)
     {
         this->r += color->r;

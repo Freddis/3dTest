@@ -39,6 +39,14 @@ public:
         top = triangle1;
         bottom = triangle2;
     }
+    Triangle* getTop()
+    {
+        return top;
+    }
+    Triangle* getBottom()
+    {
+        return bottom;
+    }
     Square(float side)
     {
         float half = side/2;

@@ -20,6 +20,10 @@ class Cube : public Object3D
     Square * squares[6] = {};
     Square * front;
     Square * back;
+    Square * left;
+    Square * right;
+    Square * top;
+    Square * bottom;
     int worldX = 0;
     int worldY = 0;
 public:
@@ -64,6 +68,10 @@ public:
         
         this->front = front;
         this->back = back;
+        this->left = left;
+        this->right = right;
+        this->top = top;
+        this->bottom = bottom;
     }
     
     Cube* copy()
@@ -139,6 +147,22 @@ public:
     Square* getBack()
     {
         return this->back;
+    }
+    Square* getLeft()
+    {
+        return this->left;
+    }
+    Square* getRight()
+    {
+        return this->right;
+    }
+    Square* getTop()
+    {
+        return this->top;
+    }
+    Square* getBottom()
+    {
+        return this->bottom;
     }
     
     int getNumberOfPoints()

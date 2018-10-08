@@ -112,7 +112,6 @@ public:
         float timer = timepassed;
         if(up)
         {
-            hs::Point prev(character->getX(),character->getY(),character->getZ());
             auto front = movementLength*timer * characterFront;
             character->moveX(front.x);
             character->moveY(front.y);

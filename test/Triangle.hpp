@@ -32,7 +32,27 @@ public:
         this->color = new Color(1.0f,0.0f,0.0f);
     }
     
-    
+    hs::Point* getCenter()
+    {
+        float x = (a->x+b->x+c->x)/3 + getX();
+        float y = (a->y+b->y+c->y)/3 + getY();
+        float z = (a->z+b->z+c->z)/3 + getZ();
+        auto center = new hs::Point(x,y,z);
+        return center;
+    }
+    hs::Point* createNormal()
+    {
+        hs::Point ab(b->x-a->x, b->y-a->y, b->z-a->z);
+        hs::Point ac(c->x-a->x, c->y-a->y, c->z-a->z);
+        hs::Point* a = &ab;
+        hs::Point* b = &ac;
+        float x = a->y*b->z - a->z*b->y;
+        float y = a->z*b->x - a->x*b->z;
+        float z = a->x*b->y - a->y*b->x;
+        hs::Point* normal = new hs::Point(x,y,z);
+        normal->normalize();
+        return normal;
+    }
     virtual GLfloat* getVertexArray()
     {
         hs::Point* arr[3] = {a,b,c};

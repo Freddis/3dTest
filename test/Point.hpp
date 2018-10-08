@@ -31,7 +31,25 @@ public:
         hs::Point* p = new hs::Point(this->x,this->y,this->z);
         return p;
     }
-    
+    void normalize()
+    {
+        auto mag = getMagnitude();
+        if(mag > 0)
+        {
+            this->multiply(1/mag);
+        }
+    }
+    void multiply(float val)
+    {
+        x*=val;
+        y*=val;
+        z*=val;
+    }
+    float getMagnitude()
+    {
+        float mag = sqrt(x*x + y*y + z*z);
+        return mag;
+    }
     void rotateZ(float degree)
     {
         double rad = degree * (M_PI/180.f);

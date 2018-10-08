@@ -31,5 +31,10 @@ public:
     {
         return world;
     }
+    virtual Color getClearColor()
+    {
+        Color color(0.5f,0.5f,0.5f);
+        return color;
+    }
 };
 #endif /* Stage_hpp */

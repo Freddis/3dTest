@@ -326,7 +326,14 @@ protected:
         "{"
         //"color =  vec4(1.0f,1.0f,1.0f,1.0f);"
        // "color = mycolor;"
-        "color = texture(ourTexture, TexCoord*1) * mycolor; "
+        "float ambientStrength = 0.5f;"
+        "vec3 lightColor =  vec3(1.0f,1.0f,1.0f);"
+        "vec3 ambient = ambientStrength * lightColor;"
+        "vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;"
+        "vec4 result =  objectColor * vec4(ambient,1.0f);"
+        //"vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;"
+        //"vec4 result = ambient * objectColor;
+        "color = result; "
    //     "color = texture(ourTexture, TexCoord*1) *vec4(1.0f,1.0f,1.0f,1.0f);"
         "}";
         

@@ -12,9 +12,13 @@
 #include <stdio.h>
 #include <iostream>
 #include <map>
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
+#include <OpenGL/gl3.h>
 
 #include "World.hpp"
 #include "Object3D.hpp"
+#include "Square.hpp"
 #include "TextureLoader.hpp"
 
 #include <glm/glm.hpp>
@@ -53,13 +57,13 @@ public:
     void draw(World* world,int windowWidth, int windowHeight)
     {
         renderShadows(world,windowWidth,windowHeight);
-//        glUseProgram(shaderProgram);
+//        glUseProgram(shadowsShaderProgram);
 //        loadMatrixes(world,windowWidth,windowHeight);
 //        loadTextures(world);
-        
-        //renderAllVertexes(world);
-        //renderPerVertex(world);
-        //renderPerTexture(world);
+//
+//        //renderAllVertexes(world);
+//        //renderPerVertex(world);
+//        renderPerTexture(world);
         
     }
 protected:
@@ -70,8 +74,9 @@ protected:
         unsigned int depthMapFBO;
         glGenFramebuffers(1, &depthMapFBO);
         const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+        //const unsigned int SHADOW_WIDTH = windowWidth, SHADOW_HEIGHT = windowHeight;
         
-        unsigned int depthMap;
+        GLuint depthMap;
         glGenTextures(1, &depthMap);
         glBindTexture(GL_TEXTURE_2D, depthMap);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
@@ -83,22 +88,100 @@ protected:
         
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+        //glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, depthMap, 0);
         glDrawBuffer(GL_NONE);
         glReadBuffer(GL_NONE);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         
         glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-        glClear(GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        auto cam = world->cameraPos;
+        world->cameraPos.x = world->getLightSource()->getX();
+        world->cameraPos.y = world->getLightSource()->getY();
+        world->cameraPos.z = world->getLightSource()->getZ();
         
         loadMatrixes(world,windowWidth,windowHeight);
         loadTextures(world);
-        renderAllVertexes(world);
+        renderPerTexture(world);
+        world->cameraPos = cam;
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glViewport(0, 0, windowWidth, windowHeight);
+        
+        
+        this->renderMirror(world,windowWidth,windowHeight,depthMap);
+        
+        glDeleteTextures(1, &depthMap);
+        glDeleteFramebuffers(1,&depthMapFBO);
+    }
+    
+     void renderMirror(World* world, int windowWidth, int windowHeight, GLuint depthMap)
+    {
+        //Render mirror
+        
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        GLfloat vertexes[] = {
+            //bottom
+            -0.5f,-0.5f,-1.5f, 0,0, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
+            0.5f,-0.5f,-1.5f, 1,0, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
+            0.5f,0.5f,-1.5f, 1,1, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
+            //top
+            -0.5f,-0.5f,-1.5f, 0,0, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
+            -0.5f,0.5f,-1.5f, 0,1, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
+            0.5f,0.5f,-1.5f, 1,1, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f
+        };
+        
         
         glUseProgram(shaderProgram);
-        renderAllVertexes(world);
+        loadMatrixes(world,windowWidth,windowHeight);
+        glGenVertexArrays(1, &gVAO);
+        glBindVertexArray(gVAO);
+        // make and bind the VBO
+        glGenBuffers(1, &gVBO);
+        glBindBuffer(GL_ARRAY_BUFFER, gVBO);
+        // Put the three triangle verticies into the VBO
         
+        GLfloat* vpointer = vertexes;
+        glBufferData(GL_ARRAY_BUFFER,sizeof(vertexes),vpointer, GL_DYNAMIC_DRAW);
+        
+        this->assignVertexAttributes();
+        
+        // unbind the VBO and VAO
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+        
+        glDisable(GL_CULL_FACE);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+        //glDepthFunc(GL_LESS);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBindVertexArray(gVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, gVBO);
+        
+        //Setting light position
+        auto source = world->getLightSource();
+        float light[3] = {0.0f,0.0f,0.0f};
+        if(source != nullptr)
+        {
+            light[0] = source->getX();
+            light[1] = source->getY();
+            light[2] = source->getZ();
+        }
+        glUniform3fv(shaderLightUniform,1,light);
+        
+        //Setting view position
+        float camera[3] = {world->cameraPos.x,world->cameraPos.y,world->cameraPos.z};
+        glUniform3fv(shaderViewUniform,1,camera);
+        glBindTexture(GL_TEXTURE_2D,depthMap);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        
+        // unbind the VAO
+        glBindVertexArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glDeleteVertexArrays(1,&gVAO);
+        glDeleteBuffers(1,&gVBO);
     }
     
     void loadObjects(World* world)
@@ -478,28 +561,30 @@ protected:
         "{"
         //"color =  vec4(1.0f,1.0f,1.0f,1.0f);"
        // "color = mycolor;"
-        "vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;"
+//        "vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;"
+//
+//        "vec3 lightColor =  vec3(1.0f,1.0f,1.0f);"
+//        "float ambientStrength = 0.5f;"
+//        "vec3 ambient = ambientStrength * lightColor;"
+//
+//        "vec3 norm = Normal;"
+//        "vec3 lightDir = normalize(lightPos - FragPos);"
+//        "float diff = max(dot(norm, lightDir), 0.0);"
+//        "vec3 diffuse = diff * lightColor;"
+//
+//
+//        "float specularStrength = 1.0f;"
+//        "vec3 viewDir = normalize(viewPos - FragPos);"
+//        "vec3 reflectDir = reflect(-lightDir, norm);"
+//        "float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);"
+//        "vec3 specular = specularStrength * spec * lightColor;"
         
-        "vec3 lightColor =  vec3(1.0f,1.0f,1.0f);"
-        "float ambientStrength = 0.001f;"
-        "vec3 ambient = ambientStrength * lightColor;"
-        
-        "vec3 norm = Normal;"
-        "vec3 lightDir = normalize(lightPos - FragPos);"
-        "float diff = max(dot(norm, lightDir), 0.0);"
-        "vec3 diffuse = diff * lightColor;"
-        
-        
-        "float specularStrength = 10.0f;"
-        "vec3 viewDir = normalize(viewPos - FragPos);"
-        "vec3 reflectDir = reflect(-lightDir, norm);"
-        "float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);"
-        "vec3 specular = specularStrength * spec * lightColor;"
-        
-        "vec4 result =  objectColor * vec4(ambient+diffuse+specular,1.0f);"
-        //"vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;"
+        //"vec4 result =  objectColor * vec4(ambient+diffuse+specular,1.0f);"
+        "float depthValue = texture(ourTexture, TexCoord).r;"
+        "color = vec4(vec3(depthValue), 1.0);"
+     //   "color = texture(ourTexture, TexCoord);"
         //"vec4 result = ambient * objectColor;
-        "color = result; "
+//        "color = result; "
    //     "color = texture(ourTexture, TexCoord*1) *vec4(1.0f,1.0f,1.0f,1.0f);"
         "}";
         

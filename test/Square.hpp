@@ -33,7 +33,7 @@ public:
         this->c = c;
         this->d = d;
         Triangle *triangle1 = new Triangle(this->a,this->b,this->c);
-        Triangle *triangle2 = new Triangle(this->a,this->d,this->c);
+        Triangle *triangle2 = new Triangle(this->c,this->d,this->a);
         triangle2->swapTexturePosition();
         
         top = triangle1;
@@ -56,7 +56,7 @@ public:
         this->c = new hs::Point(a->x+side,a->y+side,a->z);
         this->d = new hs::Point(a->x+side,a->y,a->z);
         Triangle *triangle1 = new Triangle(this->a,this->b,this->c);
-        Triangle *triangle2 = new Triangle(this->a,this->d,this->c);
+        Triangle *triangle2 = new Triangle(this->c,this->d,this->a);
         triangle2->swapTexturePosition();
         top = triangle1;
         bottom = triangle2;

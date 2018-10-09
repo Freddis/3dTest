@@ -30,6 +30,7 @@ class WorldPrinter
     TextureLoader* loader;
     GLuint defaultTexture;
     GLuint shaderColorUniform;
+    GLuint shaderLightUniform;
     GLuint shaderTextureScaleUniform;
     GLuint textures[1000000] = {};
     std::map<std::string,GLuint> loadedTextures;
@@ -129,7 +130,7 @@ protected:
     {
         GLfloat* vertexes  = world->getVertexes();
         long vertexNumber = world->getVertexNumber();
-        int vertexVarCount = 9;
+        int vertexVarCount = 12;
         //GLfloat* sorted = new GLfloat[vertexNumber*vertexVarCount];
         GLfloat sorted[vertexNumber*vertexVarCount];
         long numbersOfObjects[loadedTextures.size()];
@@ -180,7 +181,7 @@ protected:
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
         
-       
+       // glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
         //glDepthFunc(GL_LESS);
@@ -188,7 +189,8 @@ protected:
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glBindVertexArray(gVAO);
         // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        
+        float light[3] = {0.0f,0.0f,0.0f};
+        glUniform3fv(shaderLightUniform,1,light);
         int offset = 0;
         for(int i =0; i < loadedTextures.size(); i++)
         {
@@ -207,7 +209,7 @@ protected:
     void assignVertexAttributes()
     {
         // connect the xyz to the "vert" attribute of the vertex shader
-        int vertexSize = 9 * sizeof(GLfloat);
+        int vertexSize = 12 * sizeof(GLfloat);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,vertexSize, 0);
         glEnableVertexAttribArray(0);
         //texture coords
@@ -216,6 +218,9 @@ protected:
         //color
         glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE,vertexSize, (GLvoid*)(5 * sizeof(GLfloat)));
         glEnableVertexAttribArray(2);
+        //normal
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,vertexSize, (GLvoid*)(9 * sizeof(GLfloat)));
+        glEnableVertexAttribArray(3);
     }
     void renderAllVertexes(World* world)
     {
@@ -288,15 +293,20 @@ protected:
         "layout (location = 0) in vec3 position;"
         "layout (location = 1) in vec2 textCoord;"
         "layout (location = 2) in vec4 color;"
+        "layout (location = 3) in vec3 normal;"
         "uniform mat4 model;"
         "uniform mat4 view;"
         "uniform mat4 projection;"
         "out vec2 TexCoord;"
         "out vec4 mycolor;"
+        "out vec3 FragPos;"
+        "out vec3 Normal;"
         "void main() { "
         "gl_Position = projection * view * model * vec4(position, 1.0f);"
+        "FragPos = vec3(model * vec4(position, 1.0f));"
         "TexCoord = textCoord;"
         "mycolor = color;"
+        "Normal = normal;"
         "}";
         
         GLuint vertexShader;
@@ -320,8 +330,11 @@ protected:
         "in vec2 TexCoord;"
         "out vec4 color;"
         "in vec4 mycolor;"
+        "in vec3 FragPos;"
+        "in vec3 Normal;"
         "uniform sampler2D ourTexture;"
         "uniform float scale;"
+        "uniform vec3 lightPos;"
         "void main()"
         "{"
         //"color =  vec4(1.0f,1.0f,1.0f,1.0f);"
@@ -329,8 +342,12 @@ protected:
         "float ambientStrength = 0.5f;"
         "vec3 lightColor =  vec3(1.0f,1.0f,1.0f);"
         "vec3 ambient = ambientStrength * lightColor;"
+        "vec3 norm = normalize(Normal);"
+        "vec3 lightDir = normalize(lightPos - FragPos);"
+        "float diff = max(dot(norm, lightDir), 0.0);"
+        "vec3 diffuse = diff * lightColor;"
         "vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;"
-        "vec4 result =  objectColor * vec4(ambient,1.0f);"
+        "vec4 result =  objectColor * vec4(ambient+diffuse,1.0f);"
         //"vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;"
         //"vec4 result = ambient * objectColor;
         "color = result; "
@@ -363,11 +380,11 @@ protected:
             std::cout << "ERROR::SHADER::PROGRAMM::COMPILATION_FAILED\n" << infoLog << std::endl;
             return 0;
         }
-//        shaderColorUniform = glGetUniformLocation(shaderProgram, "mycolor");
-//        if(shaderColorUniform == -1) {
-//            std::cout << "could not bind uniform for color" << std::endl;
-//            return 0;
-//        }
+        shaderLightUniform = glGetUniformLocation(shaderProgram, "lightPos");
+        if(shaderLightUniform == -1) {
+            std::cout << "could not bind uniform for color" << std::endl;
+            //return 0;
+        }
         shaderTextureScaleUniform = glGetUniformLocation(shaderProgram, "scale");
         if(shaderTextureScaleUniform == -1) {
             std::cout << "could not bind uniform for texture scale " << std::endl;

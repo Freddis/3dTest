@@ -20,8 +20,8 @@ class Triangle :public Object3D
     hs::Point* a;
     hs::Point* b;
     hs::Point* c;
-    int vsize = 9;
-    GLfloat data[27] = {};
+    int vsize = 12;
+    GLfloat data[36] = {};
     bool textureSwapped = false;
 public:
     Triangle(hs::Point*a, hs::Point*b, hs::Point*c)
@@ -56,11 +56,12 @@ public:
     virtual GLfloat* getVertexArray()
     {
         hs::Point* arr[3] = {a,b,c};
+        hs::Point* normal = this->createNormal();
         int texCoords[6] = {1,1,1,0,0,0};
         if(textureSwapped)
         {
-            texCoords[2] = 0;
-            texCoords[3] = 1;
+           // texCoords[2] = 0;
+           // texCoords[3] = 1;
         }
         for(int i =0; i < 3;i++)
         {
@@ -72,8 +73,12 @@ public:
             data[5+i*vsize] = this->color->r;
             data[6+i*vsize] = this->color->g;
             data[7+i*vsize] = this->color->b;
-            data[8+i*vsize] = this->color->a; 
+            data[8+i*vsize] = this->color->a;
+            data[9+i*vsize] = normal->x;
+            data[10+i*vsize] = normal->y;
+            data[11+i*vsize] = normal->z;
         }
+        delete[] normal;
         return data;
     }
     

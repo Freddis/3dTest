@@ -108,7 +108,7 @@ public:
     }
     int getVertexSize()
     {
-        int size = getVertexNumber()*sizeof(GLfloat)*9;
+        int size = getVertexNumber()*sizeof(GLfloat)*12;
         return size;
     }
     

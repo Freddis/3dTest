@@ -26,6 +26,7 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     
     car = new Cube(0.05);
     car->moveY(-0.070);
+    car->moveY(0.1);
     //car->setTexture("textures/texture1.jpg");s
     car->setColor(Color::getBlue());
     car->getFront()->setColor(Color::getCyan());

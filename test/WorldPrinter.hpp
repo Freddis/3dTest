@@ -27,17 +27,20 @@ class WorldPrinter
     GLuint gVBO = 0;
     GLuint gEBO = 0;
     GLint shaderProgram;
+    GLint shadowsShaderProgram;
     TextureLoader* loader;
     GLuint defaultTexture;
     GLuint shaderColorUniform;
     GLuint shaderLightUniform;
-    GLuint shaderTextureScaleUniform;
+    GLuint shaderViewUniform;
     GLuint textures[1000000] = {};
     std::map<std::string,GLuint> loadedTextures;
     
 public:
     WorldPrinter()
     {
+       
+        shadowsShaderProgram = loadShadowShaders();
         shaderProgram = loadShaders();
         loader = new TextureLoader();
         //somehow png is not blending correctly
@@ -49,14 +52,55 @@ public:
     
     void draw(World* world,int windowWidth, int windowHeight)
     {
-        glUseProgram(shaderProgram);
-        loadMatrixes(world,windowWidth,windowHeight);
-        loadTextures(world);
+        renderShadows(world,windowWidth,windowHeight);
+//        glUseProgram(shaderProgram);
+//        loadMatrixes(world,windowWidth,windowHeight);
+//        loadTextures(world);
+        
         //renderAllVertexes(world);
         //renderPerVertex(world);
-        renderPerTexture(world);
+        //renderPerTexture(world);
+        
     }
 protected:
+    void renderShadows(World* world,int windowWidth, int windowHeight)
+    {
+        glUseProgram(shadowsShaderProgram);
+        
+        unsigned int depthMapFBO;
+        glGenFramebuffers(1, &depthMapFBO);
+        const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+        
+        unsigned int depthMap;
+        glGenTextures(1, &depthMap);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
+                     SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        
+        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+        glDrawBuffer(GL_NONE);
+        glReadBuffer(GL_NONE);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        
+        glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+        glClear(GL_DEPTH_BUFFER_BIT);
+        
+        loadMatrixes(world,windowWidth,windowHeight);
+        loadTextures(world);
+        renderAllVertexes(world);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        
+        glUseProgram(shaderProgram);
+        renderAllVertexes(world);
+        
+    }
+    
     void loadObjects(World* world)
     {
         
@@ -188,7 +232,9 @@ protected:
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glBindVertexArray(gVAO);
-        // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        
+        
+        //Setting light position
         auto source = world->getLightSource();
         float light[3] = {0.0f,0.0f,0.0f};
         if(source != nullptr)
@@ -198,6 +244,12 @@ protected:
             light[2] = source->getZ();
         }
         glUniform3fv(shaderLightUniform,1,light);
+        
+        //Setting view position
+        float camera[3] = {world->cameraPos.x,world->cameraPos.y,world->cameraPos.z};
+        glUniform3fv(shaderViewUniform,1,camera);
+        
+        //Render
         int offset = 0;
         for(int i =0; i < loadedTextures.size(); i++)
         {
@@ -275,9 +327,6 @@ protected:
             glBindTexture(GL_TEXTURE_2D, textures[i]);
             Object3D* obj = objects[i];
             
-            float scale = obj->getTextureScale();
-            glUniform1f(shaderTextureScaleUniform,scale);
-            
             // draw the VAO
             int vertexes = obj->getNumberOfPoints();
             // std::cout << "offset: " << offset << " ,vertexes: " << vertexes << std::endl;
@@ -292,6 +341,89 @@ protected:
         // swap the display buffers (displays what was just drawn)
         //    glfwSwapBuffers(windowWrapper->getWindow());
         delete[] objects;
+    }
+    
+    GLint loadShadowShaders()
+    {
+        const char* vertexShaderSource =
+        "#version 330\n"
+        "layout (location = 0) in vec3 position;"
+        "layout (location = 1) in vec2 textCoord;"
+        "layout (location = 2) in vec4 color;"
+        "layout (location = 3) in vec3 normal;"
+        "uniform mat4 model;"
+        "uniform mat4 view;"
+        "uniform mat4 projection;"
+        "out vec2 TexCoord;"
+        "out vec4 mycolor;"
+        "out vec3 FragPos;"
+        "out vec3 Normal;"
+        "void main() { "
+        "gl_Position = projection * view * model * vec4(position, 1.0f);"
+        "FragPos = vec3(model * vec4(position, 1.0f));"
+        "TexCoord = textCoord;"
+        "mycolor = color;"
+        "Normal = normal;"
+        "}";
+        
+        GLuint vertexShader;
+        vertexShader = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+        glCompileShader(vertexShader);
+        
+        GLint success;
+        GLchar infoLog[512];
+        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+        
+        if(!success)
+        {
+            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        }
+        
+        const char* fragmentShaderSource =
+        "#version 330 core\n"
+        "in vec2 TexCoord;"
+        "out vec4 color;"
+        "in vec4 mycolor;"
+        "in vec3 FragPos;"
+        "in vec3 Normal;"
+        "void main()"
+        "{"
+        //"color =  vec4(1.0f,1.0f,1.0f,1.0f);"
+         "color = mycolor;"
+        "}";
+        
+        GLuint fragmentShader;
+        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+        glCompileShader(fragmentShader);
+        
+        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+        
+        if(!success)
+        {
+            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+            std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+        }
+        
+        
+        //Combine vertex and fragment shaders
+        GLuint shaderProgram;
+        shaderProgram = glCreateProgram();
+        glAttachShader(shaderProgram, vertexShader);
+        glAttachShader(shaderProgram, fragmentShader);
+        glLinkProgram(shaderProgram);
+        glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+        if(!success) {
+            glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+            std::cout << "ERROR::SHADER::PROGRAMM::COMPILATION_FAILED\n" << infoLog << std::endl;
+            return 0;
+        }
+        
+        glDeleteShader(vertexShader);
+        glDeleteShader(fragmentShader);
+        return shaderProgram;
     }
     GLint loadShaders()
     {
@@ -340,21 +472,31 @@ protected:
         "in vec3 FragPos;"
         "in vec3 Normal;"
         "uniform sampler2D ourTexture;"
-        "uniform float scale;"
         "uniform vec3 lightPos;"
+        "uniform vec3 viewPos;"
         "void main()"
         "{"
         //"color =  vec4(1.0f,1.0f,1.0f,1.0f);"
        // "color = mycolor;"
-        "float ambientStrength = 0.5f;"
+        "vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;"
+        
         "vec3 lightColor =  vec3(1.0f,1.0f,1.0f);"
+        "float ambientStrength = 0.001f;"
         "vec3 ambient = ambientStrength * lightColor;"
-        "vec3 norm = normalize(Normal);"
+        
+        "vec3 norm = Normal;"
         "vec3 lightDir = normalize(lightPos - FragPos);"
         "float diff = max(dot(norm, lightDir), 0.0);"
         "vec3 diffuse = diff * lightColor;"
-        "vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;"
-        "vec4 result =  objectColor * vec4(ambient+diffuse,1.0f);"
+        
+        
+        "float specularStrength = 10.0f;"
+        "vec3 viewDir = normalize(viewPos - FragPos);"
+        "vec3 reflectDir = reflect(-lightDir, norm);"
+        "float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);"
+        "vec3 specular = specularStrength * spec * lightColor;"
+        
+        "vec4 result =  objectColor * vec4(ambient+diffuse+specular,1.0f);"
         //"vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;"
         //"vec4 result = ambient * objectColor;
         "color = result; "
@@ -392,8 +534,8 @@ protected:
             std::cout << "could not bind uniform for color" << std::endl;
             //return 0;
         }
-        shaderTextureScaleUniform = glGetUniformLocation(shaderProgram, "scale");
-        if(shaderTextureScaleUniform == -1) {
+        shaderViewUniform = glGetUniformLocation(shaderProgram, "viewPos");
+        if(shaderViewUniform == -1) {
             std::cout << "could not bind uniform for texture scale " << std::endl;
             //return 0;
             

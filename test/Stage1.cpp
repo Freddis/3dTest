@@ -31,6 +31,18 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     car->getFront()->setColor(Color::getCyan());
     world->addObject(car);
     
+    
+    auto test = new Cube(0.05);
+    test->moveX(0.5);
+    world->addObject(test);
+    test = new Cube(10);
+    test->setColor(Color::getBlue());
+    test->getColor()->mix(Color::getBlack());
+    test->moveX(-0.5);
+    test->flip();
+    world->addObject(test);
+    
+    
     auto mark = new Cube(0.005);
     mark->setColor(Color::getYellow());
     world->addObject(mark);
@@ -50,8 +62,6 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     mark->setColor(Color::getWhite());
     world->addObject(mark);
     normals.insert(std::pair<Triangle*, Object3D*>(car->getLeft()->getTop(),mark));
-    
-
     
     
     this->controls = new ThirdPersonControls(car,world,window->getWindow());
@@ -73,16 +83,15 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     Square* floor = new Square(0.5);
     floor->setTexture("textures/texture3.bmp",100);
     floor->setColor(Color::getWhite());
-    floor->moveX(0.0);
-    //floor->moveZ(-0.2);
     float size = floor->getSideSize();
     floor->getC()->z += size;
     floor->getC()->y = floor->getA()->y;
     floor->getB()->z += size;
     floor->getB()->y = floor->getA()->y;
     floor->moveY(floor->getSideSize()/2);
-    world->addObject(floor);
     floor->moveY(-0.1);
+    floor->flip();
+    world->addObject(floor);
     
     Color* colorA = floor->getColor();
     Color* colorB = floor->getColor();
@@ -180,6 +189,13 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
         prims[i]->setColor(color);
     }
     delete[] prims;
+    
+    
+    auto sun = new Cube(0.1);
+    sun->moveY(0.3);
+    sun->setColor(Color::getWhite());
+    world->addObject(sun);
+    world->setLightSource(car);
 }
     
 void Stage1::process(GameCycle* cycle)

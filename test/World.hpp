@@ -21,6 +21,7 @@ class World
     GLfloat vertexes[1000000];
     int objectCount = 0;
     Object3D** oldPrimitives;
+    Object3D* lightSource;
     float x = 0;
     float y = 0;
     float z = 0;
@@ -199,6 +200,13 @@ public:
     {
         objectCount = 0;
     }
-    
+    void setLightSource(Object3D* lightSource)
+    {
+        this->lightSource = lightSource;
+    }
+    Object3D* getLightSource()
+    {
+        return lightSource;
+    }
 };
 #endif /* World_hpp */

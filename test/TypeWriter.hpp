@@ -194,12 +194,17 @@ protected:
             if (!w || !h)
                 continue;
             
+            //trngl1
             coords[c++] = (point) {
-                x2, -y2, this->c[*p].tx, this->c[*p].ty};
+                x2, -y2 - h, this->c[*p].tx, this->c[*p].ty + this->c[*p].bh / this->h};
+            
             coords[c++] = (point) {
                 x2 + w, -y2, this->c[*p].tx + this->c[*p].bw / this->w, this->c[*p].ty};
             coords[c++] = (point) {
-                x2, -y2 - h, this->c[*p].tx, this->c[*p].ty + this->c[*p].bh / this->h};
+                x2, -y2, this->c[*p].tx, this->c[*p].ty}; 
+       
+            
+            //trngl2
             coords[c++] = (point) {
                 x2 + w, -y2, this->c[*p].tx + this->c[*p].bw / this->w, this->c[*p].ty};
             coords[c++] = (point) {

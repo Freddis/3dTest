@@ -60,8 +60,12 @@ public:
         int texCoords[6] = {1,1,1,0,0,0};
         if(textureSwapped)
         {
-           // texCoords[2] = 0;
-           // texCoords[3] = 1;
+            texCoords[0] = 0;
+            texCoords[1] = 0;
+            texCoords[2] = 0;
+            texCoords[3] = 1;
+            texCoords[4] = 1;
+            texCoords[5] = 1;
         }
         for(int i =0; i < 3;i++)
         {
@@ -93,9 +97,17 @@ public:
         return size;
     }
     
-    hs::Point* getPointA()
+    hs::Point* getA()
     {
         return this->a;
+    }
+    hs::Point* getB()
+    {
+        return this->b;
+    }
+    hs::Point* getC()
+    {
+        return this->c;
     }
     
     int getNumberOfPoints()
@@ -109,6 +121,13 @@ public:
         points[1] = b;
         points[2] = c;
         return points;
+    }
+    
+    void flip()
+    {
+        auto tmp = a;
+        a = c;
+        c = tmp;
     }
     
    

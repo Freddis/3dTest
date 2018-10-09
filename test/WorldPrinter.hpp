@@ -181,7 +181,7 @@ protected:
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
         
-       // glEnable(GL_CULL_FACE);
+        glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
         //glDepthFunc(GL_LESS);
@@ -189,7 +189,14 @@ protected:
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glBindVertexArray(gVAO);
         // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        auto source = world->getLightSource();
         float light[3] = {0.0f,0.0f,0.0f};
+        if(source != nullptr)
+        {
+            light[0] = source->getX();
+            light[1] = source->getY();
+            light[2] = source->getZ();
+        }
         glUniform3fv(shaderLightUniform,1,light);
         int offset = 0;
         for(int i =0; i < loadedTextures.size(); i++)

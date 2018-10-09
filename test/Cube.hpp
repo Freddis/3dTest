@@ -36,21 +36,27 @@ public:
     Cube(Square* front)
     {
         float side = front->getSideSize();
-        front->getA()->z = -side/2;
-        front->getB()->z = -side/2;
-        front->getC()->z = -side/2;
-        front->getD()->z = -side/2;
+        front->getA()->z = +side/2;
+        front->getB()->z = +side/2;
+        front->getC()->z = +side/2;
+        front->getD()->z = +side/2;
+        
         Square* back = front->copy();
         //back->moveZ(back->getSideSize());
         
-        back->getA()->z += side;
-        back->getB()->z += side;
-        back->getC()->z += side;
-        back->getD()->z += side;
-        Square* left = new Square(front->getA(),back->getA(),back->getB(),front->getB());
-        Square* top = new Square(front->getB(),back->getB(),back->getC(),front->getC());
-        Square* right = new Square(front->getC(),back->getC(),back->getD(),front->getD());
-        Square* bottom = new Square(front->getD(),back->getD(),back->getA(),front->getA());
+        back->getA()->z -= side;
+        back->getB()->z -= side;
+        back->getC()->z -= side;
+        back->getD()->z -= side;
+        back->flip();
+        Square* left = new Square(front->getA(),back->getC(),back->getB(),front->getB());
+        //left->flip();
+        Square* top = new Square(front->getB(),back->getB(),back->getA(),front->getC());
+        //top->flip();
+        Square* right = new Square(front->getC(),back->getA(),back->getD(),front->getD());
+        //right->flip();
+        Square* bottom = new Square(front->getD(),back->getD(),back->getC(),front->getA());
+        //w wbottom->flip();
         
         front->setColor(Color::getBlue());
         back->setColor(Color::getRed());
@@ -108,6 +114,14 @@ public:
         Object3D::setColor(color);
         this->getFront()->setColor(color);
         this->getBack()->setColor(color);
+    }
+    void flip()
+    {
+        for(int i =0; i < 6; i++)
+        {
+            Square* square = this->squares[i];
+            square->flip();
+        }
     }
     
     Object3D** getPrimitives(int* size)

@@ -32,8 +32,8 @@ public:
         this->b = b;
         this->c = c;
         this->d = d;
-        Triangle *triangle1 = new Triangle(this->a,this->b,this->c);
-        Triangle *triangle2 = new Triangle(this->c,this->d,this->a);
+        Triangle *triangle1 = new Triangle(this->c,this->b,this->a);
+        Triangle *triangle2 = new Triangle(this->a,this->d,this->c);
         triangle2->swapTexturePosition();
         
         top = triangle1;
@@ -51,12 +51,11 @@ public:
     {
         float half = side/2;
         this->a = new hs::Point(-half,-half,-half);
-//        this->a = a;
         this->b = new hs::Point(a->x,a->y+side,a->z);
         this->c = new hs::Point(a->x+side,a->y+side,a->z);
         this->d = new hs::Point(a->x+side,a->y,a->z);
-        Triangle *triangle1 = new Triangle(this->a,this->b,this->c);
-        Triangle *triangle2 = new Triangle(this->c,this->d,this->a);
+        Triangle *triangle1 = new Triangle(this->c,this->b,this->a);
+        Triangle *triangle2 = new Triangle(this->a,this->d,this->c);
         triangle2->swapTexturePosition();
         top = triangle1;
         bottom = triangle2;
@@ -119,6 +118,15 @@ public:
         GLfloat sample;
         int size = sizeof(sample)*18;
         return size;
+    }
+    void flip()
+    {
+        top->flip();
+        bottom->flip();
+        a = top->getC();
+        b = top->getB();
+        c = top->getA();
+        d = bottom->getB();
     }
     
     Square* copy()

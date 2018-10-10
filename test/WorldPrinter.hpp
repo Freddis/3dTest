@@ -99,15 +99,24 @@ protected:
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         auto cam = world->cameraPos;
+        auto front = world->cameraFront;
+        
         world->cameraPos.x = world->getLightSource()->getX();
         world->cameraPos.y = world->getLightSource()->getY();
         world->cameraPos.z = world->getLightSource()->getZ();
-        
+        float pitch = world->getLightSource()->getRotationX();
+        float yaw = -1*world->getLightSource()->getRotationY();
+        world->cameraFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+        world->cameraFront.y = sin(glm::radians(pitch));
+        world->cameraFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+        world->cameraFront = glm::normalize(world->cameraFront);
+
         //rendering shadows
         loadMatrixes(world,windowWidth,windowHeight);
         loadTextures(world);
         renderPerTexture(world);
         world->cameraPos = cam;
+        world->cameraFront = front;
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, windowWidth, windowHeight);
         

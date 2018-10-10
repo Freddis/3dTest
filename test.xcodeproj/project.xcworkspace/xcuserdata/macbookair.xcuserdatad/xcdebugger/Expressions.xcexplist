@@ -20,13 +20,18 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "Color::add(Color*):Color.hpp">
-      </ContextState>
-      <ContextState
          contextName = "Triangle::getVertexArray():Triangle.hpp">
          <PersistentStrings>
             <PersistentString
                value = "x">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Object3D::getWorldVertexes():Object3D.hpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "vertexArr[j]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -42,21 +47,24 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "Object3D::getWorldVertexes():Object3D.hpp">
+         contextName = "Color::add(Color*):Color.hpp">
+      </ContextState>
+      <ContextState
+         contextName = "ShaderLoader::load(char const*):ShaderLoader.hpp">
          <PersistentStrings>
             <PersistentString
-               value = "vertexArr[j]">
+               value = "buffer.str()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "Color::mix(Color*):Color.hpp">
+         contextName = "Stage1::Stage1(World*, Window*):Stage1.cpp">
       </ContextState>
       <ContextState
          contextName = "Controls::focusOn(Object3D*):Controls.hpp">
       </ContextState>
       <ContextState
-         contextName = "Stage1::Stage1(World*, Window*):Stage1.cpp">
+         contextName = "Color::mix(Color*):Color.hpp">
       </ContextState>
       <ContextState
          contextName = "TestStage::beforeProcessing(double):TestStage.hpp">

@@ -20,6 +20,7 @@
 #include "Object3D.hpp"
 #include "Square.hpp"
 #include "TextureLoader.hpp"
+#include "ShaderLoader.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -30,26 +31,23 @@ class WorldPrinter
     GLuint gVAO = 0;
     GLuint gVBO = 0;
     GLuint gEBO = 0;
-    GLint shaderProgram;
+    GLint defaultShaderProgram;
     GLint shadowsShaderProgram;
     GLint mirrorShaderProgram;
     TextureLoader* loader;
     GLuint defaultTexture;
-    GLuint shaderColorUniform;
-    GLuint shaderLightUniform;
-    GLuint shaderViewUniform;
     GLuint textures[1000000] = {};
     std::map<std::string,GLuint> loadedTextures;
     
 public:
     WorldPrinter()
     {
-       
-        shadowsShaderProgram = loadShadowShaders();
-        mirrorShaderProgram = loadMirrorShaders();
-        shaderProgram = loadShaders();
+        auto shaders = new ShaderLoader();
+        shadowsShaderProgram = shaders->load("shaders/shadow");
+        mirrorShaderProgram = shaders->load("shaders/mirror");
+        defaultShaderProgram = shaders->load("shaders/default");
         loader = new TextureLoader();
-        //somehow png is not blending correctly
+        
         std::string defaultTexName = "textures/white.jpg";
         defaultTexture = loader->loadWithDevil(defaultTexName.c_str());
         std::pair<std::string,GLuint> pair(defaultTexName,defaultTexture);
@@ -72,11 +70,10 @@ protected:
     void renderShadows(World* world,int windowWidth, int windowHeight)
     {
         glUseProgram(shadowsShaderProgram);
-        
         unsigned int depthMapFBO;
         glGenFramebuffers(1, &depthMapFBO);
-        const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
-        //const unsigned int SHADOW_WIDTH = windowWidth, SHADOW_HEIGHT = windowHeight;
+        //const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+        const unsigned int SHADOW_WIDTH = windowWidth, SHADOW_HEIGHT = windowHeight;
         
         GLuint depthMap;
         glGenTextures(1, &depthMap);
@@ -98,9 +95,10 @@ protected:
         glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        //preparing new camera
         auto cam = world->cameraPos;
         auto front = world->cameraFront;
-        
         world->cameraPos.x = world->getLightSource()->getX();
         world->cameraPos.y = world->getLightSource()->getY();
         world->cameraPos.z = world->getLightSource()->getZ();
@@ -110,20 +108,22 @@ protected:
         world->cameraFront.y = sin(glm::radians(pitch));
         world->cameraFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
         world->cameraFront = glm::normalize(world->cameraFront);
+        world->cameraPos += world->cameraFront*0.05f; //getting outside of the cube
 
         //rendering shadows
-        loadMatrixes(world,windowWidth,windowHeight);
-        loadTextures(world);
-        renderPerTexture(world);
+        loadMatrixes(shadowsShaderProgram,world,windowWidth,windowHeight);
+        renderAllVertexes(world);
         world->cameraPos = cam;
         world->cameraFront = front;
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, windowWidth, windowHeight);
+ 
         
         //rendering world
-        glUseProgram(shaderProgram);
+        glUseProgram(defaultShaderProgram);
         loadTextures(world);
-        loadMatrixes(world,windowWidth,windowHeight);
+        loadMatrixes(defaultShaderProgram,world,windowWidth,windowHeight);
+        loadLights(defaultShaderProgram,world);
         renderPerTexture(world);
         
         //display shadows on screen
@@ -184,6 +184,25 @@ protected:
         glDeleteBuffers(1,&gVBO);
     }
     
+    void loadLights(GLint program,World* world)
+    {
+        auto  shaderLightUniform = glGetUniformLocation(program, "lightPos");
+        //Setting light position
+        auto source = world->getLightSource();
+        float light[3] = {0.0f,0.0f,0.0f};
+        if(source != nullptr)
+        {
+            light[0] = source->getX();
+            light[1] = source->getY();
+            light[2] = source->getZ();
+        }
+        glUniform3fv(shaderLightUniform,1,light);
+        
+        //Setting view position
+        auto shaderViewUniform = glGetUniformLocation(program, "viewPos");
+        float camera[3] = {world->cameraPos.x,world->cameraPos.y,world->cameraPos.z};
+        glUniform3fv(shaderViewUniform,1,camera);
+    }
     void loadObjects(World* world)
     {
         
@@ -307,21 +326,6 @@ protected:
         glBindVertexArray(gVAO);
         
         
-        //Setting light position
-        auto source = world->getLightSource();
-        float light[3] = {0.0f,0.0f,0.0f};
-        if(source != nullptr)
-        {
-            light[0] = source->getX();
-            light[1] = source->getY();
-            light[2] = source->getZ();
-        }
-        glUniform3fv(shaderLightUniform,1,light);
-        
-        //Setting view position
-        float camera[3] = {world->cameraPos.x,world->cameraPos.y,world->cameraPos.z};
-        glUniform3fv(shaderViewUniform,1,camera);
-        
         //Render
         int offset = 0;
         for(int i =0; i < loadedTextures.size(); i++)
@@ -415,275 +419,7 @@ protected:
         //    glfwSwapBuffers(windowWrapper->getWindow());
         delete[] objects;
     }
-    GLint loadMirrorShaders()
-    {
-        const char* vertexShaderSource =
-        "#version 330\n"
-        "layout (location = 0) in vec3 position;"
-        "layout (location = 1) in vec2 textCoord;"
-        "layout (location = 2) in vec4 color;"
-        "layout (location = 3) in vec3 normal;"
-        "out vec2 TexCoord;"
-        "void main() { "
-        "gl_Position =  vec4(position, 1.0f);"
-        "TexCoord = textCoord;"
-        "}";
-        
-        GLuint vertexShader;
-        vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-        glCompileShader(vertexShader);
-        
-        GLint success;
-        GLchar infoLog[512];
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-        
-        if(!success)
-        {
-            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-        }
-        
-        
-        const char* fragmentShaderSource =
-        "#version 330 core\n"
-        "in vec2 TexCoord;"
-        "out vec4 color;"
-        "uniform sampler2D ourTexture;"
-        "void main()"
-        "{"
-        "float depthValue = texture(ourTexture, TexCoord).r;"
-        "color = vec4(vec3(depthValue), 1.0);"
-//        "color = vec4(0.0,0.0,0.0,1.0);"
-        "}";
-        
-        GLuint fragmentShader;
-        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-        glCompileShader(fragmentShader);
-        
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-        
-        if(!success)
-        {
-            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-        }
-        
-        
-        //Combine vertex and fragment shaders
-        GLuint shaderProgram;
-        shaderProgram = glCreateProgram();
-        glAttachShader(shaderProgram, vertexShader);
-        glAttachShader(shaderProgram, fragmentShader);
-        glLinkProgram(shaderProgram);
-        glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-        if(!success) {
-            glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::PROGRAMM::COMPILATION_FAILED\n" << infoLog << std::endl;
-            return 0;
-        }
-        
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-        return shaderProgram;
-    }
-    GLint loadShadowShaders()
-    {
-        const char* vertexShaderSource =
-        "#version 330\n"
-        "layout (location = 0) in vec3 position;"
-        "layout (location = 1) in vec2 textCoord;"
-        "layout (location = 2) in vec4 color;"
-        "layout (location = 3) in vec3 normal;"
-        "uniform mat4 model;"
-        "uniform mat4 view;"
-        "uniform mat4 projection;"
-        "out vec2 TexCoord;"
-        "out vec4 mycolor;"
-        "out vec3 FragPos;"
-        "out vec3 Normal;"
-        "void main() { "
-        "gl_Position = projection * view * model * vec4(position, 1.0f);"
-        "FragPos = vec3(model * vec4(position, 1.0f));"
-        "TexCoord = textCoord;"
-        "mycolor = color;"
-        "Normal = normal;"
-        "}";
-        
-        GLuint vertexShader;
-        vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-        glCompileShader(vertexShader);
-        
-        GLint success;
-        GLchar infoLog[512];
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-        
-        if(!success)
-        {
-            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-        }
-        
-        const char* fragmentShaderSource =
-        "#version 330 core\n"
-        "in vec2 TexCoord;"
-        "out vec4 color;"
-        "in vec4 mycolor;"
-        "in vec3 FragPos;"
-        "in vec3 Normal;"
-        "void main()"
-        "{"
-        //"color =  vec4(1.0f,1.0f,1.0f,1.0f);"
-         "color = mycolor;"
-        "}";
-        
-        GLuint fragmentShader;
-        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-        glCompileShader(fragmentShader);
-        
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-        
-        if(!success)
-        {
-            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-        }
-        
-        
-        //Combine vertex and fragment shaders
-        GLuint shaderProgram;
-        shaderProgram = glCreateProgram();
-        glAttachShader(shaderProgram, vertexShader);
-        glAttachShader(shaderProgram, fragmentShader);
-        glLinkProgram(shaderProgram);
-        glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-        if(!success) {
-            glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::PROGRAMM::COMPILATION_FAILED\n" << infoLog << std::endl;
-            return 0;
-        }
-        
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-        return shaderProgram;
-    }
-    GLint loadShaders()
-    {
-        const char* vertexShaderSource =
-        "#version 330\n"
-        "layout (location = 0) in vec3 position;"
-        "layout (location = 1) in vec2 textCoord;"
-        "layout (location = 2) in vec4 color;"
-        "layout (location = 3) in vec3 normal;"
-        "uniform mat4 model;"
-        "uniform mat4 view;"
-        "uniform mat4 projection;"
-        "out vec2 TexCoord;"
-        "out vec4 mycolor;"
-        "out vec3 FragPos;"
-        "out vec3 Normal;"
-        "void main() { "
-        "gl_Position = projection * view * model * vec4(position, 1.0f);"
-        "FragPos = vec3(model * vec4(position, 1.0f));"
-        "TexCoord = textCoord;"
-        "mycolor = color;"
-        "Normal = normal;"
-        "}";
-        
-        GLuint vertexShader;
-        vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-        glCompileShader(vertexShader);
-        
-        GLint success;
-        GLchar infoLog[512];
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-        
-        if(!success)
-        {
-            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-        }
-        
-        
-        const char* fragmentShaderSource =
-        "#version 330 core\n"
-        "in vec2 TexCoord;"
-        "out vec4 color;"
-        "in vec4 mycolor;"
-        "in vec3 FragPos;"
-        "in vec3 Normal;"
-        "uniform sampler2D ourTexture;"
-        "uniform vec3 lightPos;"
-        "uniform vec3 viewPos;"
-        "void main()"
-        "{"
-        "vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;"
-
-        "vec3 lightColor =  vec3(1.0f,1.0f,1.0f);"
-        "float ambientStrength = 0.05f;"
-        "vec3 ambient = ambientStrength * lightColor;"
-
-        "vec3 norm = Normal;"
-        "vec3 lightDir = normalize(lightPos - FragPos);"
-        "float diff = max(dot(norm, lightDir), 0.0);"
-        "vec3 diffuse = diff * lightColor;"
-
-        "float specularStrength = 1.0f;"
-        "vec3 viewDir = normalize(viewPos - FragPos);"
-        "vec3 reflectDir = reflect(-lightDir, norm);"
-        "float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);"
-        "vec3 specular = specularStrength * spec * lightColor;"
-        
-        "vec4 result =  objectColor * vec4(ambient+diffuse+specular,1.0f);"
-        "color = result;"
-        "}";
-        
-        GLuint fragmentShader;
-        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-        glCompileShader(fragmentShader);
-        
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-        
-        if(!success)
-        {
-            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-        }
-        
-        
-        //Combine vertex and fragment shaders
-        GLuint shaderProgram;
-        shaderProgram = glCreateProgram();
-        glAttachShader(shaderProgram, vertexShader);
-        glAttachShader(shaderProgram, fragmentShader);
-        glLinkProgram(shaderProgram);
-        glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-        if(!success) {
-            glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::PROGRAMM::COMPILATION_FAILED\n" << infoLog << std::endl;
-            return 0;
-        }
-        shaderLightUniform = glGetUniformLocation(shaderProgram, "lightPos");
-        if(shaderLightUniform == -1) {
-            std::cout << "could not bind uniform for color" << std::endl;
-            //return 0;
-        }
-        shaderViewUniform = glGetUniformLocation(shaderProgram, "viewPos");
-        if(shaderViewUniform == -1) {
-            std::cout << "could not bind uniform for texture scale " << std::endl;
-            //return 0;
-            
-        }
-        
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-        return shaderProgram;
-    }
+    
     void loadTextures(World* world)
     {
         auto size = world->getNumberOfPrimitives();
@@ -712,11 +448,10 @@ protected:
         }
         delete[] objects;
     }
-    void loadMatrixes(World* world,int windowWidth, int windowHeight)
+    
+    void loadMatrixes(GLint shaderProgram,World* world,int windowWidth, int windowHeight)
     {
         //loading transformations
-        //    int screenWidth = 800;
-        //    int screenHeight = 600;
         glm::mat4 projection;
         projection = glm::perspective(glm::radians(world->getFov()), (float)windowWidth / windowHeight, world->getNearPane(), world->getFarPane());
         //        projection = glm::mat4(1.0);

@@ -32,6 +32,7 @@ class WorldPrinter
     GLuint gEBO = 0;
     GLint shaderProgram;
     GLint shadowsShaderProgram;
+    GLint mirrorShaderProgram;
     TextureLoader* loader;
     GLuint defaultTexture;
     GLuint shaderColorUniform;
@@ -45,6 +46,7 @@ public:
     {
        
         shadowsShaderProgram = loadShadowShaders();
+        mirrorShaderProgram = loadMirrorShaders();
         shaderProgram = loadShaders();
         loader = new TextureLoader();
         //somehow png is not blending correctly
@@ -101,6 +103,7 @@ protected:
         world->cameraPos.y = world->getLightSource()->getY();
         world->cameraPos.z = world->getLightSource()->getZ();
         
+        //rendering shadows
         loadMatrixes(world,windowWidth,windowHeight);
         loadTextures(world);
         renderPerTexture(world);
@@ -108,33 +111,35 @@ protected:
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, windowWidth, windowHeight);
         
+        //rendering world
+        glUseProgram(shaderProgram);
+        loadTextures(world);
+        loadMatrixes(world,windowWidth,windowHeight);
+        renderPerTexture(world);
         
-        this->renderMirror(world,windowWidth,windowHeight,depthMap);
+        //display shadows on screen
+        float pixelSizeX = 2.0 / windowWidth;
+        float pixelSizeY = 2.0 / windowHeight;
+        this->renderMirror(world,depthMap,-1+pixelSizeX*10,-1 + pixelSizeY*10,-0.3,-0.3);
         
         glDeleteTextures(1, &depthMap);
         glDeleteFramebuffers(1,&depthMapFBO);
     }
-    
-     void renderMirror(World* world, int windowWidth, int windowHeight, GLuint depthMap)
+  
+    void renderMirror(World* world, GLuint depthMap,float x1, float y1,float x2, float y2)
     {
-        //Render mirror
-        
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
         GLfloat vertexes[] = {
             //bottom
-            -0.5f,-0.5f,-1.5f, 0,0, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
-            0.5f,-0.5f,-1.5f, 1,0, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
-            0.5f,0.5f,-1.5f, 1,1, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
+            x1,y1,0.0f, 0,0, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
+            x2,y1,0.0f,  1,0, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
+            x2,y2,0.0f,   1,1, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
             //top
-            -0.5f,-0.5f,-1.5f, 0,0, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
-            -0.5f,0.5f,-1.5f, 0,1, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
-            0.5f,0.5f,-1.5f, 1,1, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f
+            x1,y1,0.0f, 0,0, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
+            x1,y2,0.0f,  0,1, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,
+            x2,y2,0.0f,   1,1, 1.0f,1.0f,1.0f,1.0f, 0.0f,0.0f,1.0f
         };
         
-        
-        glUseProgram(shaderProgram);
-        loadMatrixes(world,windowWidth,windowHeight);
+        glUseProgram(mirrorShaderProgram);
         glGenVertexArrays(1, &gVAO);
         glBindVertexArray(gVAO);
         // make and bind the VBO
@@ -160,20 +165,6 @@ protected:
         glBindVertexArray(gVAO);
         glBindBuffer(GL_ARRAY_BUFFER, gVBO);
         
-        //Setting light position
-        auto source = world->getLightSource();
-        float light[3] = {0.0f,0.0f,0.0f};
-        if(source != nullptr)
-        {
-            light[0] = source->getX();
-            light[1] = source->getY();
-            light[2] = source->getZ();
-        }
-        glUniform3fv(shaderLightUniform,1,light);
-        
-        //Setting view position
-        float camera[3] = {world->cameraPos.x,world->cameraPos.y,world->cameraPos.z};
-        glUniform3fv(shaderViewUniform,1,camera);
         glBindTexture(GL_TEXTURE_2D,depthMap);
         glDrawArrays(GL_TRIANGLES, 0, 6);
         
@@ -188,14 +179,7 @@ protected:
     {
         
         //    GLfloat vertices[] = {
-        //        // Positions          // Colors           // Texture Coords
-        //        0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // Top Right
-        //        0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // Bottom Right
-        //        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // Bottom Left
-        //        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // Top Left
-        //    };
-        //    GLfloat vertices[] = {
-        //        // Positions          // Colors           // Texture Coords
+        //        // Positions           // Texture Coords
         //        0.5f,  0.5f, 0.0f,      1.0f, 1.0f, // Top Right
         //        0.5f, -0.5f, 0.0f,    1.0f, 0.0f, // Bottom Right
         //        -0.5f, -0.5f, 0.0f,      0.0f, 0.0f, // Bottom Left
@@ -221,9 +205,6 @@ protected:
         //    // Position attribute
         //    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
         //    glEnableVertexAttribArray(0);
-        //    // Color attribute
-        ////    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-        ////    glEnableVertexAttribArray(1);
         //    // TexCoord attribute
         //    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
         //    glEnableVertexAttribArray(1);
@@ -425,7 +406,79 @@ protected:
         //    glfwSwapBuffers(windowWrapper->getWindow());
         delete[] objects;
     }
-    
+    GLint loadMirrorShaders()
+    {
+        const char* vertexShaderSource =
+        "#version 330\n"
+        "layout (location = 0) in vec3 position;"
+        "layout (location = 1) in vec2 textCoord;"
+        "layout (location = 2) in vec4 color;"
+        "layout (location = 3) in vec3 normal;"
+        "out vec2 TexCoord;"
+        "void main() { "
+        "gl_Position =  vec4(position, 1.0f);"
+        "TexCoord = textCoord;"
+        "}";
+        
+        GLuint vertexShader;
+        vertexShader = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+        glCompileShader(vertexShader);
+        
+        GLint success;
+        GLchar infoLog[512];
+        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+        
+        if(!success)
+        {
+            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        }
+        
+        
+        const char* fragmentShaderSource =
+        "#version 330 core\n"
+        "in vec2 TexCoord;"
+        "out vec4 color;"
+        "uniform sampler2D ourTexture;"
+        "void main()"
+        "{"
+        "float depthValue = texture(ourTexture, TexCoord).r;"
+        "color = vec4(vec3(depthValue), 1.0);"
+//        "color = vec4(0.0,0.0,0.0,1.0);"
+        "}";
+        
+        GLuint fragmentShader;
+        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+        glCompileShader(fragmentShader);
+        
+        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+        
+        if(!success)
+        {
+            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+            std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+        }
+        
+        
+        //Combine vertex and fragment shaders
+        GLuint shaderProgram;
+        shaderProgram = glCreateProgram();
+        glAttachShader(shaderProgram, vertexShader);
+        glAttachShader(shaderProgram, fragmentShader);
+        glLinkProgram(shaderProgram);
+        glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+        if(!success) {
+            glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+            std::cout << "ERROR::SHADER::PROGRAMM::COMPILATION_FAILED\n" << infoLog << std::endl;
+            return 0;
+        }
+        
+        glDeleteShader(vertexShader);
+        glDeleteShader(fragmentShader);
+        return shaderProgram;
+    }
     GLint loadShadowShaders()
     {
         const char* vertexShaderSource =
@@ -559,33 +612,25 @@ protected:
         "uniform vec3 viewPos;"
         "void main()"
         "{"
-        //"color =  vec4(1.0f,1.0f,1.0f,1.0f);"
-       // "color = mycolor;"
-//        "vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;"
-//
-//        "vec3 lightColor =  vec3(1.0f,1.0f,1.0f);"
-//        "float ambientStrength = 0.5f;"
-//        "vec3 ambient = ambientStrength * lightColor;"
-//
-//        "vec3 norm = Normal;"
-//        "vec3 lightDir = normalize(lightPos - FragPos);"
-//        "float diff = max(dot(norm, lightDir), 0.0);"
-//        "vec3 diffuse = diff * lightColor;"
-//
-//
-//        "float specularStrength = 1.0f;"
-//        "vec3 viewDir = normalize(viewPos - FragPos);"
-//        "vec3 reflectDir = reflect(-lightDir, norm);"
-//        "float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);"
-//        "vec3 specular = specularStrength * spec * lightColor;"
+        "vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;"
+
+        "vec3 lightColor =  vec3(1.0f,1.0f,1.0f);"
+        "float ambientStrength = 0.05f;"
+        "vec3 ambient = ambientStrength * lightColor;"
+
+        "vec3 norm = Normal;"
+        "vec3 lightDir = normalize(lightPos - FragPos);"
+        "float diff = max(dot(norm, lightDir), 0.0);"
+        "vec3 diffuse = diff * lightColor;"
+
+        "float specularStrength = 1.0f;"
+        "vec3 viewDir = normalize(viewPos - FragPos);"
+        "vec3 reflectDir = reflect(-lightDir, norm);"
+        "float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);"
+        "vec3 specular = specularStrength * spec * lightColor;"
         
-        //"vec4 result =  objectColor * vec4(ambient+diffuse+specular,1.0f);"
-        "float depthValue = texture(ourTexture, TexCoord).r;"
-        "color = vec4(vec3(depthValue), 1.0);"
-     //   "color = texture(ourTexture, TexCoord);"
-        //"vec4 result = ambient * objectColor;
-//        "color = result; "
-   //     "color = texture(ourTexture, TexCoord*1) *vec4(1.0f,1.0f,1.0f,1.0f);"
+        "vec4 result =  objectColor * vec4(ambient+diffuse+specular,1.0f);"
+        "color = result;"
         "}";
         
         GLuint fragmentShader;

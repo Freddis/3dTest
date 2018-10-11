@@ -27,7 +27,7 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     
     car = new LightSource(0.05);
     //car->moveY(-0.070);
-    car->moveY(0.3);
+    //car->moveY(0.3);
     //car->setTexture("textures/texture1.jpg");s
     car->setColor(Color::getBlue());
     car->getFront()->setColor(Color::getCyan());
@@ -42,7 +42,7 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
 //    test->getColor()->mix(Color::getBlack());
 //    test->moveX(-0.5);
 //    test->flip();
-    world->addObject(test);
+//    world->addObject(test);
     
     
     auto mark = new Cube(0.005);
@@ -149,17 +149,17 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
         }
     }
     
-    Square* wall = new Square(1);
+    auto wall = new Square(1);
     wall->moveZ(- (wall->getSideSize()/2 + floor->getC()->z));
     wall->setColor(Color::getWhite());
     wall->setTexture("textures/stripes.jpg");
     wall->moveY(wall->getSideSize()/2-0.3);
     world->addObject(wall);
-    Square* rightWall = wall->copy();
+    auto rightWall = wall->copy();
     rightWall->setColor(Color::getBlue());
     rightWall->moveX(rightWall->getSideSize()+0.3);
     world->addObject(rightWall);
-    Square* leftWall = wall->copy();
+    auto leftWall = wall->copy();
     leftWall->setColor(Color::getWhite());
     leftWall->setTexture("textures/texture1.jpg");
     leftWall->moveX(-leftWall->getSideSize()-0.3);
@@ -255,5 +255,10 @@ void Stage1::displayNormal(Triangle* trngl,Object3D* obj)
     obj->moveZ(normal->getZ());
     delete normal;
     delete center;
+}
+Color Stage1::getClearColor()
+{
+    Color color(0.0f,0.0f,0.05f);
+    return color;
 }
 

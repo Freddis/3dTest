@@ -38,6 +38,10 @@ class ThirdPersonControls : public Controls
     bool a = false;
     bool s = false;
     bool d = false;
+    bool x = false;
+    bool z = false;
+    bool c = false;
+    bool v = false;
 public:
     glm::vec3 cameraPos;
     
@@ -140,6 +144,29 @@ public:
             characterFront = glm::normalize(characterFront);
             updateCameraPosition();
         }
+        if(c)
+        {
+            character->rotateX(1*timer*movementDegree);
+            float pitch = character->getRotationX();
+            float yaw = -character->getRotationY();
+            characterFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+            characterFront.y = sin(glm::radians(pitch));
+            characterFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+            characterFront = glm::normalize(characterFront);
+            updateCameraPosition();
+        }
+        if(v)
+        {
+            
+            character->rotateX(-1*timer*movementDegree);
+            float pitch = character->getRotationX();
+            float yaw = -character->getRotationY();
+            characterFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+            characterFront.y = sin(glm::radians(pitch));
+            characterFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+            characterFront = glm::normalize(characterFront);
+            updateCameraPosition();
+        }
         if(left)
         {
             character->rotateY(1*timer*movementDegree);
@@ -149,6 +176,16 @@ public:
             characterFront.y = sin(glm::radians(pitch));
             characterFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
             characterFront = glm::normalize(characterFront);
+            updateCameraPosition();
+        }
+        if(x)
+        {
+            character->moveY( movementLength*timer);
+            updateCameraPosition();
+        }
+        if(z)
+        {
+            character->moveY( -movementLength*timer);
             updateCameraPosition();
         }
         if(space)
@@ -179,6 +216,7 @@ public:
         {
             world->cameraPos += glm::normalize(glm::cross(world->cameraFront, world->cameraUp)) * movementLength*timer;
         }
+        
         
     }
     
@@ -225,6 +263,18 @@ protected:
                     break;
                 case GLFW_KEY_D:
                     d = value;
+                    break;
+                case GLFW_KEY_X:
+                    x = value;
+                    break;
+                case GLFW_KEY_Z:
+                    z = value;
+                    break;
+                case GLFW_KEY_C:
+                    c = value;
+                    break;
+                case GLFW_KEY_V:
+                    v = value;
                     break;
                     
                 case GLFW_KEY_SPACE:

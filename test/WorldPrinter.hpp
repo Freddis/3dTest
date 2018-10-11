@@ -72,18 +72,21 @@ protected:
         glUseProgram(shadowsShaderProgram);
         unsigned int depthMapFBO;
         glGenFramebuffers(1, &depthMapFBO);
-        const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
-        //const unsigned int SHADOW_WIDTH = windowWidth, SHADOW_HEIGHT = windowHeight;
+        //const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+        int multi = 2;
+        const unsigned int SHADOW_WIDTH = windowWidth*multi, SHADOW_HEIGHT = windowHeight*multi;
         
         GLuint depthMap;
         glGenTextures(1, &depthMap);
         glBindTexture(GL_TEXTURE_2D, depthMap);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
                      SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
         
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
@@ -97,26 +100,11 @@ protected:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         
-        //preparing new camera
-//        auto cam = world->cameraPos;
-//        auto front = world->cameraFront;
-//        world->cameraPos.x = world->getLightSource()->getX();
-//        world->cameraPos.y = world->getLightSource()->getY();
-//        world->cameraPos.z = world->getLightSource()->getZ();
-//        float pitch = world->getLightSource()->getRotationX();
-//        float yaw = -1*world->getLightSource()->getRotationY();
-//        world->cameraFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-//        world->cameraFront.y = sin(glm::radians(pitch));
-//        world->cameraFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-//        world->cameraFront = glm::normalize(world->cameraFront);
-//        world->cameraPos += world->cameraFront*0.05f; //getting outside of the cube
-
         //rendering shadows
-        //loadMatrixes(shadowsShaderProgram,world,windowWidth,windowHeight);
         loadLightMatrixes(shadowsShaderProgram,world,windowWidth,windowHeight);
+        //glCullFace(GL_FRONT);
         renderAllVertexes(world);
-//        world->cameraPos = cam;
-//        world->cameraFront = front;
+        //glCullFace(GL_BACK);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, windowWidth, windowHeight);
         //return;
@@ -137,9 +125,9 @@ protected:
         renderPerTexture(world);
         
         //display shadows on screen
-        float pixelSizeX = 2.0 / windowWidth;
-        float pixelSizeY = 2.0 / windowHeight;
-        this->renderMirror(world,depthMap,-1+pixelSizeX*10,-1 + pixelSizeY*10,-0.3,-0.3);
+//        float pixelSizeX = 2.0 / windowWidth;
+//        float pixelSizeY = 2.0 / windowHeight;
+//        this->renderMirror(world,depthMap,-1+pixelSizeX*10,-1 + pixelSizeY*10,-0.3,-0.3);
         
         glDeleteTextures(1, &depthMap);
         glDeleteFramebuffers(1,&depthMapFBO);
@@ -147,16 +135,18 @@ protected:
     void loadLightMatrixes(GLint shaderProgram,World* world,int windowWidth, int windowHeight)
     {
         
-        float near_plane = 0.01f, far_plane = 7.5f;
-        glm::mat4 projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+        float near_plane = 0.01f, far_plane = 100.5f;
+        glm::mat4 projection = glm::ortho(-2.0f, 2.0f, -2.0f, 2.0f, near_plane, far_plane);
+//        projection = glm::perspective(glm::radians(world->getFov()), (float)windowWidth / windowHeight, world->getNearPane(), world->getFarPane());
         auto light = world->getLightSource();
         auto target = light->getDirection();
         auto position = light->getPosition();
-        
-        //target.multiply(0.001f);
+//        hs::Point position(0,0.5,0);
+    
         target.add(&position);
+        //target.y -= 0.3;
         
-        //glm::mat4 view = glm::lookAt(glm::vec3(0,0,0),position.toVec3(),world->cameraUp);
+//        glm::mat4 view = glm::lookAt(glm::vec3(0,0,0),position.toVec3(),world->cameraUp);
         glm::mat4 view = glm::lookAt(position.toVec3(),target.toVec3(),world->cameraUp);
         //view = glm::lookAt(world->cameraPos, world->cameraPos + world->cameraFront, world->cameraUp);
         
@@ -399,6 +389,7 @@ protected:
         loadObjects(world);
         int size = world->getNumberOfPrimitives();
         glBindTexture(GL_TEXTURE_2D, defaultTexture);
+        glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
         //glDepthFunc(GL_LESS);
@@ -410,6 +401,8 @@ protected:
         // draw the VAO
         int wholeSize = size*3;
         glDrawArrays(GL_TRIANGLES,0,wholeSize);
+        
+        glDisable(GL_CULL_FACE);
         glBindVertexArray(0);
         glDeleteVertexArrays(1,&gVAO);
         glDeleteBuffers(1,&gVBO);

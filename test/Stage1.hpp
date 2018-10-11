@@ -35,6 +35,7 @@ public:
     Stage1(World* world,Window* window);
     void process(GameCycle* cycle);
     void beforeProcessing(double timer);
+    virtual Color getClearColor();
 protected:
     void displayNormal(Triangle* trngl,Object3D* obj);
 };

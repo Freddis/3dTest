@@ -41,7 +41,7 @@ public:
         fps = 0;
         double timer =  0;
         double passed = 0;
-        glfwSwapInterval(0);
+       // glfwSwapInterval(0);
         double frameStart = glfwGetTime();
         while (!glfwWindowShouldClose(windowWrapper->getWindow()))
         {

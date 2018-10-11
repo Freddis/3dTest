@@ -35,7 +35,9 @@ public:
         Triangle *triangle1 = new Triangle(this->c,this->b,this->a);
         Triangle *triangle2 = new Triangle(this->a,this->d,this->c);
         triangle2->swapTexturePosition();
-        
+        worldX = (a->x -c->x)/2;
+        worldY = (a->y -c->y)/2;
+        worldZ = (a->z -c->z)/2;
         top = triangle1;
         bottom = triangle2;
     }

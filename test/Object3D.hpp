@@ -229,6 +229,11 @@ public:
     {
         return worldY;
     }
+    hs::Point getPosition()
+    {
+        hs::Point pos(getX(),getY(),getZ());
+        return pos;
+    }
     void setTexture(const char* path)
     {
         setTexture(path,1);

@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include "Object3D.hpp"
-
+#include "LightSource.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -21,7 +21,7 @@ class World
     GLfloat vertexes[1000000];
     int objectCount = 0;
     Object3D** oldPrimitives;
-    Object3D* lightSource;
+    LightSource* lightSource;
     float x = 0;
     float y = 0;
     float z = 0;
@@ -200,11 +200,11 @@ public:
     {
         objectCount = 0;
     }
-    void setLightSource(Object3D* lightSource)
+    void setLightSource(LightSource* lightSource)
     {
         this->lightSource = lightSource;
     }
-    Object3D* getLightSource()
+    LightSource* getLightSource()
     {
         return lightSource;
     }

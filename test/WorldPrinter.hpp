@@ -45,7 +45,7 @@ public:
         auto shaders = new ShaderLoader();
         shadowsShaderProgram = shaders->load("shaders/shadow");
         mirrorShaderProgram = shaders->load("shaders/mirror");
-        defaultShaderProgram = shaders->load("shaders/default");
+        defaultShaderProgram = shaders->load("shaders/default2");
         loader = new TextureLoader();
         
         std::string defaultTexName = "textures/white.jpg";
@@ -72,8 +72,8 @@ protected:
         glUseProgram(shadowsShaderProgram);
         unsigned int depthMapFBO;
         glGenFramebuffers(1, &depthMapFBO);
-        //const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
-        const unsigned int SHADOW_WIDTH = windowWidth, SHADOW_HEIGHT = windowHeight;
+        const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+        //const unsigned int SHADOW_WIDTH = windowWidth, SHADOW_HEIGHT = windowHeight;
         
         GLuint depthMap;
         glGenTextures(1, &depthMap);
@@ -96,34 +96,44 @@ protected:
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
+        
         //preparing new camera
-        auto cam = world->cameraPos;
-        auto front = world->cameraFront;
-        world->cameraPos.x = world->getLightSource()->getX();
-        world->cameraPos.y = world->getLightSource()->getY();
-        world->cameraPos.z = world->getLightSource()->getZ();
-        float pitch = world->getLightSource()->getRotationX();
-        float yaw = -1*world->getLightSource()->getRotationY();
-        world->cameraFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-        world->cameraFront.y = sin(glm::radians(pitch));
-        world->cameraFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-        world->cameraFront = glm::normalize(world->cameraFront);
-        world->cameraPos += world->cameraFront*0.05f; //getting outside of the cube
+//        auto cam = world->cameraPos;
+//        auto front = world->cameraFront;
+//        world->cameraPos.x = world->getLightSource()->getX();
+//        world->cameraPos.y = world->getLightSource()->getY();
+//        world->cameraPos.z = world->getLightSource()->getZ();
+//        float pitch = world->getLightSource()->getRotationX();
+//        float yaw = -1*world->getLightSource()->getRotationY();
+//        world->cameraFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+//        world->cameraFront.y = sin(glm::radians(pitch));
+//        world->cameraFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+//        world->cameraFront = glm::normalize(world->cameraFront);
+//        world->cameraPos += world->cameraFront*0.05f; //getting outside of the cube
 
         //rendering shadows
-        loadMatrixes(shadowsShaderProgram,world,windowWidth,windowHeight);
+        //loadMatrixes(shadowsShaderProgram,world,windowWidth,windowHeight);
+        loadLightMatrixes(shadowsShaderProgram,world,windowWidth,windowHeight);
         renderAllVertexes(world);
-        world->cameraPos = cam;
-        world->cameraFront = front;
+//        world->cameraPos = cam;
+//        world->cameraFront = front;
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, windowWidth, windowHeight);
- 
+        //return;
         
         //rendering world
         glUseProgram(defaultShaderProgram);
         loadTextures(world);
+        loadLightMatrixes(defaultShaderProgram,world,windowWidth,windowHeight);
         loadMatrixes(defaultShaderProgram,world,windowWidth,windowHeight);
         loadLights(defaultShaderProgram,world);
+        
+        
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        GLint shadowMapUniform = glGetUniformLocation(defaultShaderProgram, "shadowMap");
+        glUniform1i(shadowMapUniform, 1);
+        glActiveTexture(GL_TEXTURE0);
         renderPerTexture(world);
         
         //display shadows on screen
@@ -134,7 +144,33 @@ protected:
         glDeleteTextures(1, &depthMap);
         glDeleteFramebuffers(1,&depthMapFBO);
     }
-  
+    void loadLightMatrixes(GLint shaderProgram,World* world,int windowWidth, int windowHeight)
+    {
+        
+        float near_plane = 0.01f, far_plane = 7.5f;
+        glm::mat4 projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+        auto light = world->getLightSource();
+        auto target = light->getDirection();
+        auto position = light->getPosition();
+        
+        //target.multiply(0.001f);
+        target.add(&position);
+        
+        //glm::mat4 view = glm::lookAt(glm::vec3(0,0,0),position.toVec3(),world->cameraUp);
+        glm::mat4 view = glm::lookAt(position.toVec3(),target.toVec3(),world->cameraUp);
+        //view = glm::lookAt(world->cameraPos, world->cameraPos + world->cameraFront, world->cameraUp);
+        
+        glm::vec3 worldpos = glm::vec3(world->getX(),world->getY(),world->getZ());
+        glm::mat4 model = glm::mat4(1.0);
+        model = glm::translate(model,worldpos);
+        
+        glm::mat4 lightspace = projection * view;
+        
+        GLint modelLoc = glGetUniformLocation(shaderProgram, "model");
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        GLint viewLoc = glGetUniformLocation(shaderProgram, "lightspace");
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(lightspace));
+    }
     void renderMirror(World* world, GLuint depthMap,float x1, float y1,float x2, float y2)
     {
         GLfloat vertexes[] = {
@@ -317,7 +353,7 @@ protected:
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
         
-        glEnable(GL_CULL_FACE);
+        //glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
         //glDepthFunc(GL_LESS);

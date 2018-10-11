@@ -10,6 +10,9 @@
 #define Point_hpp
 #include <stdio.h>
 #include <cmath>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 namespace hs {
 class Point
 {
@@ -38,6 +41,12 @@ public:
         {
             this->multiply(1/mag);
         }
+    }
+    void add(Point* point)
+    {
+        x+= point->getX();
+        y+= point->getY();
+        z+= point->getZ();
     }
     void multiply(float val)
     {
@@ -95,6 +104,10 @@ public:
     float getZ()
     {
         return this->z;
+    }
+    glm::vec3 toVec3()
+    {
+        return glm::vec3(getX(),getY(),getZ());
     }
 };
 }

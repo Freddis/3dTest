@@ -24,8 +24,6 @@ class Cube : public Object3D
     Square * right;
     Square * top;
     Square * bottom;
-    int worldX = 0;
-    int worldY = 0;
 public:
     
     Cube(float side) : Cube(new Square(side))
@@ -78,6 +76,11 @@ public:
         this->right = right;
         this->top = top;
         this->bottom = bottom;
+        
+        auto center = getCenter();
+        worldX = center.getX();
+        worldY = center.getY();
+        worldZ = center.getZ();
     }
     
     Cube* copy()
@@ -108,7 +111,30 @@ public:
         delete[] cubePrims;
         return cube;
     }
-    
+    virtual void moveX(float val)
+    {
+        this->worldX += val;
+        for(int i =0; i < 6; i ++)
+        {
+            squares[i]->moveX(val);
+        }
+    }
+    virtual void moveY(float val)
+    {
+        this->worldY += val;
+        for(int i =0; i < 6; i ++)
+        {
+            squares[i]->moveY(val);
+        }
+    }
+    virtual void moveZ(float val)
+    {
+        this->worldZ += val;
+        for(int i =0; i < 6; i ++)
+        {
+            squares[i]->moveZ(val);
+        }
+    }
     virtual void setColor(Color* color)
     {
         Object3D::setColor(color);
@@ -197,7 +223,7 @@ public:
         return points;
     }
     
-    hs::Point* getCenter()
+    hs::Point getCenter()
     {
         hs::Point* a = getFront()->getA();
         hs::Point* b = getBack()->getC();
@@ -207,7 +233,7 @@ public:
         float xx = x;
         float yy = y;
         float zz = z;
-        hs::Point* center = new hs::Point(xx,yy,zz);
+        hs::Point center(xx,yy,zz);
         return center;
     }
     

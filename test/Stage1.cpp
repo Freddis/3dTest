@@ -8,6 +8,7 @@
 
 #include "Stage1.hpp"
 #include "Point.hpp"
+#include "LightSource.hpp"
 #include "GameCycle.hpp"
 
 
@@ -24,9 +25,9 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     world->addObject(cube);
     
     
-    car = new Cube(0.05);
-    car->moveY(-0.070);
-    car->moveY(0.1);
+    car = new LightSource(0.05);
+    //car->moveY(-0.070);
+    car->moveY(0.3);
     //car->setTexture("textures/texture1.jpg");s
     car->setColor(Color::getBlue());
     car->getFront()->setColor(Color::getCyan());
@@ -36,11 +37,11 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     auto test = new Cube(0.05);
     test->moveX(0.5);
     world->addObject(test);
-    test = new Cube(10);
-    test->setColor(Color::getBlue());
-    test->getColor()->mix(Color::getBlack());
-    test->moveX(-0.5);
-    test->flip();
+//    test = new Cube(10);
+//    test->setColor(Color::getBlue());
+//    test->getColor()->mix(Color::getBlack());
+//    test->moveX(-0.5);
+//    test->flip();
     world->addObject(test);
     
     
@@ -97,8 +98,8 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     Color* colorA = floor->getColor();
     Color* colorB = floor->getColor();
     float side = floor->getSideSize();// + 0.01;
-    int xsize = 10;
-    int zsize = 10;
+    int xsize = 20;
+    int zsize = 20;
     
     for(int j = 0; j < zsize; j++)
     {
@@ -152,16 +153,16 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     wall->moveZ(- (wall->getSideSize()/2 + floor->getC()->z));
     wall->setColor(Color::getWhite());
     wall->setTexture("textures/stripes.jpg");
-    wall->moveY(wall->getSideSize()/2);
+    wall->moveY(wall->getSideSize()/2-0.3);
     world->addObject(wall);
     Square* rightWall = wall->copy();
     rightWall->setColor(Color::getBlue());
-    rightWall->moveX(rightWall->getSideSize()+0.1);
+    rightWall->moveX(rightWall->getSideSize()+0.3);
     world->addObject(rightWall);
     Square* leftWall = wall->copy();
     leftWall->setColor(Color::getWhite());
     leftWall->setTexture("textures/texture1.jpg");
-    leftWall->moveX(-leftWall->getSideSize()-0.1);
+    leftWall->moveX(-leftWall->getSideSize()-0.3);
     world->addObject(leftWall);
     
     mark = new Cube(0.005);

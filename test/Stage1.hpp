@@ -27,7 +27,7 @@ class Stage1 : public Stage
     ThirdPersonControls* controls;
     Object3D* rotatedObject;
     TypeWriter* typewriter;
-    Cube* car;
+    LightSource* car;
     Cube* camera;
     std::map<Triangle*,Object3D*> normals;
     

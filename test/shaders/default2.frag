@@ -10,14 +10,34 @@ uniform sampler2D shadowMap;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 
-float LinearizeDepth(float depth)
+float ShadowCalculationPCF(vec4 fragPosLightSpace)
 {
-    float near_plane = 0.02f;
-    float far_plane = 1000.0f;
-    float z = depth * 2.0 - 1.0; // Back to NDC
-    return (2.0 * near_plane * far_plane) / (far_plane + near_plane - z * (far_plane - near_plane));
+    float shadow = 0.0;
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    if(projCoords.z > 1.0)
+    {
+        return shadow;
+    }
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    float biasVal = 0.00005;
+    float bias = max(biasVal * (1.0 - dot(Normal, normalize(lightPos - FragPos))),biasVal);
+    
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    int rad = 3;
+    for(int x = -rad; x <= rad; ++x)
+    {
+        for(int y = -rad; y <= rad; ++y)
+        {
+            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;
+            shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+        }
+    }
+    shadow /= rad*10.0;
+    return shadow;
 }
-
 float ShadowCalculation(vec4 fragPosLightSpace)
 {
     // perform perspective divide
@@ -31,12 +51,12 @@ float ShadowCalculation(vec4 fragPosLightSpace)
     // check whether current frag pos is in shadow
     
 //    float shadow = currentDepth > closestDepth  ? 1.0 : 0.0;
-    //float bias = max(0.05 * (1.0 - dot(Normal, normalize(lightPos - FragPos))), 0.005);
-    float bias = 0.00005;
+    float bias = max(0.05 * (1.0 - dot(Normal, normalize(lightPos - FragPos))), 0.005);
+//    float bias = 0.00005;
     float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
     
     if(projCoords.z > 1.0)
-        shadow = 1.0;
+        shadow = 0.0;
     
     return shadow;
 }
@@ -44,6 +64,12 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 void main()
 {
     vec4 objectColor = texture(ourTexture, TexCoord*1) * mycolor;
+    
+    float constant = 1.0f;
+    float linear = 0.39f;
+    float quadratic = 1.32f;
+    float distance    = length(lightPos - FragPos);
+    float attenuation = 1.0 / (constant + linear * distance + quadratic * (distance * distance));
     
     vec3 lightColor =  vec3(1.0f,1.0f,1.0f);
     float ambientStrength = 0.05f;
@@ -60,8 +86,12 @@ void main()
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 300);
     vec3 specular = specularStrength * spec * lightColor;
     
-    float shadow = ShadowCalculation(FragPosLightSpace);
+    ambient  *= attenuation;
+    diffuse  *= attenuation;
+    specular *= attenuation;
+    
+    float shadow = ShadowCalculationPCF(FragPosLightSpace);
 //    vec4 result =  vec4(objectColor.xyz * (1-shadow),1.0f);
-    vec4 result =  objectColor * vec4(ambient+specular+ (1-shadow)*(diffuse),1.0f);
+    vec4 result =  objectColor * vec4(ambient+(1-shadow)*(specular + diffuse),1.0f);
     color = result;
 }

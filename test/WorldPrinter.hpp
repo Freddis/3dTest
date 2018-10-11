@@ -125,9 +125,9 @@ protected:
         renderPerTexture(world);
         
         //display shadows on screen
-//        float pixelSizeX = 2.0 / windowWidth;
-//        float pixelSizeY = 2.0 / windowHeight;
-//        this->renderMirror(world,depthMap,-1+pixelSizeX*10,-1 + pixelSizeY*10,-0.3,-0.3);
+        float pixelSizeX = 2.0 / windowWidth;
+        float pixelSizeY = 2.0 / windowHeight;
+        this->renderMirror(world,depthMap,-1+pixelSizeX*10,-1 + pixelSizeY*10,-0.3,-0.3);
         
         glDeleteTextures(1, &depthMap);
         glDeleteFramebuffers(1,&depthMapFBO);

@@ -50,21 +50,32 @@
          contextName = "Color::add(Color*):Color.hpp">
       </ContextState>
       <ContextState
-         contextName = "ShaderLoader::load(char const*):ShaderLoader.hpp">
+         contextName = "LoadTriangle(Triangle):main.cpp">
          <PersistentStrings>
             <PersistentString
-               value = "buffer.str()">
+               value = "vertexData[0]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "Stage1::Stage1(World*, Window*):Stage1.cpp">
+         contextName = "WorldPrinter::loadLightMatrixes(int, World*, int, int):WorldPrinter.hpp">
+      </ContextState>
+      <ContextState
+         contextName = "ThirdPersonControls::processArrows(int, int):ThirdPersonControls.hpp">
+      </ContextState>
+      <ContextState
+         contextName = "Color::mix(Color*):Color.hpp">
       </ContextState>
       <ContextState
          contextName = "Controls::focusOn(Object3D*):Controls.hpp">
       </ContextState>
       <ContextState
-         contextName = "Color::mix(Color*):Color.hpp">
+         contextName = "Stage1::Stage1(World*, Window*):Stage1.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "wall-&gt;getFront()-&gt;getSideSize()">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "TestStage::beforeProcessing(double):TestStage.hpp">
@@ -110,10 +121,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "LoadTriangle(Triangle):main.cpp">
+         contextName = "ShaderLoader::load(char const*):ShaderLoader.hpp">
          <PersistentStrings>
             <PersistentString
-               value = "vertexData[0]">
+               value = "buffer.str()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

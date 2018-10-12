@@ -10,6 +10,7 @@
 #include "Point.hpp"
 #include "LightSource.hpp"
 #include "GameCycle.hpp"
+#include "ModelLoader.hpp"
 
 
 Stage1::Stage1(World* world,Window* window) : Stage(world,window)
@@ -198,6 +199,17 @@ Stage1::Stage1(World* world,Window* window) : Stage(world,window)
     sun->setColor(Color::getWhite());
     world->addObject(sun);
     world->setLightSource(car);
+    auto objects = new ModelLoader();
+//    auto model = objects->loadFromObj("objects/house_plant.obj","textures/leaf.jpg");
+//    model->scaleTo(0.0005);
+    auto model = objects->loadFromObj("objects/cat.obj","textures/cat.tga");
+    model->scaleTo(0.5);
+//     auto model = objects->loadFromObj("objects/car.obj","textures/car.bmp");
+//    model->scaleTo(0.2);
+    model->moveX(0.5);
+    model->moveZ(0.5);
+    model->setColor(Color::getWhite());
+    world->addObject(model);
 }
     
 void Stage1::process(GameCycle* cycle)

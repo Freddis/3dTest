@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Triangle.hpp"
-            timestampString = "560805109.011977"
+            timestampString = "561045960.423651"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
             landmarkName = "Triangle(hs::Point*a, hs::Point*b, hs::Point*c)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Object3D.hpp"
-            timestampString = "560915489.808472"
+            timestampString = "561045960.424408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "getVertexArray()"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Cube.hpp"
-            timestampString = "560915489.808558"
+            timestampString = "561030750.205918"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Object3D.hpp"
-            timestampString = "560915489.80872"
+            timestampString = "561045960.425037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "getWorldVertexes()"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Cube.hpp"
-            timestampString = "560915489.808795"
+            timestampString = "561030750.2068371"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "221"
@@ -122,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.80888"
+            timestampString = "561045960.425694"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "59"
@@ -138,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.808955"
+            timestampString = "561045960.4262609"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Object3D.hpp"
-            timestampString = "560915489.809027"
+            timestampString = "561045960.426814"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "getVertexArray()"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,7 +170,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.8091"
+            timestampString = "561045960.4272161"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "65"
@@ -186,7 +186,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.809173"
+            timestampString = "561045960.427702"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "67"
@@ -202,7 +202,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.809244"
+            timestampString = "561045960.42822"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
@@ -218,7 +218,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.809316"
+            timestampString = "561045960.42861"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "54"
@@ -234,7 +234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.809386"
+            timestampString = "561045960.4290611"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "53"
@@ -250,7 +250,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Cube.hpp"
-            timestampString = "560915489.809458"
+            timestampString = "561030750.210009"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "154"
@@ -266,7 +266,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Cube.hpp"
-            timestampString = "560915489.809539"
+            timestampString = "561030750.21039"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "140"
@@ -282,7 +282,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Cube.hpp"
-            timestampString = "560915489.80962"
+            timestampString = "561030750.210665"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "143"
@@ -298,7 +298,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.8096991"
+            timestampString = "561045960.429847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "60"
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Object3D.hpp"
-            timestampString = "560915489.80977"
+            timestampString = "561045960.430443"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "getVertexArray()"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Object3D.hpp"
-            timestampString = "560915489.809844"
+            timestampString = "561045960.430861"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
             landmarkName = "moveX(float value)"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Object3D.hpp"
-            timestampString = "560915489.809917"
+            timestampString = "561045960.431215"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "setColor(Color* color)"
             landmarkType = "7">
          </BreakpointContent>
@@ -362,7 +362,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Cube.hpp"
-            timestampString = "560915489.80999"
+            timestampString = "561030750.212011"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "53"
@@ -378,7 +378,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.810071"
+            timestampString = "561045960.431861"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "39"
@@ -394,7 +394,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.810142"
+            timestampString = "561045960.4325449"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "130"
@@ -438,7 +438,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.810282"
+            timestampString = "561045960.433239"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "77"
@@ -454,7 +454,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.810356"
+            timestampString = "561045960.433678"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "88"
@@ -470,7 +470,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.810426"
+            timestampString = "561045960.43409"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "83"
@@ -486,7 +486,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/World.hpp"
-            timestampString = "560915489.810498"
+            timestampString = "561045960.4345061"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "82"
@@ -544,11 +544,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Object3D.hpp"
-            timestampString = "560915489.810655"
+            timestampString = "561045960.435088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "moveZ(float value)"
             landmarkType = "7">
          </BreakpointContent>
@@ -602,7 +602,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Object3D.hpp"
-            timestampString = "560915489.810815"
+            timestampString = "561045960.4356869"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "33"
@@ -618,7 +618,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Object3D.hpp"
-            timestampString = "560915489.810889"
+            timestampString = "561045960.436046"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
@@ -634,7 +634,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Object3D.hpp"
-            timestampString = "560915489.810959"
+            timestampString = "561045960.436476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "38"
@@ -802,11 +802,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Object3D.hpp"
-            timestampString = "560915489.811198"
+            timestampString = "561045960.437282"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "setColor(Color* color)"
             landmarkType = "7">
          </BreakpointContent>
@@ -818,11 +818,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Object3D.hpp"
-            timestampString = "560915489.811272"
+            timestampString = "561045960.437604"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "moveX(float value)"
             landmarkType = "7">
          </BreakpointContent>
@@ -834,11 +834,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Object3D.hpp"
-            timestampString = "560915489.811343"
+            timestampString = "561045960.43803"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "moveZ(float value)"
             landmarkType = "7">
          </BreakpointContent>
@@ -850,11 +850,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/WorldPrinter.hpp"
-            timestampString = "560970874.516852"
+            timestampString = "561045960.438452"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
+            startingLineNumber = "349"
+            endingLineNumber = "349"
             landmarkName = "renderPerTexture(World* world)"
             landmarkType = "7">
          </BreakpointContent>
@@ -866,11 +866,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/WorldPrinter.hpp"
-            timestampString = "560970874.517013"
+            timestampString = "561045960.439003"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "335"
-            endingLineNumber = "335"
+            startingLineNumber = "350"
+            endingLineNumber = "350"
             landmarkName = "renderPerTexture(World* world)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1074,11 +1074,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Stage1.cpp"
-            timestampString = "560922995.3724281"
+            timestampString = "561045960.440504"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "Stage1::Stage1(World* world,Window* window)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1122,7 +1122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/LightSource.hpp"
-            timestampString = "560919440.4387079"
+            timestampString = "561045960.4424829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "33"
@@ -1138,12 +1138,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/WorldPrinter.hpp"
-            timestampString = "560970874.517727"
+            timestampString = "561045960.443055"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
-            landmarkName = "renderShadows(World* world,int windowWidth, int windowHeight)"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "renderWithShadows(World* world,int windowWidth, int windowHeight)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1154,11 +1154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/WorldPrinter.hpp"
-            timestampString = "560970874.517863"
+            timestampString = "561045960.443537"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
             landmarkName = "loadLightMatrixes(GLint shaderProgram,World* world,int windowWidth, int windowHeight)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1186,11 +1186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Stage1.cpp"
-            timestampString = "560922995.373436"
+            timestampString = "561045960.443961"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
             landmarkName = "Stage1::Stage1(World* world,Window* window)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1202,7 +1202,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Cube.hpp"
-            timestampString = "560915489.8139451"
+            timestampString = "561030750.217114"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "36"
@@ -1218,7 +1218,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Cube.hpp"
-            timestampString = "560915489.814027"
+            timestampString = "561030750.217314"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "80"
@@ -1234,7 +1234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/LightSource.hpp"
-            timestampString = "560919440.440248"
+            timestampString = "561045960.445353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "32"
@@ -1250,7 +1250,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/LightSource.hpp"
-            timestampString = "560919440.44032"
+            timestampString = "561045960.44582"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "27"
@@ -1314,12 +1314,140 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/Stage1.cpp"
-            timestampString = "560922995.373836"
+            timestampString = "561045960.446437"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
             landmarkName = "Stage1::Stage1(World* world,Window* window)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "test/Mesh.hpp"
+            timestampString = "561045960.4483"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "getPrimitives(int* size)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "test/Mesh.hpp"
+            timestampString = "561045960.450209"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "getPrimitives(int* size)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "test/Mesh.hpp"
+            timestampString = "561045960.451789"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "getPrimitives(int* size)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "test/ModelLoader.hpp"
+            timestampString = "561045960.45383"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "loadFromObj(const char* path, const char* texture)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "test/Triangle.hpp"
+            timestampString = "561045960.455009"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "getVertexArray()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "test/Triangle.hpp"
+            timestampString = "561045960.455889"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "getVertexArray()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "test/Face.hpp"
+            timestampString = "561045960.457323"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "getTriangles()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "test/ModelLoader.hpp"
+            timestampString = "561045960.45846"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "parseFace(std::string* chunks,std::vector&lt;hs::Point*&gt; vertexes, std::vector&lt;hs::Point*&gt; normals, std::vector&lt;hs::Point*&gt; textureCoords)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

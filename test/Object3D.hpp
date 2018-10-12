@@ -26,7 +26,7 @@ protected:
     float worldX = 0;
     float worldY = 0;
     float worldZ = 0;
-
+    float scale = 1;
     float rotationX  = 0;
     float rotationY  = 90;
     float rotationZ  = 0;
@@ -43,18 +43,22 @@ public:
         {
             if(k == 0)
             {
+                vertexArr[j] *= scale;
                 vertexArr[j] += worldX;
             }
             else if(k == 1)
             {
+                vertexArr[j] *= scale;
                 vertexArr[j] += worldY;
             }
             else if(k == 2)
             {
+                vertexArr[j] *= scale;
                 vertexArr[j] += worldZ;
             }
             else if(j%vertexSize == 0)
             {
+                vertexArr[j] *= scale;
                 vertexArr[j] += worldX;
                 k = 0;
             }
@@ -124,6 +128,21 @@ public:
         this->worldX = x;
         this->worldY = y;
         this->worldZ = z;
+    }
+    void scaleTo(float value)
+    {
+        this->scale = value;
+        int size;
+        if(this->getNumberOfPrimitives() <= 1)
+        {
+            return;
+        }
+        Object3D** primitives = this->getPrimitives(&size);
+        for(int i =0; i < this->getNumberOfPrimitives(); i++)
+        {
+            primitives[i]->scaleTo(value);
+        }
+        delete[] primitives;
     }
     void moveX(float value)
     {

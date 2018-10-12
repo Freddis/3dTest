@@ -32,6 +32,8 @@ class WorldPrinter
     GLuint gVBO = 0;
     GLuint gEBO = 0;
     GLint defaultShaderProgram;
+    GLint defaultLightsShaderProgram;
+    GLint defaultLightsAndShadowsShaderProgram;
     GLint shadowsShaderProgram;
     GLint mirrorShaderProgram;
     TextureLoader* loader;
@@ -45,7 +47,10 @@ public:
         auto shaders = new ShaderLoader();
         shadowsShaderProgram = shaders->load("shaders/shadow");
         mirrorShaderProgram = shaders->load("shaders/mirror");
-        defaultShaderProgram = shaders->load("shaders/default2");
+        defaultLightsShaderProgram = shaders->load("shaders/defaultLights");
+        defaultLightsAndShadowsShaderProgram = shaders->load("shaders/defaultLightsShadows");
+        defaultShaderProgram = shaders->load("shaders/default");
+        
         loader = new TextureLoader();
         
         std::string defaultTexName = "textures/white.jpg";
@@ -56,18 +61,28 @@ public:
     
     void draw(World* world,int windowWidth, int windowHeight)
     {
-        renderShadows(world,windowWidth,windowHeight);
-//        glUseProgram(shadowsShaderProgram);
-//        loadMatrixes(world,windowWidth,windowHeight);
-//        loadTextures(world);
-//
-//        //renderAllVertexes(world);
-//        //renderPerVertex(world);
-//        renderPerTexture(world);
-        
+        renderSimple(world,windowWidth,windowHeight);
+//        renderWithLights(world,windowWidth,windowHeight);
+//        renderWithShadows(world,windowWidth,windowHeight);
     }
+    
 protected:
-    void renderShadows(World* world,int windowWidth, int windowHeight)
+    void renderSimple(World* world,int windowWidth, int windowHeight)
+    {
+        glUseProgram(defaultShaderProgram);
+        loadMatrixes(defaultShaderProgram,world,windowWidth,windowHeight);
+        loadTextures(world);
+        renderPerTexture(world);
+    }
+    void renderWithLights(World* world,int windowWidth, int windowHeight)
+    {
+        glUseProgram(defaultLightsShaderProgram);
+        loadMatrixes(defaultLightsShaderProgram,world,windowWidth,windowHeight);
+        loadLights(defaultLightsShaderProgram,world);
+        loadTextures(world);
+        renderPerTexture(world);
+    }
+    void renderWithShadows(World* world,int windowWidth, int windowHeight)
     {
         glUseProgram(shadowsShaderProgram);
         unsigned int depthMapFBO;
@@ -110,16 +125,16 @@ protected:
         //return;
         
         //rendering world
-        glUseProgram(defaultShaderProgram);
+        glUseProgram(defaultLightsAndShadowsShaderProgram);
         loadTextures(world);
-        loadLightMatrixes(defaultShaderProgram,world,windowWidth,windowHeight);
-        loadMatrixes(defaultShaderProgram,world,windowWidth,windowHeight);
-        loadLights(defaultShaderProgram,world);
+        loadLightMatrixes(defaultLightsAndShadowsShaderProgram,world,windowWidth,windowHeight);
+        loadMatrixes(defaultLightsAndShadowsShaderProgram,world,windowWidth,windowHeight);
+        loadLights(defaultLightsAndShadowsShaderProgram,world);
         
         
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, depthMap);
-        GLint shadowMapUniform = glGetUniformLocation(defaultShaderProgram, "shadowMap");
+        GLint shadowMapUniform = glGetUniformLocation(defaultLightsAndShadowsShaderProgram, "shadowMap");
         glUniform1i(shadowMapUniform, 1);
         glActiveTexture(GL_TEXTURE0);
         renderPerTexture(world);

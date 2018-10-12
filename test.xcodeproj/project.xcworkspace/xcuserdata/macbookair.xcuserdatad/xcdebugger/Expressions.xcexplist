@@ -3,6 +3,14 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "World::getVertexes():World.hpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "vertexArr[5]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "LoadTriangle():main.cpp">
          <PersistentStrings>
             <PersistentString
@@ -20,18 +28,54 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "Triangle::getVertexArray():Triangle.hpp">
+         contextName = "ModelLoader::parseTextureCoords(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;*):ModelLoader.hpp">
+      </ContextState>
+      <ContextState
+         contextName = "ShaderLoader::load(char const*):ShaderLoader.hpp">
          <PersistentStrings>
             <PersistentString
-               value = "x">
+               value = "buffer.str()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "Object3D::getWorldVertexes():Object3D.hpp">
+         contextName = "Mesh::getPrimitives(int*):Mesh.hpp">
          <PersistentStrings>
             <PersistentString
-               value = "vertexArr[j]">
+               value = "prims[3485]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Stage1::Stage1(World*, Window*):Stage1.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "wall-&gt;getFront()-&gt;getSideSize()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ModelLoader::loadFromObj(char const*, char const*):ModelLoader.hpp">
+      </ContextState>
+      <ContextState
+         contextName = "LoadTriangle(Triangle):main.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "vertexData[0]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Color::add(Color*):Color.hpp">
+      </ContextState>
+      <ContextState
+         contextName = "WorldPrinter::loadLightMatrixes(int, World*, int, int):WorldPrinter.hpp">
+      </ContextState>
+      <ContextState
+         contextName = "TestStage::TestStage(World*, Window*):TestStage.hpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "&amp;arr[8+8+7]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -47,35 +91,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "Color::add(Color*):Color.hpp">
-      </ContextState>
-      <ContextState
-         contextName = "LoadTriangle(Triangle):main.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "vertexData[0]">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "WorldPrinter::loadLightMatrixes(int, World*, int, int):WorldPrinter.hpp">
-      </ContextState>
-      <ContextState
-         contextName = "ThirdPersonControls::processArrows(int, int):ThirdPersonControls.hpp">
-      </ContextState>
-      <ContextState
          contextName = "Color::mix(Color*):Color.hpp">
-      </ContextState>
-      <ContextState
-         contextName = "Controls::focusOn(Object3D*):Controls.hpp">
-      </ContextState>
-      <ContextState
-         contextName = "Stage1::Stage1(World*, Window*):Stage1.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "wall-&gt;getFront()-&gt;getSideSize()">
-            </PersistentString>
-         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "TestStage::beforeProcessing(double):TestStage.hpp">
@@ -86,26 +102,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "TestStage::TestStage(World*, Window*):TestStage.hpp">
+         contextName = "ModelLoader::parseFace(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;*, std::__1::vector&lt;hs::Point*, std::__1::allocator&lt;hs::Point*&gt; &gt;, std::__1::vector&lt;hs::Point*, std::__1::allocator&lt;hs::Point*&gt; &gt;, std::__1::vector&lt;hs::Point*, std::__1::allocator&lt;hs::Point*&gt; &gt;):ModelLoader.hpp">
          <PersistentStrings>
             <PersistentString
-               value = "&amp;arr[8+8+7]">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "Controls::processKeyCallBack(GLFWwindow*, int, int, int, int):Controls.hpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "Controls::primaryControls">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "World::getVertexes():World.hpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "vertexArr[5]">
+               value = "chunks[1]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -121,10 +121,46 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ShaderLoader::load(char const*):ShaderLoader.hpp">
+         contextName = "ThirdPersonControls::processArrows(int, int):ThirdPersonControls.hpp">
+      </ContextState>
+      <ContextState
+         contextName = "Controls::focusOn(Object3D*):Controls.hpp">
+      </ContextState>
+      <ContextState
+         contextName = "Controls::processKeyCallBack(GLFWwindow*, int, int, int, int):Controls.hpp">
          <PersistentStrings>
             <PersistentString
-               value = "buffer.str()">
+               value = "Controls::primaryControls">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ModelLoader::loadFromObj(char const*):ModelLoader.hpp">
+      </ContextState>
+      <ContextState
+         contextName = "Face::getTriangles():Face.hpp">
+      </ContextState>
+      <ContextState
+         contextName = "ModelLoader::parseVertex(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;*):ModelLoader.hpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "chunks[3]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Object3D::getWorldVertexes():Object3D.hpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "vertexArr[j]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Triangle::getVertexArray():Triangle.hpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "x">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

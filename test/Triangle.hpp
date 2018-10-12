@@ -22,6 +22,7 @@ class Triangle :public Object3D
     hs::Point* c;
     int vsize = 12;
     GLfloat data[36] = {};
+    float textureCoords[6] = {1,1,1,0,0,0};
     bool textureSwapped = false;
 public:
     Triangle(hs::Point*a, hs::Point*b, hs::Point*c)
@@ -53,19 +54,37 @@ public:
         normal->normalize();
         return normal;
     }
+    
     virtual GLfloat* getVertexArray()
     {
         hs::Point* arr[3] = {a,b,c};
         hs::Point* normal = this->createNormal();
-        int texCoords[6] = {1,1,1,0,0,0};
+//        int texCoords[6] = {1,1,1,0,0,0};
+//        if(textureSwapped)
+//        {
+//            texCoords[0] = 0;
+//            texCoords[1] = 0;
+//            texCoords[2] = 0;
+//            texCoords[3] = 1;
+//            texCoords[4] = 1;
+//            texCoords[5] = 1;
+//        }
+        
+        float texCoords[6];
+        texCoords[0] = this->textureCoords[0];
+        texCoords[1] = this->textureCoords[1];
+        texCoords[2] = this->textureCoords[2];
+        texCoords[3] = this->textureCoords[3];
+        texCoords[4] = this->textureCoords[4];
+        texCoords[5] = this->textureCoords[5];
         if(textureSwapped)
         {
-            texCoords[0] = 0;
-            texCoords[1] = 0;
-            texCoords[2] = 0;
-            texCoords[3] = 1;
-            texCoords[4] = 1;
-            texCoords[5] = 1;
+            texCoords[0] = this->textureCoords[5];
+            texCoords[1] = this->textureCoords[4];
+            texCoords[2] = this->textureCoords[3];
+            texCoords[3] = this->textureCoords[2];
+            texCoords[4] = this->textureCoords[1];
+            texCoords[5] = this->textureCoords[0];
         }
         for(int i =0; i < 3;i++)
         {
@@ -122,7 +141,11 @@ public:
         points[2] = c;
         return points;
     }
-    
+    void setTextureCoordsForVertex(int vertex, float x, float y)
+    {
+        this->textureCoords[vertex*2] = x;
+        this->textureCoords[vertex*2+1] = y;
+    }
     void flip()
     {
         auto tmp = a;

@@ -26,7 +26,7 @@ float ShadowCalculationPCF(vec4 fragPosLightSpace)
     float bias = max(biasVal * (1.0 - dot(Normal, normalize(lightPos - FragPos))),biasVal);
     
     vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
-    int rad = 3;
+    int rad = 1;
     for(int x = -rad; x <= rad; ++x)
     {
         for(int y = -rad; y <= rad; ++y)
@@ -42,6 +42,10 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 {
     // perform perspective divide
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    if(projCoords.z > 1.0)
+    {
+        return 0.0f;
+    }
     // transform to [0,1] range
     projCoords = projCoords * 0.5 + 0.5;
     // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
@@ -51,13 +55,10 @@ float ShadowCalculation(vec4 fragPosLightSpace)
     // check whether current frag pos is in shadow
     
 //    float shadow = currentDepth > closestDepth  ? 1.0 : 0.0;
+    float biasVal = 0.00005;
     float bias = max(0.05 * (1.0 - dot(Normal, normalize(lightPos - FragPos))), 0.005);
 //    float bias = 0.00005;
     float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
-    
-    if(projCoords.z > 1.0)
-        shadow = 0.0;
-    
     return shadow;
 }
 
@@ -83,7 +84,7 @@ void main()
     float specularStrength = 2.0f;
     vec3 viewDir = normalize(viewPos - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 300);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 64);
     vec3 specular = specularStrength * spec * lightColor;
     
     ambient  *= attenuation;

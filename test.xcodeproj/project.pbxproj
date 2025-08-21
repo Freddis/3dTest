@@ -42,19 +42,12 @@
 		D0E988F91F6D1DF4002EAABD /* Point.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0E988F71F6D1DF4002EAABD /* Point.cpp */; };
 		D0E988FC1F6D1F0B002EAABD /* Triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0E988FA1F6D1F0B002EAABD /* Triangle.cpp */; };
 		DDCB4E642E57D18E0095FE7A /* libILUT.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E5D2E57D18E0095FE7A /* libILUT.dylib */; };
-		DDCB4E652E57D18E0095FE7A /* libILUT.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E5D2E57D18E0095FE7A /* libILUT.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		DDCB4E662E57D18E0095FE7A /* libIL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E5E2E57D18E0095FE7A /* libIL.dylib */; };
-		DDCB4E672E57D18E0095FE7A /* libIL.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E5E2E57D18E0095FE7A /* libIL.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		DDCB4E682E57D18E0095FE7A /* libglfw.3.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E5F2E57D18E0095FE7A /* libglfw.3.4.dylib */; };
-		DDCB4E692E57D18E0095FE7A /* libglfw.3.4.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E5F2E57D18E0095FE7A /* libglfw.3.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		DDCB4E6A2E57D18E0095FE7A /* libGLEW.2.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E602E57D18E0095FE7A /* libGLEW.2.2.0.dylib */; };
-		DDCB4E6B2E57D18E0095FE7A /* libGLEW.2.2.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E602E57D18E0095FE7A /* libGLEW.2.2.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		DDCB4E6C2E57D18E0095FE7A /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E612E57D18E0095FE7A /* libfreetype.6.dylib */; };
-		DDCB4E6D2E57D18E0095FE7A /* libfreetype.6.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E612E57D18E0095FE7A /* libfreetype.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		DDCB4E6E2E57D18E0095FE7A /* libILU.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E622E57D18E0095FE7A /* libILU.dylib */; };
-		DDCB4E6F2E57D18E0095FE7A /* libILU.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E622E57D18E0095FE7A /* libILU.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		DDCB4E702E57D18E0095FE7A /* libglm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E632E57D18E0095FE7A /* libglm.dylib */; };
-		DDCB4E712E57D18E0095FE7A /* libglm.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E632E57D18E0095FE7A /* libglm.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -78,13 +71,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DDCB4E692E57D18E0095FE7A /* libglfw.3.4.dylib in Embed Libraries */,
-				DDCB4E6F2E57D18E0095FE7A /* libILU.dylib in Embed Libraries */,
-				DDCB4E6B2E57D18E0095FE7A /* libGLEW.2.2.0.dylib in Embed Libraries */,
-				DDCB4E6D2E57D18E0095FE7A /* libfreetype.6.dylib in Embed Libraries */,
-				DDCB4E652E57D18E0095FE7A /* libILUT.dylib in Embed Libraries */,
-				DDCB4E712E57D18E0095FE7A /* libglm.dylib in Embed Libraries */,
-				DDCB4E672E57D18E0095FE7A /* libIL.dylib in Embed Libraries */,
 			);
 			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;

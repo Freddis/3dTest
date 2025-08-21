@@ -61,9 +61,9 @@ public:
     
     void draw(World* world,int windowWidth, int windowHeight)
     {
-        renderSimple(world,windowWidth,windowHeight);
+//        renderSimple(world,windowWidth,windowHeight);
 //        renderWithLights(world,windowWidth,windowHeight);
-//        renderWithShadows(world,windowWidth,windowHeight);
+        renderWithShadows(world,windowWidth,windowHeight);
     }
     
 protected:
@@ -121,7 +121,7 @@ protected:
         renderAllVertexes(world);
         //glCullFace(GL_BACK);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glViewport(0, 0, windowWidth, windowHeight);
+//        glViewport(0, 0, windowWidth*2, windowHeight*2);
         //return;
         
         //rendering world
@@ -140,9 +140,9 @@ protected:
         renderPerTexture(world);
         
         //display shadows on screen
-        float pixelSizeX = 2.0 / windowWidth;
-        float pixelSizeY = 2.0 / windowHeight;
-        this->renderMirror(world,depthMap,-1+pixelSizeX*10,-1 + pixelSizeY*10,-0.3,-0.3);
+//        float pixelSizeX = 2.0 / windowWidth;
+//        float pixelSizeY = 2.0 / windowHeight;
+//        this->renderMirror(world,depthMap,-1+pixelSizeX*10,-1 + pixelSizeY*10,-0.3,-0.3);
         
         glDeleteTextures(1, &depthMap);
         glDeleteFramebuffers(1,&depthMapFBO);

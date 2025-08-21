@@ -7,21 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		125203AA21621A6D00ABF751 /* libIL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0146C772160CD01003ACA39 /* libIL.dylib */; };
-		125203AB21621A6D00ABF751 /* libILU.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0146C752160CD00003ACA39 /* libILU.dylib */; };
-		125203AC21621A6D00ABF751 /* libILUT.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0146C762160CD00003ACA39 /* libILUT.dylib */; };
 		125203B1216229AA00ABF751 /* TextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 125203AF216229AA00ABF751 /* TextureLoader.cpp */; };
 		125203B421622F4500ABF751 /* Stage1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 125203B221622F4500ABF751 /* Stage1.cpp */; };
-		12805B3221620F950078DCB1 /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 12805B3121620F950078DCB1 /* libGLEW.2.1.0.dylib */; };
-		12805B37216210280078DCB1 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 12805B36216210280078DCB1 /* libglfw.3.2.dylib */; };
 		12805B3C216214610078DCB1 /* textures in Copy Files */ = {isa = PBXBuildFile; fileRef = 12805B3B216214610078DCB1 /* textures */; };
 		12AFFE40216363BB001DA0A7 /* fonts in Copy Files */ = {isa = PBXBuildFile; fileRef = 12AFFE3F216363BB001DA0A7 /* fonts */; };
 		12AFFE44216386C5001DA0A7 /* TypeWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12AFFE42216386C5001DA0A7 /* TypeWriter.cpp */; };
 		12AFFE472163963D001DA0A7 /* WorldPrinter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12AFFE452163963D001DA0A7 /* WorldPrinter.cpp */; };
 		12AFFE4A2163965D001DA0A7 /* GameCycle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12AFFE482163965D001DA0A7 /* GameCycle.cpp */; };
 		12E221E62162607E00539E22 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12E221E42162607E00539E22 /* Window.cpp */; };
-		D041604C2163386300D1A926 /* lib in Copy Files */ = {isa = PBXBuildFile; fileRef = D041604B2163386300D1A926 /* lib */; };
-		D04160512163457600D1A926 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D04160502163457600D1A926 /* libfreetype.6.dylib */; };
 		D05DB35B1E2EB92500DB150E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35A1E2EB92500DB150E /* Cocoa.framework */; };
 		D05DB35D1E2EB95900DB150E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35C1E2EB95900DB150E /* IOKit.framework */; };
 		D05DB35F1E2EB96500DB150E /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05DB35E1E2EB96500DB150E /* CoreVideo.framework */; };
@@ -48,6 +41,20 @@
 		D0E2132621672AC20085FDA9 /* ThirdPersonControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0E2132421672AC20085FDA9 /* ThirdPersonControls.cpp */; };
 		D0E988F91F6D1DF4002EAABD /* Point.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0E988F71F6D1DF4002EAABD /* Point.cpp */; };
 		D0E988FC1F6D1F0B002EAABD /* Triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0E988FA1F6D1F0B002EAABD /* Triangle.cpp */; };
+		DDCB4E642E57D18E0095FE7A /* libILUT.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E5D2E57D18E0095FE7A /* libILUT.dylib */; };
+		DDCB4E652E57D18E0095FE7A /* libILUT.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E5D2E57D18E0095FE7A /* libILUT.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		DDCB4E662E57D18E0095FE7A /* libIL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E5E2E57D18E0095FE7A /* libIL.dylib */; };
+		DDCB4E672E57D18E0095FE7A /* libIL.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E5E2E57D18E0095FE7A /* libIL.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		DDCB4E682E57D18E0095FE7A /* libglfw.3.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E5F2E57D18E0095FE7A /* libglfw.3.4.dylib */; };
+		DDCB4E692E57D18E0095FE7A /* libglfw.3.4.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E5F2E57D18E0095FE7A /* libglfw.3.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		DDCB4E6A2E57D18E0095FE7A /* libGLEW.2.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E602E57D18E0095FE7A /* libGLEW.2.2.0.dylib */; };
+		DDCB4E6B2E57D18E0095FE7A /* libGLEW.2.2.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E602E57D18E0095FE7A /* libGLEW.2.2.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		DDCB4E6C2E57D18E0095FE7A /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E612E57D18E0095FE7A /* libfreetype.6.dylib */; };
+		DDCB4E6D2E57D18E0095FE7A /* libfreetype.6.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E612E57D18E0095FE7A /* libfreetype.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		DDCB4E6E2E57D18E0095FE7A /* libILU.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E622E57D18E0095FE7A /* libILU.dylib */; };
+		DDCB4E6F2E57D18E0095FE7A /* libILU.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E622E57D18E0095FE7A /* libILU.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		DDCB4E702E57D18E0095FE7A /* libglm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCB4E632E57D18E0095FE7A /* libglm.dylib */; };
+		DDCB4E712E57D18E0095FE7A /* libglm.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = DDCB4E632E57D18E0095FE7A /* libglm.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,10 +67,26 @@
 				D077A6A82170912800B448D8 /* objects in Copy Files */,
 				D0A5C461216E053500C78870 /* shaders in Copy Files */,
 				12AFFE40216363BB001DA0A7 /* fonts in Copy Files */,
-				D041604C2163386300D1A926 /* lib in Copy Files */,
 				12805B3C216214610078DCB1 /* textures in Copy Files */,
 			);
 			name = "Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDCB4E722E57D18E0095FE7A /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DDCB4E692E57D18E0095FE7A /* libglfw.3.4.dylib in Embed Libraries */,
+				DDCB4E6F2E57D18E0095FE7A /* libILU.dylib in Embed Libraries */,
+				DDCB4E6B2E57D18E0095FE7A /* libGLEW.2.2.0.dylib in Embed Libraries */,
+				DDCB4E6D2E57D18E0095FE7A /* libfreetype.6.dylib in Embed Libraries */,
+				DDCB4E652E57D18E0095FE7A /* libILUT.dylib in Embed Libraries */,
+				DDCB4E712E57D18E0095FE7A /* libglm.dylib in Embed Libraries */,
+				DDCB4E672E57D18E0095FE7A /* libIL.dylib in Embed Libraries */,
+			);
+			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -73,13 +96,6 @@
 		125203B0216229AA00ABF751 /* TextureLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextureLoader.hpp; sourceTree = "<group>"; };
 		125203B221622F4500ABF751 /* Stage1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Stage1.cpp; sourceTree = "<group>"; };
 		125203B321622F4500ABF751 /* Stage1.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Stage1.hpp; sourceTree = "<group>"; };
-		12805B2E21620F510078DCB1 /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
-		12805B2F21620F510078DCB1 /* glxew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glxew.h; sourceTree = "<group>"; };
-		12805B3021620F510078DCB1 /* wglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wglew.h; sourceTree = "<group>"; };
-		12805B3121620F950078DCB1 /* libGLEW.2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libGLEW.2.1.0.dylib; sourceTree = "<group>"; };
-		12805B34216210080078DCB1 /* glfw3native.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfw3native.h; sourceTree = "<group>"; };
-		12805B35216210080078DCB1 /* glfw3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfw3.h; sourceTree = "<group>"; };
-		12805B36216210280078DCB1 /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libglfw.3.2.dylib; sourceTree = "<group>"; };
 		12805B3B216214610078DCB1 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = textures; path = test/textures; sourceTree = "<group>"; };
 		12AFFE3F216363BB001DA0A7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fonts; path = test/fonts; sourceTree = "<group>"; };
 		12AFFE41216363E2001DA0A7 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
@@ -92,18 +108,9 @@
 		12CB0A332164B96D00FCD503 /* white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white.png; sourceTree = "<group>"; };
 		12E221E42162607E00539E22 /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		12E221E52162607E00539E22 /* Window.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
-		D0146C722160CCBC003ACA39 /* il.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = il.h; sourceTree = "<group>"; };
-		D0146C732160CCBC003ACA39 /* ilut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ilut.h; sourceTree = "<group>"; };
-		D0146C742160CCBD003ACA39 /* ilu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ilu.h; sourceTree = "<group>"; };
-		D0146C752160CD00003ACA39 /* libILU.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libILU.dylib; sourceTree = "<group>"; };
-		D0146C762160CD00003ACA39 /* libILUT.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libILUT.dylib; sourceTree = "<group>"; };
-		D0146C772160CD01003ACA39 /* libIL.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libIL.dylib; sourceTree = "<group>"; };
 		D0146C7B2160CE52003ACA39 /* texture1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = texture1.jpg; sourceTree = "<group>"; };
 		D0146C7C2160D77B003ACA39 /* texture2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = texture2.jpg; sourceTree = "<group>"; };
 		D0146C7D2160DB60003ACA39 /* texture3.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = texture3.bmp; sourceTree = "<group>"; };
-		D041604B2163386300D1A926 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = test/lib; sourceTree = "<group>"; };
-		D041604F2163421C00D1A926 /* freetype2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = freetype2; sourceTree = "<group>"; };
-		D04160502163457600D1A926 /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libfreetype.6.dylib; sourceTree = "<group>"; };
 		D05A0364216EAECE00E09F7F /* defaultLightsShadows.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = defaultLightsShadows.vert; sourceTree = "<group>"; };
 		D05A0365216EAED700E09F7F /* defaultLightsShadows.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = defaultLightsShadows.frag; sourceTree = "<group>"; };
 		D05DB35A1E2EB92500DB150E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -165,6 +172,14 @@
 		D0E988F81F6D1DF4002EAABD /* Point.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Point.hpp; sourceTree = "<group>"; };
 		D0E988FA1F6D1F0B002EAABD /* Triangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Triangle.cpp; sourceTree = "<group>"; };
 		D0E988FB1F6D1F0B002EAABD /* Triangle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Triangle.hpp; sourceTree = "<group>"; };
+		DDCB4E5B2E57C4BD0095FE7A /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = ../../../../../usr/local/Cellar/freetype/2.13.3/lib/libfreetype.6.dylib; sourceTree = "<group>"; };
+		DDCB4E5D2E57D18E0095FE7A /* libILUT.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libILUT.dylib; path = ../../../../../opt/homebrew/Cellar/devil/1.8.0_6/lib/libILUT.dylib; sourceTree = "<group>"; };
+		DDCB4E5E2E57D18E0095FE7A /* libIL.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libIL.dylib; path = ../../../../../opt/homebrew/Cellar/devil/1.8.0_6/lib/libIL.dylib; sourceTree = "<group>"; };
+		DDCB4E5F2E57D18E0095FE7A /* libglfw.3.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.4.dylib; path = ../../../../../opt/homebrew/Cellar/glfw/3.4/lib/libglfw.3.4.dylib; sourceTree = "<group>"; };
+		DDCB4E602E57D18E0095FE7A /* libGLEW.2.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.2.0.dylib; path = ../../../../../opt/homebrew/Cellar/glew/2.2.0_1/lib/libGLEW.2.2.0.dylib; sourceTree = "<group>"; };
+		DDCB4E612E57D18E0095FE7A /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = ../../../../../opt/homebrew/Cellar/freetype/2.13.3/lib/libfreetype.6.dylib; sourceTree = "<group>"; };
+		DDCB4E622E57D18E0095FE7A /* libILU.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libILU.dylib; path = ../../../../../opt/homebrew/Cellar/devil/1.8.0_6/lib/libILU.dylib; sourceTree = "<group>"; };
+		DDCB4E632E57D18E0095FE7A /* libglm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglm.dylib; path = ../../../../../opt/homebrew/Cellar/glm/1.0.1/lib/libglm.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,15 +187,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				125203AA21621A6D00ABF751 /* libIL.dylib in Frameworks */,
-				125203AB21621A6D00ABF751 /* libILU.dylib in Frameworks */,
-				D04160512163457600D1A926 /* libfreetype.6.dylib in Frameworks */,
-				125203AC21621A6D00ABF751 /* libILUT.dylib in Frameworks */,
+				DDCB4E702E57D18E0095FE7A /* libglm.dylib in Frameworks */,
 				D05DB35F1E2EB96500DB150E /* CoreVideo.framework in Frameworks */,
+				DDCB4E6A2E57D18E0095FE7A /* libGLEW.2.2.0.dylib in Frameworks */,
+				DDCB4E662E57D18E0095FE7A /* libIL.dylib in Frameworks */,
+				DDCB4E6C2E57D18E0095FE7A /* libfreetype.6.dylib in Frameworks */,
 				D05DB35D1E2EB95900DB150E /* IOKit.framework in Frameworks */,
-				12805B37216210280078DCB1 /* libglfw.3.2.dylib in Frameworks */,
-				12805B3221620F950078DCB1 /* libGLEW.2.1.0.dylib in Frameworks */,
 				D05DB35B1E2EB92500DB150E /* Cocoa.framework in Frameworks */,
+				DDCB4E642E57D18E0095FE7A /* libILUT.dylib in Frameworks */,
+				DDCB4E6E2E57D18E0095FE7A /* libILU.dylib in Frameworks */,
+				DDCB4E682E57D18E0095FE7A /* libglfw.3.4.dylib in Frameworks */,
 				D08058321E2EA0C000BA9384 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -188,25 +204,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		12805B2D21620F2B0078DCB1 /* GL */ = {
-			isa = PBXGroup;
-			children = (
-				12805B2E21620F510078DCB1 /* glew.h */,
-				12805B2F21620F510078DCB1 /* glxew.h */,
-				12805B3021620F510078DCB1 /* wglew.h */,
-			);
-			path = GL;
-			sourceTree = "<group>";
-		};
-		12805B3321620FDA0078DCB1 /* GLFW */ = {
-			isa = PBXGroup;
-			children = (
-				12805B35216210080078DCB1 /* glfw3.h */,
-				12805B34216210080078DCB1 /* glfw3native.h */,
-			);
-			path = GLFW;
-			sourceTree = "<group>";
-		};
 		12AFFE3E21636375001DA0A7 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -228,40 +225,6 @@
 			name = textures;
 			path = test/textures;
 			sourceTree = SOURCE_ROOT;
-		};
-		D0146C662160BBD6003ACA39 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				D041604F2163421C00D1A926 /* freetype2 */,
-				12805B3321620FDA0078DCB1 /* GLFW */,
-				12805B2D21620F2B0078DCB1 /* GL */,
-				D0146C712160CC85003ACA39 /* IL */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		D0146C6F2160C655003ACA39 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				D04160502163457600D1A926 /* libfreetype.6.dylib */,
-				12805B36216210280078DCB1 /* libglfw.3.2.dylib */,
-				12805B3121620F950078DCB1 /* libGLEW.2.1.0.dylib */,
-				D0146C772160CD01003ACA39 /* libIL.dylib */,
-				D0146C752160CD00003ACA39 /* libILU.dylib */,
-				D0146C762160CD00003ACA39 /* libILUT.dylib */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		D0146C712160CC85003ACA39 /* IL */ = {
-			isa = PBXGroup;
-			children = (
-				D0146C722160CCBC003ACA39 /* il.h */,
-				D0146C742160CCBD003ACA39 /* ilu.h */,
-				D0146C732160CCBC003ACA39 /* ilut.h */,
-			);
-			path = IL;
-			sourceTree = "<group>";
 		};
 		D077A6A5217090A800B448D8 /* objects */ = {
 			isa = PBXGroup;
@@ -364,7 +327,6 @@
 				D077A6A72170912700B448D8 /* objects */,
 				D0A5C460216E053500C78870 /* shaders */,
 				12AFFE3F216363BB001DA0A7 /* fonts */,
-				D041604B2163386300D1A926 /* lib */,
 				12805B3B216214610078DCB1 /* textures */,
 				D08058261E2E9B4900BA9384 /* test */,
 				D08058251E2E9B4900BA9384 /* Products */,
@@ -386,8 +348,6 @@
 				D077A6A5217090A800B448D8 /* objects */,
 				D0A5C45F216E04FB00C78870 /* shaders */,
 				12AFFE3E21636375001DA0A7 /* fonts */,
-				D0146C6F2160C655003ACA39 /* lib */,
-				D0146C662160BBD6003ACA39 /* include */,
 				D0146C622160B999003ACA39 /* textures */,
 				D09D0A2E1F3048B700C1B021 /* classes */,
 				D08058271E2E9B4900BA9384 /* main.cpp */,
@@ -398,6 +358,14 @@
 		D080582E1E2E9E7700BA9384 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DDCB4E5B2E57C4BD0095FE7A /* libfreetype.6.dylib */,
+				DDCB4E612E57D18E0095FE7A /* libfreetype.6.dylib */,
+				DDCB4E602E57D18E0095FE7A /* libGLEW.2.2.0.dylib */,
+				DDCB4E5F2E57D18E0095FE7A /* libglfw.3.4.dylib */,
+				DDCB4E632E57D18E0095FE7A /* libglm.dylib */,
+				DDCB4E5E2E57D18E0095FE7A /* libIL.dylib */,
+				DDCB4E622E57D18E0095FE7A /* libILU.dylib */,
+				DDCB4E5D2E57D18E0095FE7A /* libILUT.dylib */,
 				D05DB35E1E2EB96500DB150E /* CoreVideo.framework */,
 				D05DB35C1E2EB95900DB150E /* IOKit.framework */,
 				D05DB35A1E2EB92500DB150E /* Cocoa.framework */,
@@ -445,6 +413,7 @@
 				D08058201E2E9B4800BA9384 /* Sources */,
 				D08058211E2E9B4800BA9384 /* Frameworks */,
 				D08058221E2E9B4800BA9384 /* Copy Files */,
+				DDCB4E722E57D18E0095FE7A /* Embed Libraries */,
 			);
 			buildRules = (
 			);
@@ -475,6 +444,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = D080581B1E2E9B4800BA9384;
@@ -614,23 +584,18 @@
 		D080582C1E2E9B4900BA9384 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					/usr/local/Cellar/glfw/3.2.1/include,
-					/usr/local/Cellar/glew/2.0.0/include,
-					/usr/local/Cellar/glm/0.9.9.2/include,
-					"$(PROJECT_DIR)/test/include",
-					"$(PROJECT_DIR)/test/include/freetype2",
-				);
+				HEADER_SEARCH_PATHS = "/opt/homebrew/include/**";
 				LD_RUNPATH_SEARCH_PATHS = "$(PROJECT_DIR)/test/lib ${executable_path/";
 				LIBRARY_SEARCH_PATHS = (
+					/opt/homebrew/lib,
 					"$(inherited)",
-					/usr/local/Cellar/glfw/3.2.1/lib,
-					/usr/local/Cellar/glew/2.0.0/lib,
-					/usr/local/Cellar/glm/0.9.9.2/lib,
-					"$(PROJECT_DIR)/test",
-					"$(PROJECT_DIR)/test/lib",
+					/opt/homebrew/Cellar/devil/1.8.0_6/lib,
+					/opt/homebrew/Cellar/glfw/3.4/lib,
+					/opt/homebrew/Cellar/glew/2.2.0_1/lib,
+					/opt/homebrew/Cellar/freetype/2.13.3/lib,
+					/opt/homebrew/Cellar/glm/1.0.1/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -638,23 +603,18 @@
 		D080582D1E2E9B4900BA9384 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					/usr/local/Cellar/glfw/3.2.1/include,
-					/usr/local/Cellar/glew/2.0.0/include,
-					/usr/local/Cellar/glm/0.9.9.2/include,
-					"$(PROJECT_DIR)/test/include",
-					"$(PROJECT_DIR)/test/include/freetype2",
-				);
+				HEADER_SEARCH_PATHS = "/opt/homebrew/include/**";
 				LD_RUNPATH_SEARCH_PATHS = "$(PROJECT_DIR)/test/lib ${executable_path/";
 				LIBRARY_SEARCH_PATHS = (
+					/opt/homebrew/lib,
 					"$(inherited)",
-					/usr/local/Cellar/glfw/3.2.1/lib,
-					/usr/local/Cellar/glew/2.0.0/lib,
-					/usr/local/Cellar/glm/0.9.9.2/lib,
-					"$(PROJECT_DIR)/test",
-					"$(PROJECT_DIR)/test/lib",
+					/opt/homebrew/Cellar/devil/1.8.0_6/lib,
+					/opt/homebrew/Cellar/glfw/3.4/lib,
+					/opt/homebrew/Cellar/glew/2.2.0_1/lib,
+					/opt/homebrew/Cellar/freetype/2.13.3/lib,
+					/opt/homebrew/Cellar/glm/1.0.1/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

@@ -71,10 +71,8 @@ public:
         this->windowWidth = windowWidth;
         this->windowHeight = windowHeight;
         fontsize = size;
-       // FT_Library ft;
         if(FT_Init_FreeType(&ft)) {
             fprintf(stderr, "Could not init freetype library\n");
-            //return 1;
         }
         else {
           //  std::cout << "Freetype loaded" << std::endl;

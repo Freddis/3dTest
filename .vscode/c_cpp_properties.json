@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/**",
+                // "/opt/homebrew/Cellar/**"
+                "/opt/homebrew/Cellar/freetype/2.13.3/include/freetype2",
+                "/opt/homebrew/Cellar/glew/2.2.0_1/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "macos-clang-arm64"
+        }
+    ],
+    "version": 4
+}

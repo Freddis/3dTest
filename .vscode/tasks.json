@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "clang++",
+            "args": [
+                "-g",
+                "-std=c++20",
+                "-I/opt/homebrew/Cellar/freetype/2.13.3/include/freetype2",
+                "-I/opt/homebrew/Cellar/glew/2.2.0_1/include",
+                "-I/opt/homebrew/Cellar/devil/1.8.0_6/include",
+                "*.cpp",
+                "-o",
+                "bin/main",
+                "-L/opt/homebrew/lib",
+                "-lfreetype",
+                "-lGLEW",
+                "-lglfw",
+                "-lIL",
+                "-lILU",
+                "-framework", 
+                "OpenGL" 
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
+        }
+    ]
+}

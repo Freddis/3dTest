@@ -1,5 +1,5 @@
 //
-//  Cube.hpp
+//  Cube.h
 //  test
 //
 //  Created by Freddis on 23.09.2018.
@@ -10,9 +10,9 @@
 #define Cube_hpp
 
 #include <stdio.h>
-#include "Object3D.hpp"
-#include "Point.hpp"
-#include "Square.hpp"
+#include "Object3D.h"
+#include "Point.h"
+#include "Square.h"
 #include <cmath>
 
 class Cube : public Object3D

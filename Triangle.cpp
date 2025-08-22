@@ -6,6 +6,6 @@
 //  Copyright © 2017 Home-studio. All rights reserved.
 //
 
-#include "Triangle.hpp"
+#include "Triangle.h"
 
 

@@ -6,5 +6,5 @@
 //  Copyright © 2018 Home-studio. All rights reserved.
 //
 
-#include "Stage.hpp"
+#include "Stage.h"
 

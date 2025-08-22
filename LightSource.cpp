@@ -6,4 +6,4 @@
 //  Copyright © 2018 Home-studio. All rights reserved.
 //
 
-#include "LightSource.hpp"
+#include "LightSource.h"

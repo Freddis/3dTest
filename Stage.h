@@ -1,5 +1,5 @@
 //
-//  Stage.hpp
+//  Stage.h
 //  test
 //
 //  Created by Freddis on 04.10.2018.
@@ -11,8 +11,8 @@
 
 #include <stdio.h>
 
-#include "World.hpp"
-#include "Window.hpp"
+#include "World.h"
+#include "Window.h"
 
 class GameCycle;
 class Stage

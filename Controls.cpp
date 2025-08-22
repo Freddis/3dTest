@@ -6,5 +6,5 @@
 //  Copyright © 2018 Home-studio. All rights reserved.
 //
 
-#include "Controls.hpp"
+#include "Controls.h"
 Controls* Controls::primaryControls;

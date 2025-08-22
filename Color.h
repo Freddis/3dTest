@@ -1,5 +1,5 @@
 //
-//  Color.hpp
+//  Color.h
 //  test
 //
 //  Created by Freddis on 23.09.2018.

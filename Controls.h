@@ -1,5 +1,5 @@
 //
-//  Controls.hpp
+//  Controls.h
 //  test
 //
 //  Created by Freddis on 24.09.2018.
@@ -16,8 +16,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <iostream>
-#include "World.hpp"
-#include "Object3D.hpp"
+#include "World.h"
+#include "Object3D.h"
 
 
 class Controls

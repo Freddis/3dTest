@@ -1,5 +1,5 @@
 //
-//  Timer.hpp
+//  Timer.h
 //  test
 //
 //  Created by Freddis on 04.10.2018.

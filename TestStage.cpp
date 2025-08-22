@@ -6,6 +6,6 @@
 //  Copyright © 2018 Home-studio. All rights reserved.
 //
 
-#include "TestStage.hpp"
-#include "Stage.hpp"
+#include "TestStage.h"
+#include "Stage.h"
 

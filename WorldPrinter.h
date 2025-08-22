@@ -1,5 +1,5 @@
 //
-//  WorldPrinter.hpp
+//  WorldPrinter.h
 //  test
 //
 //  Created by Сарычев Алексей on 02.10.2018.
@@ -16,11 +16,11 @@
 #include "GLFW/glfw3.h"
 #include <OpenGL/gl3.h>
 
-#include "World.hpp"
-#include "Object3D.hpp"
-#include "Square.hpp"
-#include "TextureLoader.hpp"
-#include "ShaderLoader.hpp"
+#include "World.h"
+#include "Object3D.h"
+#include "Square.h"
+#include "TextureLoader.h"
+#include "ShaderLoader.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

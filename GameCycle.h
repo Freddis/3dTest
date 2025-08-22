@@ -1,5 +1,5 @@
 //
-//  GameCycle.hpp
+//  GameCycle.h
 //  test
 //
 //  Created by Сарычев Алексей on 02.10.2018.
@@ -14,9 +14,9 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include <OpenGL/gl3.h>
-#include "Stage.hpp"
-#include "Window.hpp"
-#include "WorldPrinter.hpp"
+#include "Stage.h"
+#include "Window.h"
+#include "WorldPrinter.h"
 
 class GameCycle
 {

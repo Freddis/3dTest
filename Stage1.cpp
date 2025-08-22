@@ -6,11 +6,11 @@
 //  Copyright © 2018 Home-studio. All rights reserved.
 //
 
-#include "Stage1.hpp"
-#include "Point.hpp"
-#include "LightSource.hpp"
-#include "GameCycle.hpp"
-#include "ModelLoader.hpp"
+#include "Stage1.h"
+#include "Point.h"
+#include "LightSource.h"
+#include "GameCycle.h"
+#include "ModelLoader.h"
 
 
 Stage1::Stage1(World* world,Window* window) : Stage(world,window)

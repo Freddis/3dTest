@@ -1,5 +1,5 @@
 //
-//  Face.hpp
+//  Face.h
 //  test
 //
 //  Created by Freddis on 12.10.2018.
@@ -12,8 +12,8 @@
 #include <stdio.h>
 #include <vector>
 
-#include "FaceVertex.hpp"
-#include "Triangle.hpp"
+#include "FaceVertex.h"
+#include "Triangle.h"
 class Face
 {
     std::vector<FaceVertex*> vertexes;

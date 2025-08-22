@@ -1,5 +1,5 @@
 //
-//  TextureLoader.hpp
+//  TextureLoader.h
 //  test
 //
 //  Created by Сарычев Алексей on 01.10.2018.

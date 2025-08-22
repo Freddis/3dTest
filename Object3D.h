@@ -1,5 +1,5 @@
 //
-//  Object3D.hpp
+//  Object3D.h
 //  test
 //
 //  Created by Freddis on 22.09.2018.
@@ -15,8 +15,8 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include <OpenGL/gl3.h>
-#include "Color.hpp"
-#include "Point.hpp"
+#include "Color.h"
+#include "Point.h"
 
 class Object3D
 {

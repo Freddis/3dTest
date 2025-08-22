@@ -10,11 +10,11 @@
 #include <stdlib.h>
 #include <string>
 
-#include "Window.hpp"
-#include "World.hpp"
-#include "GameCycle.hpp"
-#include "Stage1.hpp"
-#include "TestStage.hpp"
+#include "Window.h"
+#include "World.h"
+#include "GameCycle.h"
+#include "Stage1.h"
+#include "TestStage.h"
 
 int main(int argc, char * argv[]) {
     

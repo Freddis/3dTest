@@ -1,5 +1,5 @@
 //
-//  FaceVertex.hpp
+//  FaceVertex.h
 //  test
 //
 //  Created by Freddis on 12.10.2018.
@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-#include "Point.hpp"
+#include "Point.h"
 
 class FaceVertex
 {

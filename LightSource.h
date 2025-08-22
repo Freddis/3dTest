@@ -1,5 +1,5 @@
 //
-//  LightSource.hpp
+//  LightSource.h
 //  test
 //
 //  Created by Freddis on 11.10.2018.
@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-#include "Cube.hpp"
+#include "Cube.h"
 
 class LightSource : public Cube
 {

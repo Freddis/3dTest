@@ -1,5 +1,5 @@
 //
-//  Square.hpp
+//  Square.h
 //  test
 //
 //  Created by Freddis on 23.09.2018.
@@ -10,9 +10,9 @@
 #define Square_hpp
 
 #include <stdio.h>
-#include "Object3D.hpp"
-#include "Point.hpp"
-#include "Triangle.hpp"
+#include "Object3D.h"
+#include "Point.h"
+#include "Triangle.h"
 #include <cmath>
 
 class Square : public Object3D

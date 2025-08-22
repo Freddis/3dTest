@@ -1,5 +1,5 @@
 //
-//  TestStage.hpp
+//  TestStage.h
 //  test
 //
 //  Created by Freddis on 04.10.2018.
@@ -10,13 +10,13 @@
 #define TestStage_hpp
 
 #include <stdio.h>
-#include "Stage.hpp"
-#include "GameCycle.hpp"
-#include "FreelookControls.hpp"
-#include "TypeWriter.hpp"
-#include "Cube.hpp"
-#include "Square.hpp"
-#include "Timer.hpp"
+#include "Stage.h"
+#include "GameCycle.h"
+#include "FreelookControls.h"
+#include "TypeWriter.h"
+#include "Cube.h"
+#include "Square.h"
+#include "Timer.h"
 #include <algorithm>
 #include <iterator>
 

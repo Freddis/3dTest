@@ -1,5 +1,5 @@
 //
-//  World.hpp
+//  World.h
 //  test
 //
 //  Created by Freddis on 24.09.2018.
@@ -10,8 +10,8 @@
 #define World_hpp
 
 #include <stdio.h>
-#include "Object3D.hpp"
-#include "LightSource.hpp"
+#include "Object3D.h"
+#include "LightSource.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>

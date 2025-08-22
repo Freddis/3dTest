@@ -1,5 +1,5 @@
 //
-//  Point.hpp
+//  Point.h
 //  test
 //
 //  Created by Freddis on 16.09.17.

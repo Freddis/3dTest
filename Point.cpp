@@ -6,4 +6,4 @@
 //  Copyright © 2017 Home-studio. All rights reserved.
 //
 
-#include "Point.hpp"
+#include "Point.h"

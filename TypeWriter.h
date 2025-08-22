@@ -1,5 +1,5 @@
 //
-//  TypeWriter.hpp
+//  TypeWriter.h
 //  test
 //
 //  Created by Сарычев Алексей on 02.10.2018.

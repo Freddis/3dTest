@@ -1,5 +1,5 @@
 //
-//  Triangle.hpp
+//  Triangle.h
 //  test
 //
 //  Created by Freddis on 16.09.17.
@@ -8,12 +8,12 @@
 
 #ifndef Triangle_hpp
 #define Triangle_hpp
-#include "Point.hpp"
+#include "Point.h"
 #include <iostream>
 #include <stdio.h>
 #include <string>
 #include <sstream>
-#include "Object3D.hpp"
+#include "Object3D.h"
 
 class Triangle :public Object3D
 {

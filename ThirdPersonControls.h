@@ -1,5 +1,5 @@
 //
-//  ThirdPersonControls.hpp
+//  ThirdPersonControls.h
 //  test
 //
 //  Created by Freddis on 05.10.2018.
@@ -10,10 +10,10 @@
 #define ThirdPersonControls_hpp
 
 #include <stdio.h>
-#include "Controls.hpp"
-#include "Object3D.hpp"
-#include "World.hpp"
-#include "Window.hpp"
+#include "Controls.h"
+#include "Object3D.h"
+#include "World.h"
+#include "Window.h"
 
 class ThirdPersonControls : public Controls
 {

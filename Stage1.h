@@ -1,5 +1,5 @@
 //
-//  Stage1.hpp
+//  Stage1.h
 //  test
 //
 //  Created by Сарычев Алексей on 01.10.2018.
@@ -10,16 +10,16 @@
 #define Stage1_hpp
 
 #include <stdio.h>
-#include "World.hpp"
-#include "Window.hpp"
-#include "Square.hpp"
-#include "Cube.hpp"
-#include "Object3D.hpp"
-#include "FreelookControls.hpp"
-#include "ThirdPersonControls.hpp"
-#include "Controls.hpp"
-#include "TypeWriter.hpp"
-#include "Stage.hpp"
+#include "World.h"
+#include "Window.h"
+#include "Square.h"
+#include "Cube.h"
+#include "Object3D.h"
+#include "FreelookControls.h"
+#include "ThirdPersonControls.h"
+#include "Controls.h"
+#include "TypeWriter.h"
+#include "Stage.h"
 #include <map>
 
 class Stage1 : public Stage

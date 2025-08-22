@@ -1,5 +1,5 @@
 //
-//  Mesh.hpp
+//  Mesh.h
 //  test
 //
 //  Created by Freddis on 12.10.2018.
@@ -12,10 +12,10 @@
 #include <stdio.h>
 #include <vector>
 
-#include "Point.hpp"
-#include "Triangle.hpp"
-#include "Object3D.hpp"
-#include "Face.hpp"
+#include "Point.h"
+#include "Triangle.h"
+#include "Object3D.h"
+#include "Face.h"
 
 class Mesh : public Object3D
 {

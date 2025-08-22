@@ -1,5 +1,5 @@
 //
-//  ModelLoader.hpp
+//  ModelLoader.h
 //  test
 //
 //  Created by Freddis on 12.10.2018.
@@ -16,9 +16,9 @@
 #include <streambuf>
 #include <vector>
 
-#include "Object3D.hpp"
-#include "Face.hpp"
-#include "Mesh.hpp"
+#include "Object3D.h"
+#include "Face.h"
+#include "Mesh.h"
 
 
 class ModelLoader
